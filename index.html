@@ -3,588 +3,771 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apex Sponsorship Agreement</title>
+<title>Apex Pitch & Pop — Sponsorship Agreement</title>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root {
-  --maroon: #7B1C1C;
-  --maroon-dark: #5A1010;
-  --maroon-mid: #8B2222;
-  --grey: #3A3A3A;
-  --grey-mid: #5A5A5A;
-  --grey-light: #8A8A8A;
-  --border: #C8B8B8;
-  --bg-warm: #FAF6F4;
-  --sidebar-w: 300px;
+  --maroon:#7B1C1C; --maroon-dark:#5A1010; --maroon-mid:#8B2222;
+  --grey:#3A3A3A; --grey-mid:#5A5A5A; --grey-light:#8A8A8A;
+  --border:#C8B8B8; --bg-warm:#FAF6F4;
+  --sidebar-w:320px;
+  --accent:#C0392B; --gold:#B8860B;
+  --sidebar-bg:#130606; --sidebar-section:#1E0A0A; --sidebar-border:#3A1010;
+  --input-bg:#200C0C; --input-border:#4A1A1A; --input-text:#F0E0D8;
+  --label-color:#C0A0A0; --section-color:#CC4444;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Source Sans 3', sans-serif;
-  background: #D8CCCC;
-  display: flex;
-  min-height: 100vh;
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:#1A0808;display:flex;min-height:100vh;overflow-x:hidden;}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  width:var(--sidebar-w);min-width:var(--sidebar-w);
+  background:var(--sidebar-bg);color:#EEE0D8;
+  height:100vh;position:sticky;top:0;
+  overflow-y:auto;overflow-x:hidden;
+  transition:width .3s cubic-bezier(.4,0,.2,1),min-width .3s cubic-bezier(.4,0,.2,1);
+  flex-shrink:0;z-index:200;
+  scrollbar-width:thin;scrollbar-color:#3A1010 transparent;
+  border-right:1px solid #2A0A0A;
+}
+#sidebar::-webkit-scrollbar{width:4px;}
+#sidebar::-webkit-scrollbar-track{background:transparent;}
+#sidebar::-webkit-scrollbar-thumb{background:#3A1010;border-radius:2px;}
+#sidebar.collapsed{width:48px;min-width:48px;}
+#sidebar-toggle{
+  position:sticky;top:0;left:0;width:100%;
+  background:var(--maroon-dark);border:none;color:#fff;
+  padding:13px 0;font-size:17px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  z-index:10;letter-spacing:1px;font-weight:700;
+  transition:background .2s;
+}
+#sidebar-toggle:hover{background:var(--maroon-mid);}
+#sidebar-inner{padding:16px 14px 34px;width:var(--sidebar-w);}
+#sidebar.collapsed #sidebar-inner{opacity:0;pointer-events:none;transition:opacity .1s;}
+
+.sb-brand{
+  font-family:'EB Garamond',serif;font-size:15px;
+  color:#EEE0D8;margin-bottom:4px;font-weight:700;letter-spacing:.5px;
+}
+.sb-brand span{color:#CC6666;font-size:11px;display:block;font-family:'Source Sans 3',sans-serif;font-weight:400;margin-top:1px;}
+.autosave-indicator{
+  font-size:11px;color:#80B080;margin-top:8px;margin-bottom:4px;
+  display:flex;align-items:center;gap:5px;
+  background:#0A1A0A;border-radius:3px;padding:4px 8px;
+}
+.autosave-dot{width:7px;height:7px;border-radius:50%;background:#4CAF50;flex-shrink:0;transition:background .3s, box-shadow .3s;}
+.autosave-dot.saving{background:#FFA000;box-shadow:0 0 6px #FFA000;}
+.autosave-dot.error{background:#F44336;}
+
+/* Section headers */
+.sb-section{
+  font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--section-color);margin:18px 0 8px;
+  display:flex;align-items:center;gap:6px;
+  border-bottom:1px solid #2A0808;padding-bottom:5px;
+}
+.sb-section::before{content:'';display:block;width:3px;height:12px;background:var(--maroon);border-radius:2px;}
+
+/* Fields */
+.field{margin-bottom:9px;}
+.field label{display:block;font-size:12px;color:var(--label-color);margin-bottom:3px;font-weight:600;letter-spacing:.3px;}
+.field input,.field select,.field textarea{
+  width:100%;background:var(--input-bg);border:1px solid var(--input-border);
+  color:var(--input-text);padding:6px 9px;border-radius:4px;
+  font-size:14px;font-family:'Source Sans 3',sans-serif;
+  transition:border-color .2s,box-shadow .2s;
+}
+.field textarea{resize:vertical;min-height:52px;}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--maroon-mid);box-shadow:0 0 0 2px rgba(139,34,34,.25);
+}
+.field select option{background:#200C0C;}
+.field input[type=range]{padding:0;margin-top:4px;accent-color:var(--maroon);cursor:pointer;}
+
+/* Upload zones */
+.upload-zone{
+  border:2px dashed var(--input-border);border-radius:4px;
+  padding:10px 8px;text-align:center;cursor:pointer;
+  position:relative;transition:border-color .2s,background .2s;
+  background:#160808;
+}
+.upload-zone:hover{border-color:var(--maroon-mid);background:#1E0C0C;}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;}
+.upload-zone .up-label{font-size:10px;color:#A08080;pointer-events:none;line-height:1.4;}
+.upload-zone img{max-width:100%;max-height:44px;display:none;margin-top:5px;border-radius:2px;}
+.upload-zone .up-icon{font-size:16px;display:block;margin-bottom:2px;color:#7A4040;}
+
+/* Toggle switch */
+.toggle-wrap{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#1E0C0C;border-radius:6px;margin-bottom:4px;border:1px solid var(--sidebar-border);}
+.toggle-label{font-size:13px;color:#DDD0C8;font-weight:600;}
+.toggle-sub{font-size:10px;color:#886868;display:block;margin-top:1px;}
+.toggle-switch{position:relative;width:44px;height:24px;cursor:pointer;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-track{
+  position:absolute;inset:0;background:#2A1010;border-radius:12px;
+  transition:background .3s;border:1px solid #4A1A1A;
+}
+.toggle-switch input:checked+.toggle-track{background:var(--maroon);}
+.toggle-thumb{
+  position:absolute;top:3px;left:3px;width:18px;height:18px;
+  background:#887070;border-radius:50%;transition:transform .3s,background .3s;
+}
+.toggle-switch input:checked~.toggle-thumb{transform:translateX(20px);background:#fff;}
+
+/* Buttons */
+.btn-row{display:flex;gap:6px;margin-top:6px;}
+.btn{
+  flex:1;padding:8px 6px;border:none;border-radius:4px;
+  font-size:13px;font-weight:700;cursor:pointer;
+  transition:opacity .2s,transform .1s;
+  font-family:'Source Sans 3',sans-serif;letter-spacing:.3px;
+}
+.btn:hover{opacity:.85;}
+.btn:active{transform:scale(.97);}
+.btn-pdf{background:var(--maroon);color:#fff;}
+.btn-png{background:#3A3A3A;color:#fff;}
+.btn-all{background:#6A2A2A;color:#fff;}
+.btn-clear{background:#1E1E1E;color:#888;font-size:11px;}
+.btn-outline{background:transparent;border:1px solid var(--input-border);color:#B09090;font-size:11px;}
+.btn-green{background:#1A3A1A;color:#8BE08B;border:1px solid #2A5A2A;}
+.badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;vertical-align:middle;margin-left:4px;}
+.badge-on{background:#1A3A1A;color:#66BB66;}
+.badge-off{background:#3A1A1A;color:#CC6666;}
+
+/* Color picker row */
+.color-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+.color-dot{
+  width:22px;height:22px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;transition:border-color .15s,transform .15s;
+}
+.color-dot:hover,.color-dot.active{border-color:#fff;transform:scale(1.15);}
+
+/* Tier badge preview */
+.tier-preview{
+  padding:7px 10px;border-radius:4px;margin-top:4px;
+  font-size:12px;font-weight:700;letter-spacing:1px;text-align:center;
+  text-transform:uppercase;display:none;
 }
 
-/* ─── SIDEBAR ─── */
-#sidebar {
-  width: var(--sidebar-w);
-  min-width: var(--sidebar-w);
-  background: #1E0A0A;
-  color: #EEE0D8;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  transition: width .28s ease, min-width .28s ease;
-  flex-shrink: 0;
-  z-index: 200;
-}
-#sidebar.collapsed { width: 46px; min-width: 46px; }
-#sidebar-toggle {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: var(--maroon-dark);
-  border: none;
-  color: #fff;
-  padding: 12px 0;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-#sidebar-inner {
-  padding: 14px 14px 30px;
-  width: var(--sidebar-w);
-}
-#sidebar.collapsed #sidebar-inner { opacity: 0; pointer-events: none; transition: opacity .15s; }
+/* Slip indicator */
+.field-note{font-size:10px;color:#886868;margin-top:2px;line-height:1.4;}
 
-.sb-title {
-  font-family: 'EB Garamond', serif;
-  font-size: 14px;
-  color: #DDB8B8;
-  margin-bottom: 16px;
-  line-height: 1.4;
-  border-bottom: 1px solid #3A1010;
-  padding-bottom: 10px;
+/* ── MAIN ── */
+#main{
+  flex:1;padding:24px 20px 48px;
+  display:flex;flex-direction:column;align-items:center;
+  overflow-x:auto;background:#1A0808;
+  background-image:radial-gradient(circle at 50% 0%, #2A0E0E 0%, #1A0808 60%);
 }
-.sb-section {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--maroon-mid);
-  margin: 16px 0 8px;
+.top-bar{
+  max-width:820px;width:100%;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
 }
-.field { margin-bottom: 9px; }
-.field label { display: block; font-size: 14px; color: #C0A0A0; margin-bottom: 3px; font-weight: 600; }
-.field input, .field select, .field textarea {
-  width: 100%;
-  background: #2A0E0E;
-  border: 1px solid #4A1A1A;
-  color: #F0E0D8;
-  padding: 6px 8px;
-  border-radius: 3px;
-  font-size: 15.5px;
-  font-family: 'Source Sans 3', sans-serif;
+.edit-tip{
+  background:#2A1A0A;border:1px solid #6A4010;
+  border-radius:5px;padding:7px 14px;font-size:11px;
+  color:#C09060;flex:1;
 }
-.field textarea { resize: vertical; min-height: 52px; }
-.field input:focus, .field select:focus, .field textarea:focus {
-  outline: none; border-color: var(--maroon-mid);
+.edit-badge{
+  background:var(--maroon);color:#fff;font-size:10px;
+  font-weight:700;letter-spacing:1px;padding:4px 10px;
+  border-radius:3px;white-space:nowrap;text-transform:uppercase;
 }
-.field select option { background: #2A0E0E; }
+.edit-badge.off{background:#2A2A2A;color:#888;}
+.page-info{
+  font-size:10px;color:#886060;background:#200C0C;
+  padding:5px 12px;border-radius:3px;font-weight:600;
+  max-width:820px;width:100%;margin-bottom:12px;
+  border:1px solid var(--sidebar-border);
+}
+.page-wrap{display:flex;flex-direction:column;gap:24px;}
 
-/* logo upload */
-.logo-upload {
-  border: 2px dashed #4A1A1A;
-  border-radius: 4px;
-  padding: 8px;
-  text-align: center;
-  cursor: pointer;
-  position: relative;
-  margin-bottom: 7px;
-  transition: border-color .2s;
+/* ── A4 PAGE ── */
+.a4-page{
+  background:#fff;position:relative;overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,.6);
+  width:794px;height:1123px;min-height:1123px;max-height:1123px;
+  display:flex;flex-direction:column;flex-shrink:0;
 }
-.logo-upload:hover { border-color: var(--maroon-mid); }
-.logo-upload input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
-.logo-upload .up-label { font-size: 10px; color: #A08080; pointer-events: none; }
-.logo-upload img { max-width: 100%; max-height: 36px; display: none; margin-top: 4px; }
+.pg-topbar{background:var(--maroon);height:9px;flex-shrink:0;}
+.watermark{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%) rotate(-38deg);
+  font-family:'EB Garamond',serif;font-size:88px;font-weight:700;
+  color:rgba(123,28,28,.055);white-space:nowrap;
+  pointer-events:none;z-index:0;letter-spacing:10px;user-select:none;
+}
+.watermark-img{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%) rotate(-38deg);
+  pointer-events:none;z-index:0;user-select:none;
+  width:420px;opacity:.07;filter:grayscale(100%);
+}
+.corner{position:absolute;width:44px;height:44px;opacity:.25;}
+.corner-tl{top:18px;left:16px;border-top:2.5px solid var(--maroon);border-left:2.5px solid var(--maroon);}
+.corner-tr{top:18px;right:16px;border-top:2.5px solid var(--maroon);border-right:2.5px solid var(--maroon);}
+.corner-bl{bottom:52px;left:16px;border-bottom:2.5px solid var(--maroon);border-left:2.5px solid var(--maroon);}
+.corner-br{bottom:52px;right:16px;border-bottom:2.5px solid var(--maroon);border-right:2.5px solid var(--maroon);}
+.pg-footer{
+  position:absolute;bottom:0;left:0;right:0;height:40px;
+  background:var(--maroon);display:flex;align-items:center;justify-content:center;
+}
+.pg-footer span{color:#fff;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;}
+.pg-content{padding:10px 44px 52px;position:relative;z-index:1;flex:1;overflow:hidden;}
 
-/* download buttons */
-.btn-row { display: flex; gap: 6px; margin-top: 8px; }
-.btn {
-  flex: 1; padding: 8px 6px;
-  border: none; border-radius: 3px;
-  font-size: 14px; font-weight: 700;
-  cursor: pointer; transition: opacity .2s;
-  font-family: 'Source Sans 3', sans-serif;
-  letter-spacing: .3px;
+/* Logos row */
+.logos-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;padding-bottom:10px;
+  border-bottom:2.5px solid var(--maroon);
 }
-.btn:hover { opacity: .82; }
-.btn-pdf { background: var(--maroon); color: #fff; }
-.btn-png { background: #444; color: #fff; }
-.btn-all { background: #6A2A2A; color: #fff; }
+.logo-slot{
+  width:80px;height:44px;border:1.5px dashed #C0A8A8;
+  border-radius:3px;display:flex;align-items:center;justify-content:center;
+  background:var(--bg-warm);overflow:hidden;flex-shrink:0;
+}
+.logo-slot img{max-width:100%;max-height:100%;object-fit:contain;}
+.logo-slot-ph{font-size:9px;color:#B09090;text-align:center;padding:2px;line-height:1.3;}
+.event-logo-slot{
+  width:130px;height:62px;border:2px dashed #7B1C1C;
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+  background:#FFF6F0;overflow:hidden;flex-shrink:0;
+}
+.event-logo-slot img{max-width:100%;max-height:100%;object-fit:contain;}
+.event-logo-slot-ph{font-size:9px;color:#9B5C5C;text-align:center;padding:3px;line-height:1.4;font-weight:700;}
 
-/* ─── MAIN ─── */
-#main {
-  flex: 1;
-  padding: 28px 20px 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: auto;
+/* Typography */
+.doc-title{text-align:center;margin-bottom:12px;}
+.doc-title h1{
+  font-family:'EB Garamond',serif;font-size:24px;font-weight:700;
+  color:var(--maroon);letter-spacing:3.5px;
+  display:inline-block;border-bottom:2px solid var(--maroon);padding-bottom:4px;
 }
-.edit-tip {
-  background: #FFF8EE;
-  border: 1px solid #E8C870;
-  border-radius: 4px;
-  padding: 7px 14px;
-  font-size: 11px;
-  color: #7A5010;
-  margin-bottom: 14px;
-  text-align: center;
-  max-width: 820px;
-  width: 100%;
+.doc-text{font-size:13px;line-height:1.72;color:var(--grey);}
+.doc-text p{margin-bottom:5px;text-align:justify;}
+.doc-text strong{color:#1C0A0A;}
+.doc-text .sec-head{
+  font-family:'EB Garamond',serif;font-size:14.5px;font-weight:700;
+  color:var(--maroon);margin:8px 0 4px;letter-spacing:.4px;
 }
-.page-info {
-  font-size: 11px;
-  color: #5A3030;
-  margin-bottom: 14px;
-  background: #EEE0DC;
-  padding: 6px 14px;
-  border-radius: 4px;
-  font-weight: 600;
-  max-width: 820px;
-  width: 100%;
+.doc-text ul{margin-left:18px;margin-bottom:5px;}
+.doc-text ul li{margin-bottom:3px;text-align:justify;font-size:13px;}
+.doc-text .note-italic{font-style:italic;color:var(--grey-light);font-size:12px;margin-top:2px;}
+.date-line{font-size:13.5px;font-weight:700;margin-bottom:7px;}
+.tier-pill{
+  display:inline-block;background:var(--maroon);color:#fff;
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  padding:1px 7px;border-radius:2px;vertical-align:middle;margin-left:4px;
 }
 
-/* ─── A4 PAGE ─── */
-.page-wrap { display: flex; flex-direction: column; gap: 22px; }
-
-.a4-page {
-  background: #fff;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 6px 28px rgba(0,0,0,.22);
-  width: 794px;
-  min-height: 1123px;
-  display: flex;
-  flex-direction: column;
+/* Editability */
+[contenteditable="true"]{outline:none;cursor:text;}
+[contenteditable="true"]:hover{background:rgba(123,28,28,.06)!important;}
+[contenteditable="true"]:focus{background:rgba(123,28,28,.11)!important;}
+.editable{
+  display:inline;background:rgba(123,28,28,.05);
+  padding:0 2px;border-radius:2px;font-size:13px;
+  font-family:'Source Sans 3',sans-serif;color:var(--grey);min-width:60px;
 }
+.live-edit{outline:none;}
+.live-edit:hover{background:rgba(123,28,28,.03);}
+.live-edit:focus{background:rgba(123,28,28,.06);}
 
-/* decorative top bar */
-.pg-topbar {
-  background: var(--maroon);
-  height: 9px;
-  flex-shrink: 0;
+/* Edit highlight mode */
+body.edit-highlight [contenteditable="true"]{
+  outline:1px dashed rgba(123,28,28,.3);
+  background:rgba(123,28,28,.04)!important;
 }
-
-/* watermark */
-.watermark {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%) rotate(-38deg);
-  font-family: 'EB Garamond', serif;
-  font-size: 88px;
-  font-weight: 700;
-  color: rgba(123,28,28,.055);
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 0;
-  letter-spacing: 10px;
-  user-select: none;
-  transition: opacity .3s;
-}
-.watermark-img {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%) rotate(-38deg);
-  pointer-events: none;
-  z-index: 0;
-  user-select: none;
-  width: 420px;
-  opacity: 0.07;
-  filter: grayscale(100%);
-  transition: opacity .3s;
+body.edit-highlight [contenteditable="true"]:focus{
+  outline:1.5px solid var(--maroon);
+  background:rgba(123,28,28,.10)!important;
 }
 
-/* corner ornaments */
-.corner { position: absolute; width: 44px; height: 44px; opacity: .25; }
-.corner-tl { top: 18px; left: 16px; border-top: 2.5px solid var(--maroon); border-left: 2.5px solid var(--maroon); }
-.corner-tr { top: 18px; right: 16px; border-top: 2.5px solid var(--maroon); border-right: 2.5px solid var(--maroon); }
-.corner-bl { bottom: 52px; left: 16px; border-bottom: 2.5px solid var(--maroon); border-left: 2.5px solid var(--maroon); }
-.corner-br { bottom: 52px; right: 16px; border-bottom: 2.5px solid var(--maroon); border-right: 2.5px solid var(--maroon); }
+/* Locked state */
+body.locked [contenteditable="true"]{
+  pointer-events:none;cursor:default;
+  background:transparent!important;outline:none!important;
+}
+body.locked .editable{background:transparent;}
 
-/* footer bar */
-.pg-footer {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 40px;
-  background: var(--maroon);
-  display: flex; align-items: center; justify-content: center;
+/* Signature */
+.sig-wrap{margin-top:16px;padding-top:12px;border-top:2px solid var(--maroon);}
+.sig-intro{font-size:12px;color:var(--grey-mid);margin-bottom:14px;font-style:italic;text-align:center;line-height:1.5;}
+.sig-columns{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+.sig-col{display:flex;flex-direction:column;}
+.sig-col .col-title{
+  font-family:'EB Garamond',serif;font-size:13px;font-weight:700;
+  color:#fff;background:var(--maroon);text-transform:uppercase;
+  letter-spacing:1.5px;padding:5px 10px;
 }
-.pg-footer span {
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
+.sig-row{
+  display:flex;align-items:center;height:24px;
+  padding:0 10px;background:#FAF6F4;border-bottom:1px solid #E8DCDC;
 }
+.sig-row.sig-row-tall{height:46px;align-items:flex-start;padding-top:6px;}
+.sig-label{font-size:11px;font-weight:700;color:#5A1010;white-space:nowrap;margin-right:8px;flex-shrink:0;min-width:74px;}
+.sig-value{flex:1;font-size:12px;font-weight:600;color:#1C0A0A;outline:none;background:transparent;min-width:0;}
+.sig-value[contenteditable]:focus{background:rgba(123,28,28,.06);}
 
-/* page content area */
-.pg-content {
-  padding: 18px 44px 55px;
-  position: relative;
-  z-index: 1;
-  flex: 1;
+/* History panel */
+#history-panel{
+  background:#1A0A0A;border-radius:4px;border:1px solid var(--sidebar-border);
+  padding:8px;margin-top:6px;max-height:120px;overflow-y:auto;
+  font-size:10px;color:#886868;
 }
+#history-panel::-webkit-scrollbar{width:3px;}
+#history-panel::-webkit-scrollbar-thumb{background:#3A1010;border-radius:2px;}
+.history-item{padding:3px 0;border-bottom:1px solid #2A0A0A;line-height:1.4;display:flex;justify-content:space-between;gap:4px;}
+.history-item:last-child{border-bottom:none;}
+.history-time{color:#664444;flex-shrink:0;font-size:9px;}
+.history-restore{background:none;border:none;color:#AA6666;cursor:pointer;font-size:10px;padding:0 2px;}
+.history-restore:hover{color:#FF9999;}
 
-/* logos row */
-.logos-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
-  padding-bottom: 12px;
-  border-bottom: 2.5px solid var(--maroon);
+/* Word count strip */
+.word-count-bar{
+  background:#1A0A0A;border:1px solid var(--sidebar-border);
+  border-radius:3px;padding:5px 8px;font-size:10px;
+  color:#887070;display:flex;justify-content:space-between;align-items:center;
+  margin-top:4px;
 }
-.logo-slot {
-  width: 88px; height: 44px;
-  border: 1.5px dashed #C0A8A8;
-  border-radius: 3px;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--bg-warm);
-  overflow: hidden;
-}
-.logo-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.logo-slot-placeholder { font-size: 11px; color: #B09090; text-align: center; padding: 2px; line-height: 1.3; }
-.logos-right { display: flex; gap: 8px; }
+.wc-num{color:#CC8888;font-weight:700;}
 
-/* doc title */
-.doc-title {
-  text-align: center;
-  margin-bottom: 16px;
+/* Theme selector chips */
+.theme-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;}
+.theme-chip{
+  padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;
+  cursor:pointer;border:1px solid transparent;letter-spacing:.5px;
+  text-transform:uppercase;transition:opacity .15s;
 }
-.doc-title h1 {
-  font-family: 'EB Garamond', serif;
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--maroon);
-  letter-spacing: 3.5px;
-  display: inline-block;
-  border-bottom: 2px solid var(--maroon);
-  padding-bottom: 5px;
-}
+.theme-chip:hover{opacity:.8;}
+.theme-chip.active{border-color:#fff;}
 
-/* body text */
-.doc-text {
-  font-size: 13.5px;
-  line-height: 1.80;
-  color: var(--grey);
+/* Zoom controls */
+.zoom-row{display:flex;align-items:center;gap:6px;margin-top:6px;}
+.zoom-btn{
+  background:#200C0C;border:1px solid var(--input-border);color:#DDD0C8;
+  padding:4px 10px;border-radius:3px;cursor:pointer;font-size:14px;font-weight:700;
+  transition:background .2s;
 }
-.doc-text p { margin-bottom: 7px; text-align: justify; }
-.doc-text strong { color: #1C0A0A; }
-.doc-text .sec-head {
-  font-family: 'EB Garamond', serif;
-  font-size: 15.5px;
-  font-weight: 700;
-  color: var(--maroon);
-  margin: 12px 0 5px;
-  letter-spacing: .4px;
-}
-.doc-text ul { margin-left: 20px; margin-bottom: 7px; }
-.doc-text ul li { margin-bottom: 4px; text-align: justify; font-size: 13.5px; }
-.doc-text .note-italic { font-style: italic; color: var(--grey-light); font-size: 12.5px; margin-top: 3px; }
+.zoom-btn:hover{background:#3A1010;}
+#zoom-val{font-size:12px;color:#C0A0A0;min-width:36px;text-align:center;}
 
-/* inline editable — NO underline */
-.editable {
-  display: inline;
-  background: rgba(123,28,28,.07);
-  /* border-bottom removed */
-  padding: 0 3px;
-  outline: none;
-  font-size: 13.5px;
-  font-family: 'Source Sans 3', sans-serif;
-  color: var(--grey);
-  min-width: 80px;
-  text-decoration: none;
-}
-.editable:focus { background: rgba(123,28,28,.13); }
+/* Scrollbar for main */
+#main::-webkit-scrollbar{width:6px;}
+#main::-webkit-scrollbar-track{background:#1A0808;}
+#main::-webkit-scrollbar-thumb{background:#3A1010;border-radius:3px;}
 
-/* date line */
-.date-line { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+/* Accordion sections */
+.sb-accordion{overflow:hidden;max-height:2000px;transition:max-height .3s ease;}
+.sb-accordion.closed{max-height:0;}
+.sb-section-btn{
+  width:100%;background:none;border:none;cursor:pointer;
+  text-align:left;display:flex;align-items:center;justify-content:space-between;
+  padding:0;
+}
+.sb-section-btn .sb-caret{color:#7A4040;font-size:10px;transition:transform .25s;}
+.sb-section-btn.open .sb-caret{transform:rotate(180deg);}
 
-/* tier badge inline */
-.tier-pill {
-  display: inline-block;
-  background: var(--maroon);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 1px 7px;
-  border-radius: 2px;
-  vertical-align: middle;
-  margin-left: 4px;
-}
+/* Divider */
+.sb-divider{border:none;border-top:1px solid #1E0808;margin:10px 0;}
 
-/* ── SIGNATURE SECTION ── */
-.sig-wrap {
-  margin-top: 22px;
-  padding-top: 14px;
-  border-top: 2px solid var(--maroon);
-}
-.sig-intro {
-  font-size: 12.5px;
-  color: var(--grey-mid);
-  margin-bottom: 18px;
-  font-style: italic;
-  text-align: center;
-  line-height: 1.6;
-}
-.sig-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 36px;
-}
-.sig-col {
-  display: flex;
-  flex-direction: column;
-}
-.sig-col .col-title {
-  font-family: 'EB Garamond', serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: #fff;
-  background: var(--maroon);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  padding: 5px 10px;
-  margin-bottom: 0;
-}
-.sig-row {
-  display: flex;
-  align-items: center;
-  height: 26px;
-  padding: 0 10px;
-  background: #FAF6F4;
-  border-bottom: 1px solid #E8DCDC;
-}
-.sig-row.sig-row-tall {
-  height: 52px;
-  align-items: flex-start;
-  padding-top: 6px;
-}
-.sig-label {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: #5A1010;
-  white-space: nowrap;
-  margin-right: 8px;
-  flex-shrink: 0;
-  font-family: 'Source Sans 3', sans-serif;
-  min-width: 78px;
-}
-.sig-value {
-  flex: 1;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: #1C0A0A;
-  font-family: 'Source Sans 3', sans-serif;
-  outline: none;
-  background: transparent;
-  min-width: 0;
-}
-.sig-value[contenteditable]:focus {
-  background: rgba(123,28,28,.06);
+/* Tooltip */
+[data-tip]{position:relative;cursor:help;}
+[data-tip]:hover::after{
+  content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:0;
+  background:#1C0A0A;color:#DDD0C8;font-size:10px;padding:4px 8px;
+  border-radius:3px;white-space:nowrap;border:1px solid var(--input-border);
+  z-index:999;pointer-events:none;
 }
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
 <div id="sidebar">
-  <button id="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+  <button id="sidebar-toggle" onclick="toggleSidebar()">✕</button>
   <div id="sidebar-inner">
-    <div class="sb-title">⚙ Apex Agreement<br>Customizer</div>
 
-    <!-- LOGOS -->
-    <div class="sb-section">Logos</div>
-    <div class="field">
-      <label>Logo 1 — Apex Media &amp; Marketing Club</label>
-      <div class="logo-upload">
-        <input type="file" accept="image/*" onchange="uploadLogo(event,'L1')">
-        <div class="up-label">Click to upload logo</div>
-        <img id="prev-L1">
-      </div>
-    </div>
-    <div class="field">
-      <label>Logo 2 — Apex College</label>
-      <div class="logo-upload">
-        <input type="file" accept="image/*" onchange="uploadLogo(event,'L2')">
-        <div class="up-label">Click to upload logo</div>
-        <img id="prev-L2">
-      </div>
+    <div class="sb-brand">Apex Agreement Studio
+      <span>Pitch &amp; Pop 2026 — Sponsorship Builder</span>
     </div>
 
-    <!-- WATERMARK -->
-    <div class="sb-section">Watermark</div>
-    <div class="field">
-      <label>Watermark Logo / Image</label>
-      <div class="logo-upload">
-        <input type="file" accept="image/*" onchange="uploadWatermark(event)">
-        <div class="up-label" id="wm-up-label">Click to upload watermark image</div>
-        <img id="prev-WM" style="max-width:100%;max-height:36px;display:none;margin-top:4px;">
+    <div class="autosave-indicator">
+      <div class="autosave-dot" id="save-dot"></div>
+      <span id="save-status">Ready</span>
+    </div>
+
+    <!-- ── LIVE EDIT TOGGLE (FEATURED) ── -->
+    <div style="margin:10px 0;">
+      <div class="toggle-wrap" style="background:#1E0808;border-color:var(--maroon);">
+        <div>
+          <div class="toggle-label">✏️ Live Edit Mode <span class="badge badge-on" id="edit-badge-main">ON</span></div>
+          <span class="toggle-sub">Click any document text to edit it</span>
+        </div>
+        <label class="toggle-switch" data-tip="Toggle document editing on/off">
+          <input type="checkbox" id="toggle-edit" checked onchange="toggleEditMode()">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+      <div style="font-size:10px;color:#664444;margin-top:4px;padding:0 2px;line-height:1.4;">
+        When OFF — document is read-only. When ON — click any text to edit directly on the document.
       </div>
     </div>
-    <div class="field">
-      <label>Watermark Text (when no image)</label>
-      <input type="text" id="sb-wmtext" value="APEX PITCH &amp; POP" oninput="updateWMText()">
-    </div>
-    <div class="field">
-      <label>Opacity: <span id="wm-opacity-val">7%</span></label>
-      <input type="range" id="sb-wmopacity" min="2" max="30" value="7"
-        oninput="updateWMOpacity()" style="width:100%;accent-color:#7B1C1C;margin-top:4px;">
-    </div>
-    <div class="field">
-      <label>Rotation: <span id="wm-rotate-val">-38°</span></label>
-      <input type="range" id="sb-wmrotate" min="-90" max="90" value="-38"
-        oninput="updateWMRotate()" style="width:100%;accent-color:#7B1C1C;margin-top:4px;">
-    </div>
-    <div class="field">
-      <label>Size: <span id="wm-size-val">420px</span></label>
-      <input type="range" id="sb-wmsize" min="100" max="700" value="420"
-        oninput="updateWMSize()" style="width:100%;accent-color:#7B1C1C;margin-top:4px;">
-    </div>
-    <div class="field" style="display:flex;gap:6px;align-items:center;">
-      <label style="margin:0;font-size:11px;">Show on:</label>
-      <label style="margin:0;font-size:11px;display:flex;align-items:center;gap:3px;">
-        <input type="checkbox" id="wm-pg1" checked onchange="updateWMVisibility()"> Pg 1
-      </label>
-      <label style="margin:0;font-size:11px;display:flex;align-items:center;gap:3px;">
-        <input type="checkbox" id="wm-pg2" checked onchange="updateWMVisibility()"> Pg 2
+
+    <hr class="sb-divider">
+
+    <!-- ── HIGHLIGHT TOGGLE ── -->
+    <div class="toggle-wrap">
+      <div>
+        <div class="toggle-label" style="font-size:12px;">🔍 Show Editable Fields</div>
+        <span class="toggle-sub">Highlight all editable areas</span>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-highlight" onchange="toggleHighlight()">
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
       </label>
     </div>
-    <div class="field">
-      <button class="btn btn-png" onclick="removeWatermark()" style="width:100%;font-size:11px;padding:6px;">✕ Remove Watermark</button>
+
+    <hr class="sb-divider">
+
+    <!-- ── LOGOS ── -->
+    <button class="sb-section-btn open" onclick="toggleAccordion(this,'acc-logos')">
+      <div class="sb-section" style="margin:0;border:none;padding-bottom:0;">📸 Logos &amp; Branding</div>
+      <span class="sb-caret">▾</span>
+    </button>
+    <div class="sb-accordion" id="acc-logos">
+      <div style="height:6px;"></div>
+      <div class="field">
+        <label>Logo 1 — Apex M&amp;M Club</label>
+        <div class="upload-zone">
+          <input type="file" accept="image/*" onchange="uploadLogo(event,'L1')">
+          <span class="up-icon">🖼</span>
+          <div class="up-label" id="lbl-L1">Click or drop to upload</div>
+          <img id="prev-L1">
+        </div>
+      </div>
+      <div class="field">
+        <label>Logo 2 — Apex College</label>
+        <div class="upload-zone">
+          <input type="file" accept="image/*" onchange="uploadLogo(event,'L2')">
+          <span class="up-icon">🏫</span>
+          <div class="up-label" id="lbl-L2">Click or drop to upload</div>
+          <img id="prev-L2">
+        </div>
+      </div>
+      <div class="field">
+        <label>★ Center Logo — Pitch &amp; Pop Event</label>
+        <div class="upload-zone" style="border-color:var(--maroon);background:#1A0808;">
+          <input type="file" accept="image/*" onchange="uploadLogo(event,'EV')">
+          <span class="up-icon" style="color:#CC4444;">🎪</span>
+          <div class="up-label" id="lbl-EV">Upload event logo (center, both pages)</div>
+          <img id="prev-EV">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="clearLogo('L1')">✕ Logo 1</button>
+        <button class="btn btn-outline" onclick="clearLogo('L2')">✕ Logo 2</button>
+        <button class="btn btn-outline" onclick="clearLogo('EV')">✕ Event</button>
+      </div>
     </div>
 
-    <!-- AGREEMENT INFO -->
-    <div class="sb-section">Agreement Info</div>
-    <div class="field">
-      <label>Agreement Date</label>
-      <input type="date" id="sb-date" oninput="sb2doc('sb-date','dc-date','dc-date2')">
-    </div>
-    <div class="field">
-      <label>Sponsor Company Name</label>
-      <input type="text" id="sb-spname" placeholder="e.g. ABC Pvt. Ltd." oninput="sb2doc('sb-spname','dc-spname')">
-    </div>
-    <div class="field">
-      <label>Sponsor Address</label>
-      <input type="text" id="sb-spaddr" placeholder="e.g. Putalisadak, Kathmandu" oninput="sb2doc('sb-spaddr','dc-spaddr')">
-    </div>
-    <div class="field">
-      <label>Event Dates</label>
-      <input type="text" id="sb-evdate" placeholder="e.g. May 15–17, 2026" oninput="sb2doc('sb-evdate','dc-evdate')">
+    <hr class="sb-divider">
+
+    <!-- ── WATERMARK ── -->
+    <button class="sb-section-btn open" onclick="toggleAccordion(this,'acc-wm')">
+      <div class="sb-section" style="margin:0;border:none;padding-bottom:0;">💧 Watermark</div>
+      <span class="sb-caret">▾</span>
+    </button>
+    <div class="sb-accordion" id="acc-wm">
+      <div style="height:6px;"></div>
+      <div class="field">
+        <label>Watermark Image (optional)</label>
+        <div class="upload-zone">
+          <input type="file" accept="image/*" onchange="uploadWatermark(event)">
+          <span class="up-icon">🌊</span>
+          <div class="up-label" id="wm-up-label">Upload image watermark</div>
+          <img id="prev-WM">
+        </div>
+      </div>
+      <div class="field">
+        <label>Fallback Text</label>
+        <input type="text" id="sb-wmtext" value="APEX PITCH &amp; POP" oninput="updateWMText();scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Opacity: <span id="wm-opacity-val">7%</span></label>
+        <input type="range" id="sb-wmopacity" min="1" max="40" value="7" oninput="updateWMOpacity();scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Rotation: <span id="wm-rotate-val">-38°</span></label>
+        <input type="range" id="sb-wmrotate" min="-90" max="90" value="-38" oninput="updateWMRotate();scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Size: <span id="wm-size-val">420px</span></label>
+        <input type="range" id="sb-wmsize" min="80" max="760" value="420" oninput="updateWMSize();scheduleSave()">
+      </div>
+      <div class="field" style="display:flex;gap:10px;align-items:center;">
+        <label style="margin:0;font-size:11px;display:flex;align-items:center;gap:4px;">
+          <input type="checkbox" id="wm-pg1" checked onchange="updateWMVisibility();scheduleSave()"> Page 1
+        </label>
+        <label style="margin:0;font-size:11px;display:flex;align-items:center;gap:4px;">
+          <input type="checkbox" id="wm-pg2" checked onchange="updateWMVisibility();scheduleSave()"> Page 2
+        </label>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="removeWatermark()">✕ Remove Watermark</button>
+      </div>
     </div>
 
-    <!-- SPONSORSHIP -->
-    <div class="sb-section">Sponsorship</div>
-    <div class="field">
-      <label>Sponsorship Tier</label>
-      <select id="sb-tier" onchange="applyTier()">
-        <option value="">— Select Tier —</option>
-        <option value="Platinum|3,50,000">Platinum — Rs. 3,50,000</option>
-        <option value="Gold|3,00,000">Gold — Rs. 3,00,000</option>
-        <option value="Silver|2,50,000">Silver — Rs. 2,50,000</option>
-        <option value="Bronze|2,00,000">Bronze — Rs. 2,00,000</option>
-        <option value="In-Kind|50,000+">In-Kind — Rs. 50,000+</option>
-        <option value="Stall 1 Day|15,000">Stall — 1 Day (Rs. 15,000)</option>
-        <option value="Stall 2 Days|30,000">Stall — 2 Days (Rs. 30,000)</option>
-        <option value="Stall Full Event|45,000">Stall — Full Event (Rs. 45,000)</option>
-        <option value="Gift|—">Gift Sponsor</option>
-        <option value="Technical|—">Technical Sponsor</option>
-        <option value="Merchandise|—">Merchandise Sponsor</option>
-        <option value="Other|—">Other</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>Sponsorship Amount (NPR)</label>
-      <input type="text" id="sb-amount" placeholder="e.g. 3,50,000" oninput="sb2doc('sb-amount','dc-amount')">
-    </div>
-    <div class="field">
-      <label>Materials Delivery Deadline</label>
-      <input type="date" id="sb-deadline" oninput="sb2doc('sb-deadline','dc-deadline')">
+    <hr class="sb-divider">
+
+    <!-- ── AGREEMENT INFO ── -->
+    <button class="sb-section-btn open" onclick="toggleAccordion(this,'acc-info')">
+      <div class="sb-section" style="margin:0;border:none;padding-bottom:0;">📋 Agreement Info</div>
+      <span class="sb-caret">▾</span>
+    </button>
+    <div class="sb-accordion" id="acc-info">
+      <div style="height:6px;"></div>
+      <div class="field">
+        <label>Agreement Date</label>
+        <input type="date" id="sb-date" oninput="sb2doc('sb-date','dc-date','dc-date2');scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Sponsor Company Name</label>
+        <input type="text" id="sb-spname" placeholder="e.g. ABC Pvt. Ltd." oninput="sb2doc('sb-spname','dc-spname');scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Sponsor Address</label>
+        <input type="text" id="sb-spaddr" placeholder="e.g. Putalisadak, Kathmandu" oninput="sb2doc('sb-spaddr','dc-spaddr');scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Event Dates</label>
+        <input type="text" id="sb-evdate" placeholder="e.g. May 15–17, 2026" oninput="sb2doc('sb-evdate','dc-evdate');scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Agreement Reference #</label>
+        <input type="text" id="sb-refno" placeholder="e.g. APEX-PP-2026-001" oninput="sb2doc('sb-refno','dc-refno');scheduleSave()">
+      </div>
     </div>
 
-    <!-- APEX (SPONSEE) SIGNATORY -->
-    <div class="sb-section">Apex Signatory (Sponsee)</div>
-    <div class="field">
-      <label>Name</label>
-      <input type="text" id="sb-sname" value="Swadhin Lingden" oninput="syncSigField('sb-sname','dc-sname')">
-    </div>
-    <div class="field">
-      <label>Designation</label>
-      <input type="text" id="sb-sdesig" value="President" oninput="syncSigField('sb-sdesig','dc-sdesig')">
-    </div>
-    <div class="field">
-      <label>Organization</label>
-      <input type="text" id="sb-sorg" value="Apex Media and Marketing Club" oninput="syncSigField('sb-sorg','dc-sorg')">
+    <hr class="sb-divider">
+
+    <!-- ── SPONSORSHIP ── -->
+    <button class="sb-section-btn open" onclick="toggleAccordion(this,'acc-sp')">
+      <div class="sb-section" style="margin:0;border:none;padding-bottom:0;">💰 Sponsorship Details</div>
+      <span class="sb-caret">▾</span>
+    </button>
+    <div class="sb-accordion" id="acc-sp">
+      <div style="height:6px;"></div>
+      <div class="field">
+        <label>Sponsorship Tier</label>
+        <select id="sb-tier" onchange="applyTier();scheduleSave()">
+          <option value="">— Select Tier —</option>
+          <option value="Platinum|3,50,000|#4A3A6A">Platinum — Rs. 3,50,000</option>
+          <option value="Gold|3,00,000|#7A6010">Gold — Rs. 3,00,000</option>
+          <option value="Silver|2,50,000|#5A5A6A">Silver — Rs. 2,50,000</option>
+          <option value="Bronze|2,00,000|#7A3A10">Bronze — Rs. 2,00,000</option>
+          <option value="In-Kind|50,000+|#3A5A3A">In-Kind — Rs. 50,000+</option>
+          <option value="Stall 1 Day|15,000|#5A3A1A">Stall — 1 Day (Rs. 15,000)</option>
+          <option value="Stall 2 Days|30,000|#5A3A1A">Stall — 2 Days (Rs. 30,000)</option>
+          <option value="Stall Full Event|45,000|#5A3A1A">Stall — Full Event (Rs. 45,000)</option>
+          <option value="Gift|—|#1A5A5A">Gift Sponsor</option>
+          <option value="Technical|—|#1A3A5A">Technical Sponsor</option>
+          <option value="Merchandise|—|#5A1A5A">Merchandise Sponsor</option>
+          <option value="Other|—|#3A3A3A">Other</option>
+        </select>
+        <div class="tier-preview" id="tier-preview-badge">PLATINUM</div>
+      </div>
+      <div class="field">
+        <label>Sponsorship Amount (NPR)</label>
+        <input type="text" id="sb-amount" placeholder="e.g. 3,50,000" oninput="sb2doc('sb-amount','dc-amount');scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Payment Method</label>
+        <select id="sb-payment" onchange="sb2doc('sb-payment','dc-payment');scheduleSave()">
+          <option value="">— Select —</option>
+          <option>Bank Transfer</option>
+          <option>Cash</option>
+          <option>Cheque</option>
+          <option>eSewa / Digital Wallet</option>
+          <option>In-Kind (Goods/Services)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Materials Delivery Deadline</label>
+        <input type="date" id="sb-deadline" oninput="sb2doc('sb-deadline','dc-deadline');scheduleSave()">
+      </div>
     </div>
 
-    <!-- SPONSOR SIGNATORY -->
-    <div class="sb-section">Sponsor Signatory</div>
-    <div class="field">
-      <label>Name</label>
-      <input type="text" id="sb-spname2" placeholder="[Name]" oninput="syncSigField('sb-spname2','dc-sp2name')">
-    </div>
-    <div class="field">
-      <label>Designation</label>
-      <input type="text" id="sb-spdesig" placeholder="[Designation]" oninput="syncSigField('sb-spdesig','dc-sp2desig')">
-    </div>
-    <div class="field">
-      <label>Company</label>
-      <input type="text" id="sb-spco" placeholder="[Company Name]" oninput="syncSigField('sb-spco','dc-sp2co')">
+    <hr class="sb-divider">
+
+    <!-- ── SIGNATORIES ── -->
+    <button class="sb-section-btn open" onclick="toggleAccordion(this,'acc-sig')">
+      <div class="sb-section" style="margin:0;border:none;padding-bottom:0;">✍ Signatories</div>
+      <span class="sb-caret">▾</span>
+    </button>
+    <div class="sb-accordion" id="acc-sig">
+      <div style="height:6px;"></div>
+      <div style="font-size:11px;color:#886868;font-weight:700;margin-bottom:5px;text-transform:uppercase;letter-spacing:1px;">Apex Signatory (Sponsee)</div>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" id="sb-sname" value="Swadhin Lingden" oninput="syncSigField('sb-sname','dc-sname');scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Designation</label>
+        <input type="text" id="sb-sdesig" value="President" oninput="syncSigField('sb-sdesig','dc-sdesig');scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Organization</label>
+        <input type="text" id="sb-sorg" value="Apex Media and Marketing Club" oninput="syncSigField('sb-sorg','dc-sorg');scheduleSave()">
+      </div>
+      <div style="font-size:11px;color:#886868;font-weight:700;margin:10px 0 5px;text-transform:uppercase;letter-spacing:1px;">Sponsor Signatory</div>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" id="sb-spname2" placeholder="[Name]" oninput="syncSigField('sb-spname2','dc-sp2name');scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Designation</label>
+        <input type="text" id="sb-spdesig" placeholder="[Designation]" oninput="syncSigField('sb-spdesig','dc-sp2desig');scheduleSave()">
+      </div>
+      <div class="field">
+        <label>Company</label>
+        <input type="text" id="sb-spco" placeholder="[Company Name]" oninput="syncSigField('sb-spco','dc-sp2co');scheduleSave()">
+      </div>
     </div>
 
-    <!-- PAGE SIZE -->
-    <div class="sb-section">Page Size</div>
-    <div class="field">
-      <select id="sb-pgsize" onchange="setPageSize()">
-        <option value="A4">A4 — 210 × 297 mm</option>
-        <option value="A3">A3 — 297 × 420 mm</option>
-        <option value="Letter">Letter — 216 × 279 mm</option>
-        <option value="Legal">Legal — 216 × 356 mm</option>
-      </select>
+    <hr class="sb-divider">
+
+    <!-- ── DOCUMENT STYLE ── -->
+    <button class="sb-section-btn open" onclick="toggleAccordion(this,'acc-style')">
+      <div class="sb-section" style="margin:0;border:none;padding-bottom:0;">🎨 Document Style</div>
+      <span class="sb-caret">▾</span>
+    </button>
+    <div class="sb-accordion" id="acc-style">
+      <div style="height:6px;"></div>
+      <div class="field">
+        <label>Accent Color</label>
+        <div class="color-row" id="color-chips">
+          <div class="color-dot active" style="background:#7B1C1C;" data-color="#7B1C1C" onclick="applyAccentColor(this)" title="Maroon (default)"></div>
+          <div class="color-dot" style="background:#1A3A6A;" data-color="#1A3A6A" onclick="applyAccentColor(this)" title="Navy"></div>
+          <div class="color-dot" style="background:#1A5A3A;" data-color="#1A5A3A" onclick="applyAccentColor(this)" title="Forest"></div>
+          <div class="color-dot" style="background:#5A1A5A;" data-color="#5A1A5A" onclick="applyAccentColor(this)" title="Purple"></div>
+          <div class="color-dot" style="background:#7A5010;" data-color="#7A5010" onclick="applyAccentColor(this)" title="Gold"></div>
+          <div class="color-dot" style="background:#1A4A5A;" data-color="#1A4A5A" onclick="applyAccentColor(this)" title="Teal"></div>
+          <div class="color-dot" style="background:#3A3A3A;" data-color="#3A3A3A" onclick="applyAccentColor(this)" title="Charcoal"></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Zoom: <span id="zoom-display">100%</span></label>
+        <div class="zoom-row">
+          <button class="zoom-btn" onclick="adjustZoom(-10)">−</button>
+          <div id="zoom-val">100%</div>
+          <button class="zoom-btn" onclick="adjustZoom(10)">+</button>
+          <button class="zoom-btn" onclick="adjustZoom(0)" style="font-size:10px;padding:4px 8px;" title="Reset zoom">⌂</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Corner Decorations</label>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="setCornerOpacity(.25)">On</button>
+          <button class="btn btn-outline" onclick="setCornerOpacity(0)">Off</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Footer Bar</label>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="setFooterVisible(true)">Show</button>
+          <button class="btn btn-outline" onclick="setFooterVisible(false)">Hide</button>
+        </div>
+      </div>
     </div>
 
-    <!-- DOWNLOAD -->
-    <div class="sb-section">Download</div>
+    <hr class="sb-divider">
+
+    <!-- ── STATS ── -->
+    <button class="sb-section-btn" onclick="toggleAccordion(this,'acc-stats')">
+      <div class="sb-section" style="margin:0;border:none;padding-bottom:0;">📊 Document Stats</div>
+      <span class="sb-caret">▾</span>
+    </button>
+    <div class="sb-accordion closed" id="acc-stats">
+      <div style="height:6px;"></div>
+      <div class="word-count-bar">
+        <span>Words</span><span class="wc-num" id="wc-words">—</span>
+      </div>
+      <div class="word-count-bar" style="margin-top:4px;">
+        <span>Characters</span><span class="wc-num" id="wc-chars">—</span>
+      </div>
+      <div class="word-count-bar" style="margin-top:4px;">
+        <span>Last saved</span><span class="wc-num" id="wc-time">—</span>
+      </div>
+      <button class="btn btn-outline" onclick="updateStats()" style="margin-top:6px;width:100%;font-size:10px;padding:5px;">↻ Refresh Stats</button>
+    </div>
+
+    <hr class="sb-divider">
+
+    <!-- ── VERSION HISTORY ── -->
+    <button class="sb-section-btn" onclick="toggleAccordion(this,'acc-hist')">
+      <div class="sb-section" style="margin:0;border:none;padding-bottom:0;">⏱ Version History</div>
+      <span class="sb-caret">▾</span>
+    </button>
+    <div class="sb-accordion closed" id="acc-hist">
+      <div style="height:6px;"></div>
+      <div class="field-note">Auto-saves last 5 versions. Click Restore to go back.</div>
+      <div id="history-panel"></div>
+    </div>
+
+    <hr class="sb-divider">
+
+    <!-- ── EXPORT ── -->
+    <button class="sb-section-btn open" onclick="toggleAccordion(this,'acc-export')">
+      <div class="sb-section" style="margin:0;border:none;padding-bottom:0;">⬇ Export</div>
+      <span class="sb-caret">▾</span>
+    </button>
+    <div class="sb-accordion" id="acc-export">
+      <div style="height:6px;"></div>
+      <div class="btn-row">
+        <button class="btn btn-pdf" onclick="downloadPDF()">⬇ PDF (A4)</button>
+        <button class="btn btn-all" onclick="downloadAllImg()">⬇ Both IMG</button>
+      </div>
+      <div class="btn-row" style="margin-top:6px;">
+        <button class="btn btn-png" onclick="downloadImg(1)">⬇ Page 1 PNG</button>
+        <button class="btn btn-png" onclick="downloadImg(2)">⬇ Page 2 PNG</button>
+      </div>
+      <div class="field-note" style="margin-top:6px;">All exports are strict A4 (794×1123px / 210×297mm) at 3× scale (≈288 DPI).</div>
+    </div>
+
+    <hr class="sb-divider">
+
+    <!-- ── DATA ── -->
+    <div class="sb-section">💾 Data</div>
     <div class="btn-row">
-      <button class="btn btn-pdf" onclick="downloadPDF()">⬇ PDF</button>
-      <button class="btn btn-all" onclick="downloadAllImg()">⬇ All IMG</button>
+      <button class="btn btn-green" onclick="doSave()">💾 Save Now</button>
+      <button class="btn btn-clear" onclick="clearSavedData()">🗑 Reset All</button>
     </div>
-    <div class="btn-row" style="margin-top:6px">
-      <button class="btn btn-png" onclick="downloadImg(1)">⬇ Page 1</button>
-      <button class="btn btn-png" onclick="downloadImg(2)">⬇ Page 2</button>
+    <div class="btn-row" style="margin-top:5px;">
+      <button class="btn btn-outline" onclick="exportJSON()">⬆ Export JSON</button>
+      <button class="btn btn-outline" onclick="document.getElementById('import-json').click()">⬇ Import JSON</button>
+      <input type="file" id="import-json" accept=".json" style="display:none" onchange="importJSON(event)">
     </div>
+    <p style="font-size:10px;color:#665050;margin-top:7px;line-height:1.5;">Auto-saves every keystroke. Logos and images are stored locally. Data persists across browser refreshes.</p>
   </div>
 </div>
 
-<!-- MAIN -->
+<!-- ═══════════════ MAIN ═══════════════ -->
 <div id="main">
-  <div class="edit-tip">✏️ Use the left panel to fill in all fields. You can also click any <span style="background:rgba(123,28,28,.08);padding:0 3px">highlighted text</span> in the document to edit it directly.</div>
-  <div class="page-info" id="pg-info">Page size: A4 &nbsp;·&nbsp; 2 pages &nbsp;·&nbsp; Scroll down to see Page 2</div>
+  <div class="top-bar">
+    <div class="edit-tip">✏️ <strong>Click any text on the document to edit it.</strong> Use the sidebar for logos, tier, and quick-fill fields.</div>
+    <div class="edit-badge" id="main-edit-badge">EDITING: ON</div>
+  </div>
+  <div class="page-info">📄 A4 · 794×1123px · 2 Pages · Scroll down for Page 2 · All changes auto-saved to browser storage</div>
 
-  <div class="page-wrap" id="page-wrap">
+  <div class="page-wrap" id="page-wrap" style="transform-origin:top center;">
 
-    <!-- ══════════════ PAGE 1 ══════════════ -->
+    <!-- ════════════ PAGE 1 ════════════ -->
     <div class="a4-page" id="page1">
       <div class="pg-topbar"></div>
       <div class="watermark" id="wm-text-1">APEX PITCH &amp; POP</div>
@@ -595,73 +778,78 @@ body {
       <div class="corner corner-br"></div>
 
       <div class="pg-content">
-
-        <!-- Logos -->
+        <!-- Logos Row -->
         <div class="logos-row">
           <div class="logo-slot" id="slot-L1-1">
-            <div class="logo-slot-placeholder">Apex Media<br>&amp; Marketing<br>Club Logo</div>
+            <div class="logo-slot-ph">Apex M&amp;M<br>Club Logo</div>
           </div>
-          <div class="logos-right">
-            <div class="logo-slot" id="slot-L2-1">
-              <div class="logo-slot-placeholder">Apex College<br>Logo</div>
-            </div>
+          <div class="event-logo-slot" id="slot-EV-1">
+            <div class="event-logo-slot-ph">PITCH &amp; POP<br>Event Logo</div>
+          </div>
+          <div class="logo-slot" id="slot-L2-1">
+            <div class="logo-slot-ph">Apex College<br>Logo</div>
           </div>
         </div>
 
         <!-- Title -->
-        <div class="doc-title"><h1>SPONSORSHIP AGREEMENT</h1></div>
+        <div class="doc-title">
+          <h1 class="live-edit" contenteditable="true" id="dc-title1" oninput="scheduleSave()">SPONSORSHIP AGREEMENT</h1>
+        </div>
 
         <!-- Body -->
         <div class="doc-text">
 
-          <p class="date-line">Date:&nbsp; <span class="editable" contenteditable="true" id="dc-date" data-ph="[Insert Date]">[Insert Date of Agreement]</span></p>
+          <p class="date-line">Date:&nbsp;
+            <span class="editable live-edit" contenteditable="true" id="dc-date" oninput="scheduleSave()">[Insert Date of Agreement]</span>
+            &nbsp;&nbsp; Ref:&nbsp;
+            <span class="editable live-edit" contenteditable="true" id="dc-refno" oninput="scheduleSave()">[Ref Number]</span>
+          </p>
 
-          <p>This Sponsorship Agreement ("Agreement") is made on this <span class="editable" contenteditable="true" id="dc-date2" data-ph="[Insert Date]">[Insert Date]</span>, by and between:</p>
+          <p class="live-edit" contenteditable="true" id="dc-para-intro" oninput="scheduleSave()">This Sponsorship Agreement ("Agreement") is made on this <span class="editable" contenteditable="false" id="dc-date2">[Insert Date]</span>, by and between:</p>
 
-          <p><strong>APEX MEDIA AND MARKETING CLUB</strong>, hereinafter referred to as the "Sponsee," a student-led organizing body under Apex College, located in Mid-Baneshwor, Kathmandu, Nepal,</p>
+          <p><strong class="live-edit" contenteditable="true" id="dc-sponsee-name" oninput="scheduleSave()">APEX MEDIA AND MARKETING CLUB</strong>, hereinafter referred to as the "Sponsee," a student-led organizing body under <span class="live-edit" contenteditable="true" id="dc-college-desc" oninput="scheduleSave()">Apex College, located in Mid-Baneshwor, Kathmandu, Nepal</span>,</p>
 
           <p><strong>AND</strong></p>
 
-          <p><strong><span class="editable" contenteditable="true" id="dc-spname" data-ph="[Insert Sponsor Company Name]">[Insert Sponsor Company Name]</span></strong>, hereinafter referred to as the "Sponsor," located at <span class="editable" contenteditable="true" id="dc-spaddr" data-ph="[Insert Sponsor's Address]">[Insert Sponsor's Address]</span>.</p>
+          <p><strong><span class="editable live-edit" contenteditable="true" id="dc-spname" oninput="scheduleSave()">[Insert Sponsor Company Name]</span></strong>, hereinafter referred to as the "Sponsor," located at <span class="editable live-edit" contenteditable="true" id="dc-spaddr" oninput="scheduleSave()">[Insert Sponsor's Address]</span>.</p>
 
-          <p>Sponsorship Tier:&nbsp; <strong id="dc-tier-text">[Select from sidebar]</strong><span class="tier-pill" id="dc-tier-pill" style="display:none"></span></p>
+          <p>Sponsorship Tier:&nbsp; <strong class="live-edit" contenteditable="true" id="dc-tier-text" oninput="scheduleSave()">[Select from sidebar]</strong><span class="tier-pill" id="dc-tier-pill" style="display:none"></span>&nbsp;&nbsp; Payment Method:&nbsp; <span class="editable live-edit" contenteditable="true" id="dc-payment" oninput="scheduleSave()">[Payment Method]</span></p>
 
-          <div class="sec-head">1. Event Details</div>
-          <p>The sponsorship is in support of <strong>APEX PITCH &amp; POP 2026</strong>, a student-led inter-college celebration of creativity, innovation, media, entertainment, and collaboration organized by Apex Media and Marketing Club, scheduled to be held at Apex College in <span class="editable" contenteditable="true" id="dc-evdate" data-ph="[Insert Event Dates]">[Insert Event Dates]</span>.</p>
+          <div class="sec-head live-edit" contenteditable="true" id="dc-s1head" oninput="scheduleSave()">1. Event Details</div>
+          <p class="live-edit" contenteditable="true" id="dc-s1body" oninput="scheduleSave()">The sponsorship is in support of <strong>APEX PITCH &amp; POP 2026</strong>, a student-led inter-college celebration of creativity, innovation, media, entertainment, and collaboration organized by Apex Media and Marketing Club, scheduled to be held at Apex College in <span class="editable live-edit" contenteditable="true" id="dc-evdate" oninput="scheduleSave()">[Insert Event Dates]</span>.</p>
 
-          <div class="sec-head">2. Sponsee Obligations</div>
-          <p>The Sponsee agrees to provide the following deliverables to the Sponsor based on the agreed sponsorship tier (Platinum, Gold, Silver, Bronze, Stall, Gift, Technical, Merchandise, or Other):</p>
-          <ul>
-            <li>Inclusion of Sponsor's logo and name in all major event promotional materials (posters, banners, backdrops, digital invites, and social media).</li>
-            <li>Stage and venue branding with Sponsor-provided materials (standees, flex boards, flags, etc.).</li>
-            <li>Special mention and verbal acknowledgment during opening, closing, and major event segments.</li>
-            <li>Customized promotional booth space (for Platinum or Gold sponsors) at the venue for engagement.</li>
-            <li>Opportunity to distribute samples or merchandise during the event.</li>
-            <li>Feature in media coverages, including press releases and college digital platforms.</li>
-            <li>Tagging and mentions on the event's official social media handles and campaign hashtags.</li>
-            <li>Any exclusive benefit as agreed upon in the sponsorship proposal.</li>
+          <div class="sec-head live-edit" contenteditable="true" id="dc-s2head" oninput="scheduleSave()">2. Sponsee Obligations</div>
+          <p class="live-edit" contenteditable="true" id="dc-s2intro" oninput="scheduleSave()">The Sponsee agrees to provide the following deliverables to the Sponsor based on the agreed sponsorship tier:</p>
+          <ul id="dc-s2list">
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Inclusion of Sponsor's logo and name in all major event promotional materials (posters, banners, backdrops, digital invites, and social media).</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Stage and venue branding with Sponsor-provided materials (standees, flex boards, flags, etc.).</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Special mention and verbal acknowledgment during opening, closing, and major event segments.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Customized promotional booth space (for Platinum or Gold sponsors) at the venue for engagement.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Opportunity to distribute samples or merchandise during the event.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Feature in media coverages, including press releases and college digital platforms.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Tagging and mentions on the event's official social media handles and campaign hashtags.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Any exclusive benefit as agreed upon in the sponsorship proposal.</li>
           </ul>
-          <p class="note-italic">Note: Detailed deliverables shall be based on the agreed category and sponsorship amount.</p>
+          <p class="note-italic live-edit" contenteditable="true" id="dc-s2note" oninput="scheduleSave()">Note: Detailed deliverables shall be based on the agreed category and sponsorship amount.</p>
 
-          <div class="sec-head">3. Sponsor Obligations</div>
-          <p>The Sponsor agrees to provide the following to support the APEX PITCH &amp; POP 2026:</p>
-          <ul>
-            <li>Sponsorship amount of <strong>NPR <span class="editable" contenteditable="true" id="dc-amount" data-ph="[Amount]">[Insert Agreed Amount in NPR]</span></strong> or in-kind support equivalent to the selected sponsorship tier.</li>
-            <li>Timely submission of company logos, brand guidelines, and promotional materials for use.</li>
-            <li>Delivery of any gift items, vouchers, technical products, or merchandise, as agreed, by <span class="editable" contenteditable="true" id="dc-deadline" data-ph="[Deadline]">[Insert Deadline Date]</span>.</li>
-            <li>Coordination with the student organizing team regarding brand usage and representation.</li>
+          <div class="sec-head live-edit" contenteditable="true" id="dc-s3head" oninput="scheduleSave()">3. Sponsor Obligations</div>
+          <p class="live-edit" contenteditable="true" id="dc-s3intro" oninput="scheduleSave()">The Sponsor agrees to provide the following to support the APEX PITCH &amp; POP 2026:</p>
+          <ul id="dc-s3list">
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Sponsorship amount of <strong>NPR <span class="editable live-edit" contenteditable="true" id="dc-amount" oninput="scheduleSave()">[Insert Agreed Amount in NPR]</span></strong> or in-kind support equivalent to the selected sponsorship tier.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Timely submission of company logos, brand guidelines, and promotional materials for use.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Delivery of any gift items, vouchers, technical products, or merchandise, as agreed, by <span class="editable live-edit" contenteditable="true" id="dc-deadline" oninput="scheduleSave()">[Insert Deadline Date]</span>.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Coordination with the student organizing team regarding brand usage and representation.</li>
           </ul>
 
         </div>
-      </div><!-- /pg-content -->
+      </div>
 
       <div class="pg-footer">
-        <span>Apex College, Mid Baneshwor &nbsp;|&nbsp; Apex Media and Marketing Club &nbsp;|&nbsp; Apex Pitch &amp; Pop 2026</span>
+        <span class="live-edit" contenteditable="true" id="dc-footer1" oninput="scheduleSave()">Apex College, Mid Baneshwor &nbsp;|&nbsp; Apex Media and Marketing Club &nbsp;|&nbsp; Apex Pitch &amp; Pop 2026</span>
       </div>
     </div><!-- /page1 -->
 
-
-    <!-- ══════════════ PAGE 2 ══════════════ -->
+    <!-- ════════════ PAGE 2 ════════════ -->
     <div class="a4-page" id="page2">
       <div class="pg-topbar"></div>
       <div class="watermark" id="wm-text-2">APEX PITCH &amp; POP</div>
@@ -670,60 +858,59 @@ body {
       <div class="corner corner-tr"></div>
       <div class="corner corner-bl"></div>
       <div class="corner corner-br"></div>
-      <div class="pg-content">
 
-        <!-- Logos (repeated) -->
+      <div class="pg-content">
+        <!-- Logos Row (repeated) -->
         <div class="logos-row">
           <div class="logo-slot" id="slot-L1-2">
-            <div class="logo-slot-placeholder">Apex Media<br>&amp; Marketing<br>Club Logo</div>
+            <div class="logo-slot-ph">Apex M&amp;M<br>Club Logo</div>
           </div>
-          <div class="logos-right">
-            <div class="logo-slot" id="slot-L2-2">
-              <div class="logo-slot-placeholder">Apex College<br>Logo</div>
-            </div>
+          <div class="event-logo-slot" id="slot-EV-2">
+            <div class="event-logo-slot-ph">PITCH &amp; POP<br>Event Logo</div>
+          </div>
+          <div class="logo-slot" id="slot-L2-2">
+            <div class="logo-slot-ph">Apex College<br>Logo</div>
           </div>
         </div>
 
         <div class="doc-text">
 
-          <div class="sec-head">4. Sponsor Trademarks and Materials</div>
-          <p>Subject to this Agreement, the Sponsor grants the Sponsee non-exclusive rights to use Sponsor's name, logos, trademarks, slogans, and relevant content strictly for promotional and marketing purposes of the APEX PITCH &amp; POP 2026. The Sponsee agrees to adhere to the Sponsor's brand guidelines and shall not alter or misuse the brand in any form.</p>
+          <div class="sec-head live-edit" contenteditable="true" id="dc-s4head" oninput="scheduleSave()">4. Sponsor Trademarks and Materials</div>
+          <p class="live-edit" contenteditable="true" id="dc-s4body" oninput="scheduleSave()">Subject to this Agreement, the Sponsor grants the Sponsee non-exclusive rights to use Sponsor's name, logos, trademarks, slogans, and relevant content strictly for promotional and marketing purposes of the APEX PITCH &amp; POP 2026. The Sponsee agrees to adhere to the Sponsor's brand guidelines and shall not alter or misuse the brand in any form.</p>
 
-          <div class="sec-head">5. Term and Validity</div>
-          <p>This Agreement shall be valid from the date of signing until the completion of all obligations by both parties and the conclusion of the APEX PITCH &amp; POP 2026.</p>
+          <div class="sec-head live-edit" contenteditable="true" id="dc-s5head" oninput="scheduleSave()">5. Term and Validity</div>
+          <p class="live-edit" contenteditable="true" id="dc-s5body" oninput="scheduleSave()">This Agreement shall be valid from the date of signing until the completion of all obligations by both parties and the conclusion of the APEX PITCH &amp; POP 2026.</p>
 
-          <div class="sec-head">6. General Conditions</div>
-          <ul>
-            <li>This Agreement does not constitute a partnership or joint venture.</li>
-            <li>Any amendments must be made in writing and agreed upon by both parties.</li>
-            <li>In case of event cancellation, both parties shall meet to discuss fair and appropriate next steps or compensation.</li>
-            <li>The Sponsee shall not be held responsible for any unforeseen events (e.g., natural disasters, political unrest) that may affect the event execution.</li>
+          <div class="sec-head live-edit" contenteditable="true" id="dc-s6head" oninput="scheduleSave()">6. General Conditions</div>
+          <ul id="dc-s6list">
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">This Agreement does not constitute a partnership or joint venture.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">Any amendments must be made in writing and agreed upon by both parties.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">In case of event cancellation, both parties shall meet to discuss fair and appropriate next steps or compensation.</li>
+            <li class="live-edit" contenteditable="true" oninput="scheduleSave()">The Sponsee shall not be held responsible for any unforeseen events (e.g., natural disasters, political unrest) that may affect the event execution.</li>
           </ul>
 
           <!-- SIGNATURES -->
           <div class="sig-wrap">
-            <p class="sig-intro">By signing below, both parties confirm that they have read, understood, and agree to the terms and conditions set forth in this Agreement.</p>
+            <p class="sig-intro live-edit" contenteditable="true" id="dc-sig-intro" oninput="scheduleSave()">By signing below, both parties confirm that they have read, understood, and agree to the terms and conditions set forth in this Agreement.</p>
 
             <div class="sig-columns">
-
-              <!-- LEFT: For the SPONSEE (Apex side) -->
               <div class="sig-col">
-                <div class="col-title">For the Sponsee</div>
+                <div class="col-title live-edit" contenteditable="true" oninput="scheduleSave()">For the Sponsee</div>
                 <div class="sig-row">
                   <span class="sig-label">Name:</span>
-                  <span class="sig-value" id="dc-sname">Swadhin Lingden</span>
+                  <span class="sig-value live-edit" contenteditable="true" id="dc-sname" oninput="scheduleSave()">Swadhin Lingden</span>
                 </div>
                 <div class="sig-row">
                   <span class="sig-label">Designation:</span>
-                  <span class="sig-value" id="dc-sdesig">President</span>
+                  <span class="sig-value live-edit" contenteditable="true" id="dc-sdesig" oninput="scheduleSave()">President</span>
                 </div>
                 <div class="sig-row">
                   <span class="sig-label">Organization:</span>
-                  <span class="sig-value" id="dc-sorg">Apex Media and Marketing Club</span>
+                  <span class="sig-value live-edit" contenteditable="true" id="dc-sorg" oninput="scheduleSave()">Apex Media and Marketing Club</span>
                 </div>
                 <div class="sig-row">
                   <span class="sig-label">Date:</span>
-                  <span class="sig-value"></span>
+                  <span class="sig-value live-edit" contenteditable="true" oninput="scheduleSave()"></span>
                 </div>
                 <div class="sig-row sig-row-tall">
                   <span class="sig-label">Signature:</span>
@@ -731,47 +918,63 @@ body {
                 </div>
               </div>
 
-              <!-- RIGHT: For the SPONSOR (Company side) -->
               <div class="sig-col">
-                <div class="col-title">For the Sponsor</div>
+                <div class="col-title live-edit" contenteditable="true" oninput="scheduleSave()">For the Sponsor</div>
                 <div class="sig-row">
                   <span class="sig-label">Name:</span>
-                  <span class="sig-value" contenteditable="true" id="dc-sp2name"></span>
+                  <span class="sig-value live-edit" contenteditable="true" id="dc-sp2name" oninput="scheduleSave()"></span>
                 </div>
                 <div class="sig-row">
                   <span class="sig-label">Designation:</span>
-                  <span class="sig-value" contenteditable="true" id="dc-sp2desig"></span>
+                  <span class="sig-value live-edit" contenteditable="true" id="dc-sp2desig" oninput="scheduleSave()"></span>
                 </div>
                 <div class="sig-row">
                   <span class="sig-label">Company:</span>
-                  <span class="sig-value" contenteditable="true" id="dc-sp2co"></span>
+                  <span class="sig-value live-edit" contenteditable="true" id="dc-sp2co" oninput="scheduleSave()"></span>
                 </div>
                 <div class="sig-row">
                   <span class="sig-label">Date:</span>
-                  <span class="sig-value"></span>
+                  <span class="sig-value live-edit" contenteditable="true" oninput="scheduleSave()"></span>
                 </div>
                 <div class="sig-row sig-row-tall">
                   <span class="sig-label">Signature:</span>
                   <span class="sig-value"></span>
                 </div>
               </div>
+            </div>
+          </div>
 
-            </div><!-- /sig-columns -->
-          </div><!-- /sig-wrap -->
-
-        </div><!-- /doc-text -->
-      </div><!-- /pg-content -->
+        </div>
+      </div>
 
       <div class="pg-footer">
-        <span>Apex College, Mid Baneshwor &nbsp;|&nbsp; Apex Media and Marketing Club &nbsp;|&nbsp; Apex Pitch &amp; Pop 2026</span>
+        <span class="live-edit" contenteditable="true" id="dc-footer2" oninput="scheduleSave()">Apex College, Mid Baneshwor &nbsp;|&nbsp; Apex Media and Marketing Club &nbsp;|&nbsp; Apex Pitch &amp; Pop 2026</span>
       </div>
     </div><!-- /page2 -->
 
   </div><!-- /page-wrap -->
-</div><!-- /main -->
+</div>
 
 <script>
-// ── Sidebar toggle ──
+// ════════════════════════════════════════════
+//  CONSTANTS
+// ════════════════════════════════════════════
+const STORE_KEY  = 'apex_agreement_v5';
+const HIST_KEY   = 'apex_history_v5';
+const MAX_HIST   = 5;
+const A4_PX      = { w: 794, h: 1123 };
+const A4_MM      = [210, 297];
+
+let currentAccentColor = '#7B1C1C';
+let currentZoom = 100;
+let saveTimer = null;
+let wmSrc = null;
+const logos = { L1: null, L2: null, EV: null };
+let editMode = true;
+
+// ════════════════════════════════════════════
+//  SIDEBAR TOGGLE
+// ════════════════════════════════════════════
 let sbOpen = true;
 function toggleSidebar() {
   sbOpen = !sbOpen;
@@ -779,55 +982,285 @@ function toggleSidebar() {
   document.getElementById('sidebar-toggle').textContent = sbOpen ? '✕' : '☰';
 }
 
-// ── Sync sidebar → document (text fields) ──
-function sb2doc(sbId, ...docIds) {
-  const raw = document.getElementById(sbId).value;
-  let val = raw.trim();
+// ════════════════════════════════════════════
+//  ACCORDION
+// ════════════════════════════════════════════
+function toggleAccordion(btn, id) {
+  const acc = document.getElementById(id);
+  const isOpen = !acc.classList.contains('closed');
+  acc.classList.toggle('closed', isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
 
-  if (document.getElementById(sbId).type === 'date' && val) {
+// ════════════════════════════════════════════
+//  EDIT MODE TOGGLE
+// ════════════════════════════════════════════
+function toggleEditMode() {
+  editMode = document.getElementById('toggle-edit').checked;
+  document.body.classList.toggle('locked', !editMode);
+  const badge = document.getElementById('edit-badge-main');
+  const mainBadge = document.getElementById('main-edit-badge');
+  if (editMode) {
+    badge.textContent = 'ON'; badge.className = 'badge badge-on';
+    mainBadge.textContent = 'EDITING: ON'; mainBadge.className = 'edit-badge';
+  } else {
+    badge.textContent = 'OFF'; badge.className = 'badge badge-off';
+    mainBadge.textContent = 'READ ONLY'; mainBadge.className = 'edit-badge off';
+  }
+  scheduleSave();
+}
+
+function toggleHighlight() {
+  document.body.classList.toggle('edit-highlight', document.getElementById('toggle-highlight').checked);
+}
+
+// ════════════════════════════════════════════
+//  AUTOSAVE
+// ════════════════════════════════════════════
+function scheduleSave() {
+  const dot = document.getElementById('save-dot');
+  const status = document.getElementById('save-status');
+  dot.classList.add('saving'); dot.classList.remove('error');
+  status.textContent = 'Saving…';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(doSave, 800);
+}
+
+function doSave() {
+  try {
+    const data = collectAllData();
+    localStorage.setItem(STORE_KEY, JSON.stringify(data));
+    pushHistory(data);
+    const dot = document.getElementById('save-dot');
+    const status = document.getElementById('save-status');
+    dot.classList.remove('saving', 'error');
+    status.textContent = 'Saved ✓';
+    document.getElementById('wc-time').textContent = new Date().toLocaleTimeString();
+  } catch(e) {
+    const dot = document.getElementById('save-dot');
+    dot.classList.remove('saving'); dot.classList.add('error');
+    document.getElementById('save-status').textContent = 'Save failed (storage full?)';
+    console.warn('Save failed:', e);
+  }
+}
+
+function collectAllData() {
+  const fields = [
+    'sb-date','sb-spname','sb-spaddr','sb-evdate','sb-refno','sb-tier','sb-amount',
+    'sb-payment','sb-deadline','sb-sname','sb-sdesig','sb-sorg',
+    'sb-spname2','sb-spdesig','sb-spco',
+    'sb-wmtext','sb-wmopacity','sb-wmrotate','sb-wmsize'
+  ];
+  const sidebar = {};
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sidebar[id] = el.type === 'checkbox' ? el.checked : el.value;
+  });
+  sidebar['wm-pg1'] = document.getElementById('wm-pg1').checked;
+  sidebar['wm-pg2'] = document.getElementById('wm-pg2').checked;
+  sidebar['toggle-edit'] = document.getElementById('toggle-edit').checked;
+
+  const editables = {};
+  document.querySelectorAll('[contenteditable][id]').forEach(el => {
+    editables[el.id] = el.innerHTML;
+  });
+
+  const pill = document.getElementById('dc-tier-pill');
+  return {
+    sidebar, editables,
+    tierPill: { text: pill.textContent, display: pill.style.display, color: pill.style.background },
+    logos: { L1: logos.L1, L2: logos.L2, EV: logos.EV },
+    watermark: wmSrc,
+    accentColor: currentAccentColor,
+    zoom: currentZoom,
+    editMode: editMode,
+    timestamp: Date.now()
+  };
+}
+
+// ════════════════════════════════════════════
+//  VERSION HISTORY
+// ════════════════════════════════════════════
+function pushHistory(data) {
+  try {
+    let hist = JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
+    hist.unshift({ ts: data.timestamp, snapshot: data });
+    hist = hist.slice(0, MAX_HIST);
+    localStorage.setItem(HIST_KEY, JSON.stringify(hist));
+    renderHistory(hist);
+  } catch(e) {}
+}
+
+function renderHistory(hist) {
+  const panel = document.getElementById('history-panel');
+  if (!hist || !hist.length) { panel.innerHTML = '<div style="color:#665050;font-size:10px;">No versions yet.</div>'; return; }
+  panel.innerHTML = hist.map((h, i) => {
+    const d = new Date(h.ts);
+    const label = i === 0 ? 'Current' : `v${hist.length - i}`;
+    return `<div class="history-item">
+      <span>${label} — ${d.toLocaleTimeString()}</span>
+      <span class="history-time">${d.toLocaleDateString()}</span>
+      ${i > 0 ? `<button class="history-restore" onclick="restoreVersion(${i})">↩</button>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function restoreVersion(idx) {
+  if (!confirm('Restore this version? Current changes will be overwritten.')) return;
+  try {
+    const hist = JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
+    if (hist[idx]) {
+      applyData(hist[idx].snapshot);
+      document.getElementById('save-status').textContent = 'Version restored ✓';
+    }
+  } catch(e) { alert('Could not restore version.'); }
+}
+
+// ════════════════════════════════════════════
+//  RESTORE ON LOAD
+// ════════════════════════════════════════════
+function restoreData() {
+  const raw = localStorage.getItem(STORE_KEY);
+  if (!raw) { document.getElementById('save-status').textContent = 'New document'; return; }
+  let data;
+  try { data = JSON.parse(raw); } catch(e) { return; }
+  applyData(data);
+
+  // Load history panel
+  try {
+    const hist = JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
+    renderHistory(hist);
+  } catch(e) {}
+}
+
+function applyData(data) {
+  if (!data) return;
+  if (data.sidebar) {
+    Object.entries(data.sidebar).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.type === 'checkbox') el.checked = val;
+      else el.value = val;
+    });
+  }
+  if (data.editables) {
+    Object.entries(data.editables).forEach(([id, html]) => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = html;
+    });
+  }
+  if (data.tierPill) {
+    const pill = document.getElementById('dc-tier-pill');
+    pill.textContent = data.tierPill.text;
+    pill.style.display = data.tierPill.display;
+    if (data.tierPill.color) pill.style.background = data.tierPill.color;
+  }
+  if (data.logos) {
+    Object.entries(data.logos).forEach(([key, src]) => {
+      if (src) {
+        logos[key] = src;
+        const prev = document.getElementById('prev-' + key);
+        if (prev) { prev.src = src; prev.style.display = 'block'; }
+        const lbl = document.getElementById('lbl-' + key);
+        if (lbl) lbl.textContent = '✓ Logo loaded';
+      }
+    });
+    renderLogos();
+  }
+  if (data.watermark) {
+    wmSrc = data.watermark;
+    const prev = document.getElementById('prev-WM');
+    if (prev) { prev.src = wmSrc; prev.style.display = 'block'; }
+    document.getElementById('wm-up-label').textContent = '✓ Watermark loaded';
+    applyWatermarkImage();
+  }
+  if (data.accentColor) {
+    currentAccentColor = data.accentColor;
+    applyAccentColorDirect(data.accentColor);
+    const dots = document.querySelectorAll('.color-dot');
+    dots.forEach(d => d.classList.toggle('active', d.dataset.color === data.accentColor));
+  }
+  if (data.zoom) {
+    currentZoom = data.zoom;
+    applyZoom();
+  }
+  if (typeof data.editMode !== 'undefined') {
+    editMode = data.editMode;
+    document.getElementById('toggle-edit').checked = editMode;
+    toggleEditMode();
+  }
+  updateWMText(); updateWMOpacity(); updateWMRotate(); updateWMSize(); updateWMVisibility();
+  document.getElementById('save-status').textContent = 'Restored ✓';
+}
+
+function clearSavedData() {
+  if (!confirm('Clear all saved data and reset? This cannot be undone.')) return;
+  localStorage.removeItem(STORE_KEY);
+  localStorage.removeItem(HIST_KEY);
+  location.reload();
+}
+
+// ════════════════════════════════════════════
+//  STATS
+// ════════════════════════════════════════════
+function updateStats() {
+  const text = document.getElementById('page-wrap').innerText || '';
+  const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+  const chars = text.length;
+  document.getElementById('wc-words').textContent = words.toLocaleString();
+  document.getElementById('wc-chars').textContent = chars.toLocaleString();
+}
+
+// ════════════════════════════════════════════
+//  SIDEBAR → DOC SYNC
+// ════════════════════════════════════════════
+function sb2doc(sbId, ...docIds) {
+  const raw = document.getElementById(sbId)?.value || '';
+  let val = raw.trim();
+  if (document.getElementById(sbId)?.type === 'date' && val) {
     const d = new Date(val + 'T00:00:00');
     val = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   }
-
   docIds.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.textContent = val || el.dataset.ph || '';
+    el.textContent = val || '';
   });
-
   if (sbId === 'sb-date') {
     const el2 = document.getElementById('dc-date2');
     if (el2) el2.textContent = val || '[Insert Date]';
   }
 }
 
-// ── Sync sidebar → signature value spans ──
 function syncSigField(sbId, docId) {
-  const val = document.getElementById(sbId).value.trim();
+  const val = document.getElementById(sbId)?.value.trim() || '';
   const el = document.getElementById(docId);
-  if (!el) return;
-  el.textContent = val;
+  if (el) el.textContent = val;
 }
 
-// ── Tier ──
 function applyTier() {
   const raw = document.getElementById('sb-tier').value;
   if (!raw) return;
-  const [tierName, amount] = raw.split('|');
+  const [tierName, amount, color] = raw.split('|');
   document.getElementById('dc-tier-text').textContent = tierName + ' Sponsor';
   const pill = document.getElementById('dc-tier-pill');
   pill.textContent = tierName.toUpperCase();
   pill.style.display = 'inline-block';
-
+  if (color) { pill.style.background = color; }
+  const prev = document.getElementById('tier-preview-badge');
+  prev.textContent = tierName.toUpperCase();
+  prev.style.display = 'block';
+  prev.style.background = color || '#7B1C1C';
+  prev.style.color = '#fff';
   if (amount && amount !== '—') {
     document.getElementById('sb-amount').value = amount;
     sb2doc('sb-amount', 'dc-amount');
   }
 }
 
-// ── Logo upload ──
-const logos = { L1: null, L2: null };
-
+// ════════════════════════════════════════════
+//  LOGOS
+// ════════════════════════════════════════════
 function uploadLogo(evt, key) {
   const file = evt.target.files[0];
   if (!file) return;
@@ -836,116 +1269,56 @@ function uploadLogo(evt, key) {
     logos[key] = e.target.result;
     const prev = document.getElementById('prev-' + key);
     if (prev) { prev.src = logos[key]; prev.style.display = 'block'; }
+    const lbl = document.getElementById('lbl-' + key);
+    if (lbl) lbl.textContent = '✓ ' + file.name;
     renderLogos();
+    scheduleSave();
   };
   reader.readAsDataURL(file);
 }
 
+function clearLogo(key) {
+  logos[key] = null;
+  const prev = document.getElementById('prev-' + key);
+  if (prev) { prev.src = ''; prev.style.display = 'none'; }
+  const lbl = document.getElementById('lbl-' + key);
+  if (lbl) lbl.textContent = 'Click or drop to upload';
+  renderLogos();
+  scheduleSave();
+}
+
 function renderLogos() {
   ['1','2'].forEach(pg => {
-    Object.entries(logos).forEach(([key, src]) => {
-      const slotId = 'slot-' + key + '-' + pg;
-      const slot = document.getElementById(slotId);
+    ['L1','L2'].forEach(key => {
+      const slot = document.getElementById(`slot-${key}-${pg}`);
       if (!slot) return;
-      if (src) {
-        slot.innerHTML = `<img src="${src}" style="max-width:100%;max-height:100%;object-fit:contain;">`;
-        slot.style.border = 'none';
-        slot.style.background = 'transparent';
+      if (logos[key]) {
+        slot.innerHTML = `<img src="${logos[key]}" style="max-width:100%;max-height:100%;object-fit:contain;">`;
+        slot.style.border = 'none'; slot.style.background = 'transparent';
+      } else {
+        const ph = key === 'L1' ? 'Apex M&amp;M<br>Club Logo' : 'Apex College<br>Logo';
+        slot.innerHTML = `<div class="logo-slot-ph">${ph}</div>`;
+        slot.style.border = '1.5px dashed #C0A8A8';
+        slot.style.background = 'var(--bg-warm)';
       }
     });
+    const evSlot = document.getElementById(`slot-EV-${pg}`);
+    if (evSlot) {
+      if (logos.EV) {
+        evSlot.innerHTML = `<img src="${logos.EV}" style="max-width:100%;max-height:100%;object-fit:contain;">`;
+        evSlot.style.border = 'none'; evSlot.style.background = 'transparent';
+      } else {
+        evSlot.innerHTML = `<div class="event-logo-slot-ph">PITCH &amp; POP<br>Event Logo</div>`;
+        evSlot.style.border = '2px dashed #7B1C1C';
+        evSlot.style.background = '#FFF6F0';
+      }
+    }
   });
 }
 
-// ── Page sizes ──
-const sizes = {
-  A4:     { w: 794,  h: 1123, mm: [210, 297] },
-  A3:     { w: 1123, h: 1587, mm: [297, 420] },
-  Letter: { w: 816,  h: 1056, mm: [215.9, 279.4] },
-  Legal:  { w: 816,  h: 1344, mm: [215.9, 355.6] },
-};
-
-function currentSize() {
-  return sizes[document.getElementById('sb-pgsize').value] || sizes.A4;
-}
-
-function setPageSize() {
-  const sel = document.getElementById('sb-pgsize').value;
-  const sz = sizes[sel];
-  document.querySelectorAll('.a4-page').forEach(p => {
-    p.style.width  = sz.w + 'px';
-    p.style.height = sz.h + 'px';
-    p.style.minHeight = 'unset';
-    p.style.overflow = 'hidden';
-  });
-  document.getElementById('pg-info').textContent =
-    `Page size: ${sel}  ·  2 pages  ·  Scroll down to see Page 2`;
-}
-setPageSize();
-
-// ── Capture one page ──
-async function capturePage(id) {
-  const el = document.getElementById(id);
-  const sz = currentSize();
-  return await html2canvas(el, {
-    scale: 3,
-    useCORS: true,
-    allowTaint: true,
-    backgroundColor: '#ffffff',
-    logging: false,
-    width:  sz.w,
-    height: sz.h,
-    windowWidth:  sz.w,
-    windowHeight: sz.h,
-  });
-}
-
-// ── PDF download — true A4 at 300 DPI equivalent ──
-async function downloadPDF() {
-  const { jsPDF } = window.jspdf;
-  const sz = currentSize();
-  const [mmW, mmH] = sz.mm;
-
-  const pdf = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: [mmW, mmH],
-    compress: true,
-  });
-
-  for (let i = 1; i <= 2; i++) {
-    if (i > 1) pdf.addPage([mmW, mmH], 'portrait');
-    const canvas  = await capturePage('page' + i);
-    const imgData = canvas.toDataURL('image/jpeg', 0.97);
-    // Fill the entire page exactly — no margins
-    pdf.addImage(imgData, 'JPEG', 0, 0, mmW, mmH, '', 'FAST');
-  }
-  pdf.save('Apex_Sponsorship_Agreement.pdf');
-}
-
-// ── PNG download ──
-async function downloadImg(pgNum) {
-  const canvas = await capturePage('page' + pgNum);
-  const sz  = currentSize();
-  const out = document.createElement('canvas');
-  out.width  = sz.w * 3;
-  out.height = sz.h * 3;
-  const ctx  = out.getContext('2d');
-  ctx.drawImage(canvas, 0, 0);
-  const link = document.createElement('a');
-  link.download = `Apex_Agreement_Page${pgNum}.png`;
-  link.href = out.toDataURL('image/png');
-  link.click();
-}
-
-async function downloadAllImg() {
-  await downloadImg(1);
-  await new Promise(r => setTimeout(r, 600));
-  await downloadImg(2);
-}
-
-// ── Watermark ──
-let wmSrc = null;
-
+// ════════════════════════════════════════════
+//  WATERMARK
+// ════════════════════════════════════════════
 function uploadWatermark(evt) {
   const file = evt.target.files[0];
   if (!file) return;
@@ -954,9 +1327,8 @@ function uploadWatermark(evt) {
     wmSrc = e.target.result;
     const prev = document.getElementById('prev-WM');
     prev.src = wmSrc; prev.style.display = 'block';
-    document.getElementById('wm-up-label').textContent = file.name;
-    applyWatermarkImage();
-    updateWMSize();
+    document.getElementById('wm-up-label').textContent = '✓ ' + file.name;
+    applyWatermarkImage(); scheduleSave();
   };
   reader.readAsDataURL(file);
 }
@@ -965,26 +1337,22 @@ function applyWatermarkImage() {
   const rotate  = document.getElementById('sb-wmrotate').value;
   const opacity = document.getElementById('sb-wmopacity').value / 100;
   const size    = document.getElementById('sb-wmsize').value;
-
   [1,2].forEach(pg => {
     const textEl = document.getElementById('wm-text-' + pg);
     const imgEl  = document.getElementById('wm-img-' + pg);
-    if (!imgEl) return;
-
     if (wmSrc) {
-      textEl.style.display = 'none';
-      imgEl.src = wmSrc;
-      imgEl.style.display = 'block';
-      imgEl.style.opacity = opacity;
-      imgEl.style.width = size + 'px';
-      imgEl.style.height = 'auto';
-      imgEl.style.transform = `translate(-50%,-50%) rotate(${rotate}deg)`;
+      if (textEl) textEl.style.display = 'none';
+      if (imgEl) {
+        imgEl.src = wmSrc;
+        imgEl.style.display = 'block';
+        imgEl.style.opacity = opacity;
+        imgEl.style.width = size + 'px';
+        imgEl.style.height = 'auto';
+        imgEl.style.transform = `translate(-50%,-50%) rotate(${rotate}deg)`;
+      }
     } else {
-      textEl.style.display = 'block';
-      textEl.style.opacity = opacity * 10;
-      textEl.style.transform = `translate(-50%,-50%) rotate(${rotate}deg)`;
-      textEl.style.fontSize = `${size * 0.21}px`;
-      imgEl.style.display = 'none';
+      if (textEl) { textEl.style.display = 'block'; textEl.style.opacity = opacity * 10; textEl.style.transform = `translate(-50%,-50%) rotate(${rotate}deg)`; }
+      if (imgEl) imgEl.style.display = 'none';
     }
   });
   updateWMVisibility();
@@ -1018,8 +1386,9 @@ function updateWMRotate() {
   [1,2].forEach(pg => {
     const textEl = document.getElementById('wm-text-' + pg);
     const imgEl  = document.getElementById('wm-img-' + pg);
-    if (wmSrc && imgEl) imgEl.style.transform = `translate(-50%,-50%) rotate(${v}deg)`;
-    else if (textEl) textEl.style.transform = `translate(-50%,-50%) rotate(${v}deg)`;
+    const t = `translate(-50%,-50%) rotate(${v}deg)`;
+    if (wmSrc && imgEl) imgEl.style.transform = t;
+    else if (textEl) textEl.style.transform = t;
   });
 }
 
@@ -1029,12 +1398,8 @@ function updateWMSize() {
   [1,2].forEach(pg => {
     const textEl = document.getElementById('wm-text-' + pg);
     const imgEl  = document.getElementById('wm-img-' + pg);
-    if (wmSrc && imgEl) {
-      imgEl.style.width = v + 'px';
-      imgEl.style.height = 'auto';
-    } else if (textEl && !wmSrc) {
-      textEl.style.fontSize = `${v * 0.21}px`;
-    }
+    if (wmSrc && imgEl) { imgEl.style.width = v + 'px'; imgEl.style.height = 'auto'; }
+    else if (textEl && !wmSrc) textEl.style.fontSize = `${v * 0.21}px`;
   });
 }
 
@@ -1065,24 +1430,185 @@ function removeWatermark() {
     const textEl = document.getElementById('wm-text-' + pg);
     const imgEl  = document.getElementById('wm-img-' + pg);
     if (imgEl)  { imgEl.style.display = 'none'; imgEl.src = ''; }
-    if (textEl) { textEl.style.display = 'none'; }
+    if (textEl) textEl.style.display = 'block';
   });
   const prev = document.getElementById('prev-WM');
   prev.style.display = 'none'; prev.src = '';
-  document.getElementById('wm-up-label').textContent = 'Click to upload watermark image';
-  const defaultText = document.getElementById('sb-wmtext').value || 'APEX PITCH & POP';
-  const size = document.getElementById('sb-wmsize').value;
-  [1,2].forEach(pg => {
-    const el = document.getElementById('wm-text-' + pg);
-    if (el) {
-      el.textContent = defaultText;
-      el.style.fontSize = `${size * 0.21}px`;
-      el.style.display = 'block';
+  document.getElementById('wm-up-label').textContent = 'Upload image watermark';
+  updateWMText(); updateWMOpacity(); updateWMRotate();
+  scheduleSave();
+}
+
+// ════════════════════════════════════════════
+//  ACCENT COLOR
+// ════════════════════════════════════════════
+function applyAccentColor(dotEl) {
+  const color = dotEl.dataset.color;
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.toggle('active', d === dotEl));
+  applyAccentColorDirect(color);
+  scheduleSave();
+}
+
+function applyAccentColorDirect(color) {
+  currentAccentColor = color;
+  const root = document.documentElement;
+  root.style.setProperty('--maroon', color);
+  // Derive dark variant
+  root.style.setProperty('--maroon-dark', shadeColor(color, -20));
+  root.style.setProperty('--maroon-mid', shadeColor(color, 10));
+  // Update all inline pg-topbar and footer backgrounds
+  document.querySelectorAll('.pg-topbar,.pg-footer').forEach(el => el.style.background = color);
+  document.querySelectorAll('.doc-title h1,.sec-head,.sig-col .col-title,.sig-label').forEach(el => el.style.color = '#fff' === el.classList.contains('col-title') ? '' : color);
+  document.querySelectorAll('.sig-col .col-title').forEach(el => el.style.background = color);
+  document.querySelectorAll('.tier-pill').forEach(el => el.style.background = color);
+  document.querySelectorAll('.doc-title h1').forEach(el => { el.style.color = color; el.style.borderColor = color; });
+  document.querySelectorAll('.sec-head').forEach(el => el.style.color = color);
+}
+
+function shadeColor(color, percent) {
+  const num = parseInt(color.slice(1), 16);
+  const r = Math.max(0, Math.min(255, (num >> 16) + percent * 2));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + percent));
+  const b = Math.max(0, Math.min(255, (num & 0x0000FF) + percent));
+  return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+// ════════════════════════════════════════════
+//  ZOOM
+// ════════════════════════════════════════════
+function adjustZoom(delta) {
+  if (delta === 0) { currentZoom = 100; }
+  else { currentZoom = Math.max(40, Math.min(150, currentZoom + delta)); }
+  applyZoom();
+  scheduleSave();
+}
+
+function applyZoom() {
+  const scale = currentZoom / 100;
+  document.getElementById('page-wrap').style.transform = `scale(${scale})`;
+  document.getElementById('zoom-val').textContent = currentZoom + '%';
+  document.getElementById('zoom-display').textContent = currentZoom + '%';
+}
+
+// ════════════════════════════════════════════
+//  CORNER & FOOTER HELPERS
+// ════════════════════════════════════════════
+function setCornerOpacity(v) {
+  document.querySelectorAll('.corner').forEach(el => el.style.opacity = v);
+}
+function setFooterVisible(show) {
+  document.querySelectorAll('.pg-footer').forEach(el => el.style.display = show ? '' : 'none');
+}
+
+// ════════════════════════════════════════════
+//  JSON IMPORT / EXPORT
+// ════════════════════════════════════════════
+function exportJSON() {
+  const data = collectAllData();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'apex_agreement_backup.json';
+  a.click();
+}
+
+function importJSON(evt) {
+  const file = evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      applyData(data);
+      doSave();
+      alert('Data imported successfully!');
+    } catch(err) {
+      alert('Invalid JSON file.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ════════════════════════════════════════════
+//  PDF EXPORT — strict A4
+// ════════════════════════════════════════════
+async function capturePage(id) {
+  const el = document.getElementById(id);
+  // Temporarily remove zoom transform for export
+  const wrap = document.getElementById('page-wrap');
+  const origTransform = wrap.style.transform;
+  wrap.style.transform = 'scale(1)';
+  await new Promise(r => setTimeout(r, 60));
+
+  const canvas = await html2canvas(el, {
+    scale: 3,
+    useCORS: true,
+    allowTaint: true,
+    backgroundColor: '#ffffff',
+    logging: false,
+    width: A4_PX.w,
+    height: A4_PX.h,
+    windowWidth: A4_PX.w,
+    windowHeight: A4_PX.h,
+    x: 0, y: 0,
+    scrollX: 0, scrollY: 0,
+  });
+
+  wrap.style.transform = origTransform;
+  return canvas;
+}
+
+async function downloadPDF() {
+  const btn = event?.target;
+  if (btn) { btn.textContent = '⏳ Generating…'; btn.disabled = true; }
+  try {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: A4_MM, compress: true });
+    for (let i = 1; i <= 2; i++) {
+      if (i > 1) pdf.addPage(A4_MM, 'portrait');
+      const canvas = await capturePage('page' + i);
+      const imgData = canvas.toDataURL('image/jpeg', 0.97);
+      pdf.addImage(imgData, 'JPEG', 0, 0, A4_MM[0], A4_MM[1], '', 'FAST');
+    }
+    pdf.save('Apex_Sponsorship_Agreement.pdf');
+  } finally {
+    if (btn) { btn.textContent = '⬇ PDF (A4)'; btn.disabled = false; }
+  }
+}
+
+async function downloadImg(pgNum) {
+  const canvas = await capturePage('page' + pgNum);
+  const link = document.createElement('a');
+  link.download = `Apex_Agreement_Page${pgNum}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+async function downloadAllImg() {
+  await downloadImg(1);
+  await new Promise(r => setTimeout(r, 800));
+  await downloadImg(2);
+}
+
+// ════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  restoreData();
+
+  // Attach save to all contenteditable without explicit oninput
+  document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+    if (!el.getAttribute('oninput')) {
+      el.addEventListener('input', scheduleSave);
     }
   });
-  updateWMOpacity();
-  updateWMRotate();
-}
+
+  // Update stats periodically
+  setInterval(updateStats, 5000);
+  updateStats();
+
+  document.getElementById('save-status').textContent = 'Ready';
+});
 </script>
 </body>
 </html>
