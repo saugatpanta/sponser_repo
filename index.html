@@ -172,7 +172,6 @@ body {
   position: relative;
   overflow: hidden;
   box-shadow: 0 6px 28px rgba(0,0,0,.22);
-  /* A4 default: 794×1123px */
   width: 794px;
   min-height: 1123px;
   display: flex;
@@ -303,17 +302,18 @@ body {
 .doc-text ul li { margin-bottom: 4px; text-align: justify; font-size: 13.5px; }
 .doc-text .note-italic { font-style: italic; color: var(--grey-light); font-size: 12.5px; margin-top: 3px; }
 
-/* inline editable */
+/* inline editable — NO underline */
 .editable {
   display: inline;
   background: rgba(123,28,28,.07);
-  border-bottom: 1px dashed var(--maroon);
+  /* border-bottom removed */
   padding: 0 3px;
   outline: none;
   font-size: 13.5px;
   font-family: 'Source Sans 3', sans-serif;
   color: var(--grey);
   min-width: 80px;
+  text-decoration: none;
 }
 .editable:focus { background: rgba(123,28,28,.13); }
 
@@ -334,61 +334,75 @@ body {
   margin-left: 4px;
 }
 
-/* signature section */
+/* ── SIGNATURE SECTION ── */
 .sig-wrap {
-  margin-top: 18px;
-  padding-top: 12px;
-  border-top: 1.5px solid var(--border);
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 2px solid var(--maroon);
 }
 .sig-intro {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--grey-mid);
-  margin-bottom: 14px;
+  margin-bottom: 18px;
   font-style: italic;
   text-align: center;
+  line-height: 1.6;
 }
 .sig-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  gap: 36px;
 }
-.sig-col .col-title {
-  font-family: 'EB Garamond', serif;
-  font-size: 15.5px;
-  font-weight: 700;
-  color: var(--maroon);
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: .6px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 4px;
-}
-.sig-row {
-  font-size: 13px;
-  color: var(--grey);
-  margin-bottom: 11px;
+.sig-col {
   display: flex;
   flex-direction: column;
 }
-.sig-row .sig-label { font-weight: 700; color: #1C0A0A; font-size: 12.5px; margin-bottom: 2px; }
-.sig-row .sig-val {
-  border-bottom: 1px solid var(--grey-light);
-  padding-bottom: 16px;
+.sig-col .col-title {
+  font-family: 'EB Garamond', serif;
   font-size: 13px;
-  color: var(--grey-mid);
-  min-height: 32px;
-}
-.sig-row .sig-val.has-content { padding-bottom: 3px; font-weight: 600; color: #1C0A0A; }
-
-/* page label */
-.pg-label {
-  position: absolute;
-  top: 18px; right: 16px;
-  font-size: 11px;
-  color: rgba(123,28,28,.35);
   font-weight: 700;
-  letter-spacing: 1px;
-  z-index: 2;
+  color: #fff;
+  background: var(--maroon);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 5px 10px;
+  margin-bottom: 0;
+}
+.sig-row {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  background: #FAF6F4;
+  border-bottom: 1px solid #E8DCDC;
+}
+.sig-row.sig-row-tall {
+  height: 52px;
+  align-items: flex-start;
+  padding-top: 6px;
+}
+.sig-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #5A1010;
+  white-space: nowrap;
+  margin-right: 8px;
+  flex-shrink: 0;
+  font-family: 'Source Sans 3', sans-serif;
+  min-width: 78px;
+}
+.sig-value {
+  flex: 1;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1C0A0A;
+  font-family: 'Source Sans 3', sans-serif;
+  outline: none;
+  background: transparent;
+  min-width: 0;
+}
+.sig-value[contenteditable]:focus {
+  background: rgba(123,28,28,.06);
 }
 </style>
 </head>
@@ -417,8 +431,6 @@ body {
         <div class="up-label">Click to upload logo</div>
         <img id="prev-L2">
       </div>
-    </div>
-    <div class="field">
     </div>
 
     <!-- WATERMARK -->
@@ -511,19 +523,34 @@ body {
       <input type="date" id="sb-deadline" oninput="sb2doc('sb-deadline','dc-deadline')">
     </div>
 
-    <!-- SPONSEE SIGNATORY -->
-    <div class="sb-section">Sponsee Signatory</div>
+    <!-- APEX (SPONSEE) SIGNATORY -->
+    <div class="sb-section">Apex Signatory (Sponsee)</div>
     <div class="field">
       <label>Name</label>
-      <input type="text" id="sb-sname" value="Swadhin Lingden" oninput="sb2doc('sb-sname','dc-sname')">
+      <input type="text" id="sb-sname" value="Swadhin Lingden" oninput="syncSigField('sb-sname','dc-sname')">
     </div>
     <div class="field">
       <label>Designation</label>
-      <input type="text" id="sb-sdesig" value="President" oninput="sb2doc('sb-sdesig','dc-sdesig')">
+      <input type="text" id="sb-sdesig" value="President" oninput="syncSigField('sb-sdesig','dc-sdesig')">
     </div>
     <div class="field">
       <label>Organization</label>
-      <input type="text" id="sb-sorg" value="Apex Media and Marketing Club" oninput="sb2doc('sb-sorg','dc-sorg')">
+      <input type="text" id="sb-sorg" value="Apex Media and Marketing Club" oninput="syncSigField('sb-sorg','dc-sorg')">
+    </div>
+
+    <!-- SPONSOR SIGNATORY -->
+    <div class="sb-section">Sponsor Signatory</div>
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="sb-spname2" placeholder="[Name]" oninput="syncSigField('sb-spname2','dc-sp2name')">
+    </div>
+    <div class="field">
+      <label>Designation</label>
+      <input type="text" id="sb-spdesig" placeholder="[Designation]" oninput="syncSigField('sb-spdesig','dc-sp2desig')">
+    </div>
+    <div class="field">
+      <label>Company</label>
+      <input type="text" id="sb-spco" placeholder="[Company Name]" oninput="syncSigField('sb-spco','dc-sp2co')">
     </div>
 
     <!-- PAGE SIZE -->
@@ -552,7 +579,7 @@ body {
 
 <!-- MAIN -->
 <div id="main">
-  <div class="edit-tip">✏️ Use the left panel to fill in all fields. You can also click any <span style="background:rgba(123,28,28,.08);border-bottom:1px dashed #7B1C1C;padding:0 3px">highlighted text</span> in the document to edit it directly.</div>
+  <div class="edit-tip">✏️ Use the left panel to fill in all fields. You can also click any <span style="background:rgba(123,28,28,.08);padding:0 3px">highlighted text</span> in the document to edit it directly.</div>
   <div class="page-info" id="pg-info">Page size: A4 &nbsp;·&nbsp; 2 pages &nbsp;·&nbsp; Scroll down to see Page 2</div>
 
   <div class="page-wrap" id="page-wrap">
@@ -679,24 +706,54 @@ body {
 
             <div class="sig-columns">
 
-              <!-- LEFT: For the SPONSOR (Apex side) -->
-              <div class="sig-col">
-                <div class="col-title">For the Sponsor</div>
-                <div class="sig-line"><span class="sig-label">Name:</span><span class="sig-val has-content" id="dc-sname">Swadhin Lingden</span></div>
-                <div class="sig-line"><span class="sig-label">Designation:</span><span class="sig-val has-content" id="dc-sdesig">President</span></div>
-                <div class="sig-line"><span class="sig-label">Organization:</span><span class="sig-val has-content" id="dc-sorg">Apex Media and Marketing Club</span></div>
-                <div class="sig-line"><span class="sig-label">Signature:</span><span class="sig-val"></span></div>
-                <div class="sig-line"><span class="sig-label">Date:</span><span class="sig-val"></span></div>
-              </div>
-
-              <!-- RIGHT: For the SPONSEE (Company side) -->
+              <!-- LEFT: For the SPONSEE (Apex side) -->
               <div class="sig-col">
                 <div class="col-title">For the Sponsee</div>
-                <div class="sig-line"><span class="sig-label">Name:</span><span class="sig-val editable" contenteditable="true">[Name]</span></div>
-                <div class="sig-line"><span class="sig-label">Designation:</span><span class="sig-val editable" contenteditable="true">[Designation]</span></div>
-                <div class="sig-line"><span class="sig-label">Company:</span><span class="sig-val editable" contenteditable="true">[Company Name]</span></div>
-                <div class="sig-line"><span class="sig-label">Signature:</span><span class="sig-val"></span></div>
-                <div class="sig-line"><span class="sig-label">Date:</span><span class="sig-val"></span></div>
+                <div class="sig-row">
+                  <span class="sig-label">Name:</span>
+                  <span class="sig-value" id="dc-sname">Swadhin Lingden</span>
+                </div>
+                <div class="sig-row">
+                  <span class="sig-label">Designation:</span>
+                  <span class="sig-value" id="dc-sdesig">President</span>
+                </div>
+                <div class="sig-row">
+                  <span class="sig-label">Organization:</span>
+                  <span class="sig-value" id="dc-sorg">Apex Media and Marketing Club</span>
+                </div>
+                <div class="sig-row">
+                  <span class="sig-label">Date:</span>
+                  <span class="sig-value"></span>
+                </div>
+                <div class="sig-row sig-row-tall">
+                  <span class="sig-label">Signature:</span>
+                  <span class="sig-value"></span>
+                </div>
+              </div>
+
+              <!-- RIGHT: For the SPONSOR (Company side) -->
+              <div class="sig-col">
+                <div class="col-title">For the Sponsor</div>
+                <div class="sig-row">
+                  <span class="sig-label">Name:</span>
+                  <span class="sig-value" contenteditable="true" id="dc-sp2name"></span>
+                </div>
+                <div class="sig-row">
+                  <span class="sig-label">Designation:</span>
+                  <span class="sig-value" contenteditable="true" id="dc-sp2desig"></span>
+                </div>
+                <div class="sig-row">
+                  <span class="sig-label">Company:</span>
+                  <span class="sig-value" contenteditable="true" id="dc-sp2co"></span>
+                </div>
+                <div class="sig-row">
+                  <span class="sig-label">Date:</span>
+                  <span class="sig-value"></span>
+                </div>
+                <div class="sig-row sig-row-tall">
+                  <span class="sig-label">Signature:</span>
+                  <span class="sig-value"></span>
+                </div>
               </div>
 
             </div><!-- /sig-columns -->
@@ -722,12 +779,11 @@ function toggleSidebar() {
   document.getElementById('sidebar-toggle').textContent = sbOpen ? '✕' : '☰';
 }
 
-// ── Sync sidebar → document ──
+// ── Sync sidebar → document (text fields) ──
 function sb2doc(sbId, ...docIds) {
   const raw = document.getElementById(sbId).value;
   let val = raw.trim();
 
-  // Format date inputs nicely
   if (document.getElementById(sbId).type === 'date' && val) {
     const d = new Date(val + 'T00:00:00');
     val = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -739,11 +795,18 @@ function sb2doc(sbId, ...docIds) {
     el.textContent = val || el.dataset.ph || '';
   });
 
-  // Special case: date syncs to both dc-date and dc-date2
   if (sbId === 'sb-date') {
     const el2 = document.getElementById('dc-date2');
     if (el2) el2.textContent = val || '[Insert Date]';
   }
+}
+
+// ── Sync sidebar → signature value spans ──
+function syncSigField(sbId, docId) {
+  const val = document.getElementById(sbId).value.trim();
+  const el = document.getElementById(docId);
+  if (!el) return;
+  el.textContent = val;
 }
 
 // ── Tier ──
@@ -763,7 +826,7 @@ function applyTier() {
 }
 
 // ── Logo upload ──
-const logos = { L1: null, L2: null, L3: null };
+const logos = { L1: null, L2: null };
 
 function uploadLogo(evt, key) {
   const file = evt.target.files[0];
@@ -793,7 +856,7 @@ function renderLogos() {
   });
 }
 
-// ── Page sizes: px dimensions (96 dpi) and exact mm for PDF ──
+// ── Page sizes ──
 const sizes = {
   A4:     { w: 794,  h: 1123, mm: [210, 297] },
   A3:     { w: 1123, h: 1587, mm: [297, 420] },
@@ -819,7 +882,7 @@ function setPageSize() {
 }
 setPageSize();
 
-// ── Capture one page at exact pixel dimensions ──
+// ── Capture one page ──
 async function capturePage(id) {
   const el = document.getElementById(id);
   const sz = currentSize();
@@ -836,10 +899,10 @@ async function capturePage(id) {
   });
 }
 
-// ── PDF download ──
+// ── PDF download — true A4 at 300 DPI equivalent ──
 async function downloadPDF() {
   const { jsPDF } = window.jspdf;
-  const sz  = currentSize();
+  const sz = currentSize();
   const [mmW, mmH] = sz.mm;
 
   const pdf = new jsPDF({
@@ -851,8 +914,9 @@ async function downloadPDF() {
 
   for (let i = 1; i <= 2; i++) {
     if (i > 1) pdf.addPage([mmW, mmH], 'portrait');
-    const canvas   = await capturePage('page' + i);
-    const imgData  = canvas.toDataURL('image/jpeg', 0.97);
+    const canvas  = await capturePage('page' + i);
+    const imgData = canvas.toDataURL('image/jpeg', 0.97);
+    // Fill the entire page exactly — no margins
     pdf.addImage(imgData, 'JPEG', 0, 0, mmW, mmH, '', 'FAST');
   }
   pdf.save('Apex_Sponsorship_Agreement.pdf');
@@ -867,7 +931,6 @@ async function downloadImg(pgNum) {
   out.height = sz.h * 3;
   const ctx  = out.getContext('2d');
   ctx.drawImage(canvas, 0, 0);
-
   const link = document.createElement('a');
   link.download = `Apex_Agreement_Page${pgNum}.png`;
   link.href = out.toDataURL('image/png');
@@ -880,7 +943,7 @@ async function downloadAllImg() {
   await downloadImg(2);
 }
 
-// ── Watermark with fixed size adjustment (image & text) ──
+// ── Watermark ──
 let wmSrc = null;
 
 function uploadWatermark(evt) {
@@ -893,15 +956,15 @@ function uploadWatermark(evt) {
     prev.src = wmSrc; prev.style.display = 'block';
     document.getElementById('wm-up-label').textContent = file.name;
     applyWatermarkImage();
-    updateWMSize(); // ensure size applied immediately
+    updateWMSize();
   };
   reader.readAsDataURL(file);
 }
 
 function applyWatermarkImage() {
-  const rotate = document.getElementById('sb-wmrotate').value;
+  const rotate  = document.getElementById('sb-wmrotate').value;
   const opacity = document.getElementById('sb-wmopacity').value / 100;
-  const size = document.getElementById('sb-wmsize').value;
+  const size    = document.getElementById('sb-wmsize').value;
 
   [1,2].forEach(pg => {
     const textEl = document.getElementById('wm-text-' + pg);
@@ -920,7 +983,7 @@ function applyWatermarkImage() {
       textEl.style.display = 'block';
       textEl.style.opacity = opacity * 10;
       textEl.style.transform = `translate(-50%,-50%) rotate(${rotate}deg)`;
-      textEl.style.fontSize = `${size * 0.21}px`; // scale text size relative (420px image ~ 88px text)
+      textEl.style.fontSize = `${size * 0.21}px`;
       imgEl.style.display = 'none';
     }
   });
@@ -929,14 +992,11 @@ function applyWatermarkImage() {
 
 function updateWMText() {
   if (wmSrc) return;
-  const val = document.getElementById('sb-wmtext').value || 'APEX PITCH & POP';
+  const val  = document.getElementById('sb-wmtext').value || 'APEX PITCH & POP';
   const size = document.getElementById('sb-wmsize').value;
   [1,2].forEach(pg => {
     const el = document.getElementById('wm-text-' + pg);
-    if (el) {
-      el.textContent = val;
-      el.style.fontSize = `${size * 0.21}px`;
-    }
+    if (el) { el.textContent = val; el.style.fontSize = `${size * 0.21}px`; }
   });
 }
 
@@ -981,8 +1041,7 @@ function updateWMSize() {
 function updateWMVisibility() {
   const pg1 = document.getElementById('wm-pg1').checked;
   const pg2 = document.getElementById('wm-pg2').checked;
-  const pages = [{ pg: 1, show: pg1 }, { pg: 2, show: pg2 }];
-  pages.forEach(({ pg, show }) => {
+  [{pg:1,show:pg1},{pg:2,show:pg2}].forEach(({pg,show}) => {
     const textEl = document.getElementById('wm-text-' + pg);
     const imgEl  = document.getElementById('wm-img-' + pg);
     if (!show) {
@@ -1011,7 +1070,6 @@ function removeWatermark() {
   const prev = document.getElementById('prev-WM');
   prev.style.display = 'none'; prev.src = '';
   document.getElementById('wm-up-label').textContent = 'Click to upload watermark image';
-  // reset to default text watermark
   const defaultText = document.getElementById('sb-wmtext').value || 'APEX PITCH & POP';
   const size = document.getElementById('sb-wmsize').value;
   [1,2].forEach(pg => {
