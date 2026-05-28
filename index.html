@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Apex Pitch & Pop — Sponsorship Agreement Builder</title>
     <link
       href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
@@ -53,6 +53,12 @@
       ::-webkit-scrollbar-thumb {
         background: #4a1a1a;
         border-radius: 2px;
+      }
+      *:focus {
+        outline: none !important;
+      }
+      [contenteditable]:focus {
+        outline: none !important;
       }
 
       /* ══ SIDEBAR ══ */
@@ -154,7 +160,7 @@
       }
       .sf label {
         display: block;
-        font-size: 10px;
+        font-size: 11px;
         font-weight: 600;
         color: var(--sbm);
         margin-bottom: 2px;
@@ -168,9 +174,9 @@
         background: var(--sbf);
         border: 1px solid var(--sbb);
         color: var(--sbt);
-        font-size: 11px;
+        font-size: 12px;
         font-family: "DM Sans", sans-serif;
-        padding: 5px 8px;
+        padding: 6px 9px;
         border-radius: 4px;
         outline: none;
         transition:
@@ -731,6 +737,8 @@
         background: var(--sba);
         transform: scale(1.05);
       }
+
+      /* ══ MAIN ══ */
       #main {
         margin-left: var(--sw);
         padding: 20px 20px 60px;
@@ -795,6 +803,8 @@
         gap: 24px;
         transform-origin: top center;
       }
+
+      /* ══ A4 FIXED — NO SCROLL, EXACT FIT ══ */
       .a4 {
         width: 794px !important;
         min-width: 794px !important;
@@ -804,7 +814,8 @@
         max-height: 1123px !important;
         background: #fff;
         position: relative;
-        overflow: hidden;
+        /* CRITICAL: NO overflow scroll — content must fit */
+        overflow: hidden !important;
         flex-shrink: 0;
         box-shadow:
           0 8px 52px rgba(0, 0, 0, 0.6),
@@ -814,7 +825,7 @@
       }
       .pg-top {
         background: var(--m);
-        height: 8px;
+        height: 6px;
         flex-shrink: 0;
       }
       .wm-t,
@@ -829,7 +840,7 @@
       }
       .wm-t {
         font-family: "EB Garamond", serif;
-        font-size: 86px;
+        font-size: 72px;
         font-weight: 700;
         color: rgba(123, 28, 28, 0.055);
         white-space: nowrap;
@@ -843,8 +854,8 @@
       }
       .corner {
         position: absolute;
-        width: 38px;
-        height: 38px;
+        width: 34px;
+        height: 34px;
         opacity: 0.22;
       }
       .c-tl {
@@ -860,13 +871,13 @@
         border-right: 2px solid var(--m);
       }
       .c-bl {
-        bottom: 46px;
+        bottom: 40px;
         left: 14px;
         border-bottom: 2px solid var(--m);
         border-left: 2px solid var(--m);
       }
       .c-br {
-        bottom: 46px;
+        bottom: 40px;
         right: 14px;
         border-bottom: 2px solid var(--m);
         border-right: 2px solid var(--m);
@@ -876,39 +887,47 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 36px;
+        height: 32px;
         background: var(--m);
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 5;
       }
       .pg-foot span {
         color: #fff;
         font-size: 10px;
         font-weight: 600;
-        letter-spacing: 0.9px;
+        letter-spacing: 0.7px;
         text-transform: uppercase;
       }
+
+      /* pg-body: fills A4 between top bar and footer — NO scroll ever */
       .pg-body {
-        padding: 10px 42px 48px;
+        padding: 10px 42px 38px;
         position: relative;
         z-index: 1;
         flex: 1;
-        overflow-y: auto;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
       }
+
+      /* ══ LOGOS ROW ══ */
       .logos-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 12px;
-        padding-bottom: 9px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
         border-bottom: 2.5px solid var(--m);
+        flex-shrink: 0;
       }
       .logo-slot {
-        width: 80px;
-        height: 44px;
+        width: 100px;
+        height: 58px;
         border: 1.5px dashed #c0a8a8;
-        border-radius: 3px;
+        border-radius: 5px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -928,10 +947,10 @@
         line-height: 1.3;
       }
       .event-logo-slot {
-        width: 126px;
-        height: 60px;
+        width: 150px;
+        height: 72px;
         border: 2px dashed #7b1c1c;
-        border-radius: 4px;
+        border-radius: 5px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -944,91 +963,109 @@
         object-fit: contain;
       }
       .event-logo-slot-ph {
-        font-size: 9px;
+        font-size: 10px;
         color: #9b5c5c;
         text-align: center;
         padding: 3px;
         line-height: 1.4;
         font-weight: 700;
       }
+
+      /* ══ DOCUMENT CONTENT — fills remaining space ══ */
+      .doc-content {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
       .doc-title {
         text-align: center;
-        margin-bottom: 11px;
+        margin-bottom: 10px;
+        flex-shrink: 0;
       }
       .doc-title-ed {
         display: inline;
         outline: none;
         font-family: "EB Garamond", serif;
-        font-size: 28px;
+        font-size: 26px;
         font-weight: 700;
         color: var(--m);
-        letter-spacing: 3.5px;
+        letter-spacing: 3px;
         border-bottom: 2px solid var(--m);
         padding-bottom: 4px;
         cursor: text;
       }
-      .doc-title-ed:focus {
-        background: rgba(123, 28, 28, 0.06);
-      }
+
+      /* Body text — proper readable document size */
       .doc-text {
-        font-size: 14px;
-        line-height: 1.65;
+        font-size: 13px;
+        line-height: 1.62;
         color: var(--g);
+        flex: 1;
       }
       .doc-text p {
-        margin-bottom: 8px;
+        margin-bottom: 5px;
         text-align: justify;
       }
       .doc-text strong {
         color: #1c0a0a;
       }
+
       .sec-head {
         font-family: "EB Garamond", serif;
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 700;
         color: var(--m);
-        margin: 12px 0 6px;
+        margin: 9px 0 4px;
         letter-spacing: 0.3px;
         display: flex;
         align-items: baseline;
-        gap: 6px;
+        gap: 4px;
       }
       .sec-head-num {
         flex-shrink: 0;
         color: var(--m);
         opacity: 0.6;
-        font-size: 16px;
+        font-size: 13px;
       }
       .sec-head-text {
         outline: none;
         min-width: 40px;
         font-family: "EB Garamond", serif;
         cursor: text;
-        font-size: 18px;
-        font-weight: 700;
       }
       .sec-head-text:focus {
         background: rgba(123, 28, 28, 0.07);
       }
+
       .doc-text ul {
-        margin-left: 20px;
-        margin-bottom: 8px;
+        margin-left: 18px;
+        margin-bottom: 5px;
+        list-style-type: disc;
       }
       .doc-text ul li {
-        margin-bottom: 4px;
+        margin-bottom: 3px;
         text-align: justify;
-        font-size: 14px;
+        font-size: 12.5px;
+        cursor: text;
+        line-height: 1.52;
       }
+      .doc-text ul li:focus {
+        background: rgba(123, 28, 28, 0.05);
+        outline: none;
+      }
+
       .note-italic {
         font-style: italic;
         color: var(--gl);
-        font-size: 13px;
-        margin-top: 4px;
+        font-size: 12px;
+        margin-top: 3px;
       }
       .date-line {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 700;
-        margin-bottom: 10px;
+        margin-bottom: 6px;
       }
       .tier-pill {
         display: inline-block;
@@ -1037,89 +1074,56 @@
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 1px;
-        padding: 2px 8px;
+        padding: 2px 7px;
         border-radius: 3px;
         vertical-align: middle;
-        margin-left: 5px;
+        margin-left: 4px;
       }
-      .ed,
-      .li-ed,
-      .sec-head-text,
-      .sig-val,
-      .col-hd-ed,
-      .sig-lbl-ed,
-      .footer-ed,
-      .doc-title-ed {
-        background: rgba(123, 28, 28, 0.04);
-        border-radius: 3px;
-        transition: background 0.15s;
+
+      /* ══ EDITABLES — visible highlight in edit mode ══ */
+      [contenteditable] {
+        outline: none !important;
+      }
+
+      /* Edit mode: show subtle background on all editable elements */
+      body.edit-on [contenteditable="true"] {
+        background: rgba(123, 28, 28, 0.06) !important;
+        border-radius: 2px;
         cursor: text;
       }
-      .ed:focus,
-      .li-ed:focus,
-      .sec-head-text:focus,
-      .sig-val:focus,
-      .col-hd-ed:focus,
-      .sig-lbl-ed:focus,
-      .footer-ed:focus,
-      .doc-title-ed:focus {
-        background: rgba(123, 28, 28, 0.12);
-        outline: none;
+      body.edit-on [contenteditable="true"]:focus {
+        background: rgba(123, 28, 28, 0.12) !important;
+        outline: none !important;
       }
-      .ed:empty:before,
-      .li-ed:empty:before,
-      .sig-val:empty:before,
-      .sec-head-text:empty:before,
-      .col-hd-ed:empty:before,
-      .sig-lbl-ed:empty:before {
+
+      /* Placeholder support */
+      [contenteditable][data-ph]:empty:before {
         content: attr(data-ph);
         color: #c0a0a0;
         font-style: italic;
       }
-      body.no-edit .ed,
-      body.no-edit .li-ed,
-      body.no-edit .sec-head-text,
-      body.no-edit .sig-val,
-      body.no-edit .doc-title-ed,
-      body.no-edit .footer-ed,
-      body.no-edit .col-hd-ed,
-      body.no-edit .sig-lbl-ed {
+
+      /* Edit mode OFF — clean for print */
+      body.no-edit [contenteditable] {
         background: transparent !important;
         pointer-events: none;
         cursor: default;
       }
-      body.lock-headers .sec-head-text {
-        background: transparent !important;
-        pointer-events: none;
+      body.no-edit [contenteditable]:empty:before {
+        content: none;
       }
-      body.lock-paragraphs .ed {
-        background: transparent !important;
-        pointer-events: none;
-      }
-      body.lock-lists .li-ed {
-        background: transparent !important;
-        pointer-events: none;
-      }
-      body.lock-sigs .sig-val {
-        background: transparent !important;
-        pointer-events: none;
-      }
-      body.lock-title .doc-title-ed {
-        background: transparent !important;
-        pointer-events: none;
-      }
-      body.lock-footer .footer-ed {
-        pointer-events: none;
-      }
+
+      /* ══ SIGNATURES ══ */
       .sig-wrap {
-        margin-top: 20px;
-        padding-top: 14px;
+        margin-top: 12px;
+        padding-top: 12px;
         border-top: 2px solid var(--m);
+        flex-shrink: 0;
       }
       .sig-intro {
-        font-size: 13px;
+        font-size: 12px;
         color: var(--gm);
-        margin-bottom: 15px;
+        margin-bottom: 12px;
         font-style: italic;
         text-align: center;
         line-height: 1.5;
@@ -1127,7 +1131,7 @@
       .sig-cols {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 28px;
+        gap: 24px;
       }
       .sig-col {
         display: flex;
@@ -1135,49 +1139,39 @@
       }
       .col-hd {
         font-family: "EB Garamond", serif;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 700;
         color: #fff;
         background: var(--m);
         text-transform: uppercase;
-        letter-spacing: 1.5px;
+        letter-spacing: 1.2px;
         padding: 6px 12px;
-      }
-      .col-hd-ed {
-        display: inline;
-        outline: none;
-        cursor: text;
       }
       .sig-row {
         display: flex;
         align-items: center;
-        min-height: 28px;
-        padding: 4px 10px;
+        min-height: 26px;
+        padding: 0 10px;
         background: #faf6f4;
         border-bottom: 1px solid #e8dcdc;
       }
       .sig-row-tall {
-        min-height: 50px;
+        min-height: 48px;
         align-items: flex-start;
-        padding-top: 8px;
+        padding-top: 6px;
       }
       .sig-lbl {
         font-size: 12px;
         font-weight: 700;
         color: #5a1010;
         white-space: nowrap;
-        margin-right: 10px;
+        margin-right: 8px;
         flex-shrink: 0;
-        min-width: 85px;
-      }
-      .sig-lbl-ed {
-        display: inline;
-        outline: none;
-        cursor: text;
+        min-width: 82px;
       }
       .sig-val {
         flex: 1;
-        font-size: 12px;
+        font-size: 12.5px;
         font-weight: 600;
         color: #1c0a0a;
         outline: none;
@@ -1185,6 +1179,30 @@
         min-width: 0;
         cursor: text;
       }
+      .sig-val:empty:before {
+        content: attr(data-ph);
+        color: #c0a0a0;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 11.5px;
+      }
+
+      /* Footer editable */
+      .footer-ed {
+        display: inline;
+        outline: none;
+        cursor: text;
+      }
+      .footer-ed:focus {
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 2px;
+      }
+      body.no-edit .footer-ed {
+        pointer-events: none;
+        cursor: default;
+      }
+
+      /* ══ TOAST ══ */
       #toast {
         position: fixed;
         bottom: 22px;
@@ -1201,11 +1219,14 @@
         transform: translateY(8px);
         transition: all 0.3s;
         pointer-events: none;
+        box-shadow: 0 4px 22px rgba(0, 0, 0, 0.5);
       }
       #toast.show {
         opacity: 1;
         transform: translateY(0);
       }
+
+      /* ══ CONTEXT MENU ══ */
       #ctx-menu {
         position: fixed;
         background: #1a0808;
@@ -1241,10 +1262,12 @@
       }
     </style>
   </head>
-  <body>
+  <body class="edit-on">
     <div id="toast"></div>
     <div id="ctx-menu"></div>
     <button id="sb-fab" onclick="toggleSb()" title="Toggle Panel">☰</button>
+
+    <!-- ═══ SIDEBAR ═══ -->
     <div id="sb">
       <div class="sbh">
         <span class="sbh-icon">⚜</span>
@@ -1265,6 +1288,7 @@
         </button>
       </div>
       <div class="sb-body">
+        <!-- INFO TAB -->
         <div class="tab-pane active" id="t-info">
           <div class="autosave-row">
             <div class="save-dot" id="save-dot"></div>
@@ -1278,18 +1302,6 @@
               id="sb-date"
               oninput="
                 syncDate();
-                scheduleSave();
-              "
-            />
-          </div>
-          <div class="sf">
-            <label>Agreement Reference #</label
-            ><input
-              type="text"
-              id="sb-refno"
-              placeholder="e.g. APEX-PP-2026-001"
-              oninput="
-                sb2id('sb-refno', 'dc-refno');
                 scheduleSave();
               "
             />
@@ -1319,11 +1331,11 @@
             />
           </div>
           <div class="sf">
-            <label>Footer Text (both pages)</label
+            <label>Footer Text</label
             ><input
               type="text"
               id="sb-footer"
-              value="Apex College, Mid Baneshwor | Apex Media and Marketing Club | Apex Pitch & Pop 2026"
+              value="Apex College, Mid Baneshwor | Apex Media and Marketing Club | Apex Pitch &amp; Pop 2026"
               oninput="
                 syncFooter();
                 scheduleSave();
@@ -1356,6 +1368,44 @@
             />
           </div>
           <div class="sbs">💰 Sponsorship</div>
+          <div class="sf">
+            <label>Sponsorship Tier</label
+            ><select
+              id="sb-tier"
+              onchange="
+                applyTier();
+                scheduleSave();
+              "
+            >
+              <option value="">— Select Tier —</option>
+              <option value="Platinum|3,50,000|#4A3A6A">
+                Platinum — Rs. 3,50,000
+              </option>
+              <option value="Gold|3,00,000|#7A6010">Gold — Rs. 3,00,000</option>
+              <option value="Silver|2,50,000|#5A5A6A">
+                Silver — Rs. 2,50,000
+              </option>
+              <option value="Bronze|2,00,000|#7A3A10">
+                Bronze — Rs. 2,00,000
+              </option>
+              <option value="In-Kind|50,000+|#3A5A3A">
+                In-Kind — Rs. 50,000+
+              </option>
+              <option value="Stall 1 Day|15,000|#5A3A1A">
+                Stall — 1 Day (Rs. 15,000)
+              </option>
+              <option value="Stall 2 Days|30,000|#5A3A1A">
+                Stall — 2 Days (Rs. 30,000)
+              </option>
+              <option value="Stall Full Event|45,000|#5A3A1A">
+                Stall — Full Event (Rs. 45,000)
+              </option>
+              <option value="Gift|—|#1A5A5A">Gift Sponsor</option>
+              <option value="Technical|—|#1A3A5A">Technical Sponsor</option>
+              <option value="Merchandise|—|#5A1A5A">Merchandise Sponsor</option>
+              <option value="Other|—|#3A3A3A">Other</option>
+            </select>
+          </div>
           <div class="sf">
             <label>Amount (NPR)</label
             ><input
@@ -1519,7 +1569,14 @@
               onchange="importJSON(event)"
             />
           </div>
+          <div class="sf">
+            <div class="hint">
+              Auto-saves every keystroke to browser storage.
+            </div>
+          </div>
         </div>
+
+        <!-- CONTENT TAB -->
         <div class="tab-pane" id="t-content">
           <div class="sbs">📋 Section Manager</div>
           <p class="sec-num-label">
@@ -1567,15 +1624,14 @@
           <div class="btn-row col1">
             <button
               class="sbtn sbtn-danger"
-              onclick="
-                if (confirm('Reset ALL content? Cannot be undone.'))
-                  location.reload();
-              "
+              onclick="if (confirm('Reset ALL content?')) location.reload();"
             >
               ⚠ Reset Entire Document
             </button>
           </div>
         </div>
+
+        <!-- DESIGN TAB -->
         <div class="tab-pane" id="t-design">
           <div class="sbs">🖼 Logos</div>
           <div class="sf">
@@ -1660,7 +1716,7 @@
             ><input
               type="text"
               id="sb-wmtext"
-              value="APEX PITCH &amp; POP"
+              value="APEX PITCH & POP"
               oninput="
                 updateWMText();
                 scheduleSave();
@@ -1809,7 +1865,7 @@
               ⌂
             </button>
           </div>
-          <div class="sbs">✏️ Edit Controls</div>
+          <div class="sbs">✏️ Edit Mode</div>
           <div class="btn-row col1">
             <button
               class="sbtn sbtn-edit on"
@@ -1821,115 +1877,8 @@
           </div>
           <div class="sf">
             <div class="hint">
-              Master switch — disables ALL inline editing when OFF. Turn OFF
-              before exporting.
+              Turn OFF before exporting for cleanest output.
             </div>
-          </div>
-          <div class="edit-toggle-section">
-            <h4>Element-Level Locks</h4>
-            <div class="toggle-row">
-              <label>Section Headers</label
-              ><label class="toggle-switch"
-                ><input
-                  type="checkbox"
-                  id="tgl-headers"
-                  checked
-                  onchange="applyGranular()" /><span
-                  class="toggle-slider"
-                ></span
-              ></label>
-            </div>
-            <div class="toggle-row">
-              <label>Paragraph Text</label
-              ><label class="toggle-switch"
-                ><input
-                  type="checkbox"
-                  id="tgl-paragraphs"
-                  checked
-                  onchange="applyGranular()" /><span
-                  class="toggle-slider"
-                ></span
-              ></label>
-            </div>
-            <div class="toggle-row">
-              <label>List Items</label
-              ><label class="toggle-switch"
-                ><input
-                  type="checkbox"
-                  id="tgl-lists"
-                  checked
-                  onchange="applyGranular()" /><span
-                  class="toggle-slider"
-                ></span
-              ></label>
-            </div>
-            <div class="toggle-row">
-              <label>Signature Fields</label
-              ><label class="toggle-switch"
-                ><input
-                  type="checkbox"
-                  id="tgl-sigs"
-                  checked
-                  onchange="applyGranular()" /><span
-                  class="toggle-slider"
-                ></span
-              ></label>
-            </div>
-            <div class="toggle-row">
-              <label>Document Title</label
-              ><label class="toggle-switch"
-                ><input
-                  type="checkbox"
-                  id="tgl-title"
-                  checked
-                  onchange="applyGranular()" /><span
-                  class="toggle-slider"
-                ></span
-              ></label>
-            </div>
-            <div class="toggle-row">
-              <label>Footer Text</label
-              ><label class="toggle-switch"
-                ><input
-                  type="checkbox"
-                  id="tgl-footer"
-                  checked
-                  onchange="applyGranular()" /><span
-                  class="toggle-slider"
-                ></span
-              ></label>
-            </div>
-            <div class="toggle-row">
-              <label>Sig Column Headers</label
-              ><label class="toggle-switch"
-                ><input
-                  type="checkbox"
-                  id="tgl-colhd"
-                  checked
-                  onchange="applyGranular()" /><span
-                  class="toggle-slider"
-                ></span
-              ></label>
-            </div>
-            <div class="toggle-row">
-              <label>Sig Row Labels</label
-              ><label class="toggle-switch"
-                ><input
-                  type="checkbox"
-                  id="tgl-siglbl"
-                  checked
-                  onchange="applyGranular()" /><span
-                  class="toggle-slider"
-                ></span
-              ></label>
-            </div>
-          </div>
-          <div class="btn-row col2">
-            <button class="sbtn sbtn-neutral" onclick="setAllToggles(true)">
-              Unlock All</button
-            ><button class="sbtn sbtn-neutral" onclick="setAllToggles(false)">
-              Lock All
-            </button>
           </div>
           <div class="sbs">📊 Document Stats</div>
           <div class="wc-bar">
@@ -1952,6 +1901,8 @@
           </div>
           <div class="hist-panel" id="hist-panel"></div>
         </div>
+
+        <!-- EXPORT TAB -->
         <div class="tab-pane" id="t-export">
           <div class="sbs">⬇ Download — A4 @ 300 DPI</div>
           <div class="sf">
@@ -1980,21 +1931,27 @@
               ⬇ All Pages PNG
             </button>
           </div>
+          <div class="sf">
+            <div class="hint">
+              Output: 2480×3508 px · A4 @ 300 DPI · content never reflows ·
+              sidebar hidden · edit highlights stripped.
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
     <div id="main">
       <div class="tip-bar" id="tip-bar">
-        ✏️ <strong>Edit Mode ON</strong> — Click any
-        <span class="tip-hl">highlighted text</span> to edit inline. Right-click
-        for options.
+        ✏️ <strong>Edit Mode ON</strong> — Click any text on the document to
+        edit it directly. Right-click for more options.
       </div>
       <div class="pg-meta">
         A4 · 794×1123 px screen · 2480×3508 px export @ 300 DPI
         <span class="dot"></span> 2 pages · scroll ↓ for Page 2
       </div>
       <div class="page-wrap" id="page-wrap">
-        <!-- PAGE 1 -->
+        <!-- ═══════════ PAGE 1 ═══════════ -->
         <div class="a4" id="page1">
           <div class="pg-top"></div>
           <div class="wm-t" id="wm-t-1">APEX PITCH &amp; POP</div>
@@ -2004,6 +1961,7 @@
           <div class="corner c-bl"></div>
           <div class="corner c-br"></div>
           <div class="pg-body">
+            <!-- LOGOS -->
             <div class="logos-row">
               <div class="logo-slot" id="slot-L1-1">
                 <div class="logo-slot-ph">Apex M&amp;M<br />Club Logo</div>
@@ -2017,258 +1975,242 @@
                 <div class="logo-slot-ph">Apex College<br />Logo</div>
               </div>
             </div>
-            <div class="doc-title">
-              <span class="doc-title-ed" contenteditable="true" id="dc-doctitle"
-                >SPONSORSHIP AGREEMENT</span
-              >
-            </div>
-            <div class="doc-text" id="p1-content">
-              <p class="date-line">
-                Date:&nbsp;<span
-                  class="ed"
-                  contenteditable="true"
-                  id="dc-date"
-                  data-ph="[Insert Date]"
-                  >[Insert Date of Agreement]</span
-                >
-              </p>
-              <p>
-                This Sponsorship Agreement ("<span
-                  class="ed"
-                  contenteditable="true"
-                  data-ph="Agreement"
-                  >Agreement</span
-                >") is made on this
+            <!-- DOCUMENT CONTENT -->
+            <div class="doc-content">
+              <div class="doc-title">
                 <span
-                  class="ed"
+                  class="doc-title-ed"
                   contenteditable="true"
-                  id="dc-date2"
-                  data-ph="[Insert Date]"
-                  >[Insert Date]</span
-                >, by and between:
-              </p>
-              <p>
-                <strong
-                  ><span
-                    class="ed"
+                  id="dc-doctitle"
+                  >SPONSORSHIP AGREEMENT</span
+                >
+              </div>
+              <div class="doc-text" id="p1-content">
+                <p class="date-line">
+                  Date:&nbsp;<span
                     contenteditable="true"
-                    data-ph="APEX MEDIA AND MARKETING CLUB"
-                    >APEX MEDIA AND MARKETING CLUB</span
-                  ></strong
-                >, hereinafter referred to as the
-                <strong
-                  >"<span class="ed" contenteditable="true" data-ph="Sponsee"
-                    >Sponsee</span
-                  >,"</strong
-                >
-                a student-led organizing body under
-                <span class="ed" contenteditable="true" data-ph="Apex College"
-                  >Apex College</span
-                >, located in
-                <span
-                  class="ed"
-                  contenteditable="true"
-                  id="dc-sponsee-loc"
-                  data-ph="Mid-Baneshwor, Kathmandu, Nepal"
-                  >Mid-Baneshwor, Kathmandu, Nepal</span
-                >,
-              </p>
-              <p><strong>AND</strong></p>
-              <p>
-                <strong
-                  ><span
-                    class="ed"
+                    id="dc-date"
+                    data-ph="[Insert Date]"
+                    >[Insert Date of Agreement]</span
+                  >
+                </p>
+                <p>
+                  This Sponsorship Agreement ("<span
                     contenteditable="true"
-                    id="dc-spname"
-                    data-ph="[Sponsor Company Name]"
-                    >[Insert Sponsor Company Name]</span
-                  ></strong
-                >, hereinafter referred to as the
-                <strong
-                  >"<span class="ed" contenteditable="true" data-ph="Sponsor"
-                    >Sponsor</span
-                  >,"</strong
-                >
-                located at
-                <span
-                  class="ed"
-                  contenteditable="true"
-                  id="dc-spaddr"
-                  data-ph="[Sponsor's Address]"
-                  >[Insert Sponsor's Address]</span
-                >.
-              </p>
-              <div class="sec-head" data-sec="1" data-page="1">
-                <span class="sec-head-num">1.</span
-                ><span class="sec-head-text" contenteditable="true"
-                  >Event Details</span
-                >
-              </div>
-              <p>
-                The sponsorship is in support of
-                <strong
-                  ><span class="ed" contenteditable="true" data-ph="Event Name"
-                    >APEX PITCH &amp; POP 2026</span
-                  ></strong
-                >, a
-                <span class="ed" contenteditable="true" data-ph="description"
-                  >student-led inter-college celebration of creativity,
-                  innovation, media, entertainment, and collaboration</span
-                >
-                organized by
-                <span class="ed" contenteditable="true" data-ph="Organizer"
-                  >Apex Media and Marketing Club</span
-                >, scheduled to be held at
-                <span
-                  class="ed"
-                  contenteditable="true"
-                  id="dc-venue"
-                  data-ph="Venue"
-                  >Apex College</span
-                >
-                in
-                <span
-                  class="ed"
-                  contenteditable="true"
-                  id="dc-evdate"
-                  data-ph="[Event Dates]"
-                  >May 15–17, 2026</span
-                >.
-              </p>
-              <div class="sec-head" data-sec="2" data-page="1">
-                <span class="sec-head-num">2.</span
-                ><span class="sec-head-text" contenteditable="true"
-                  >Sponsee Obligations</span
-                >
-              </div>
-              <p>
-                <span class="ed" contenteditable="true"
-                  >The Sponsee agrees to provide the following deliverables to
-                  the Sponsor based on the agreed sponsorship tier:</span
-                >
-              </p>
-              <ul id="sec2-list">
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Inclusion of Sponsor's logo and name in all major event
-                    promotional materials (posters, banners, backdrops, digital
-                    invites, and social media).</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Stage and venue branding with Sponsor-provided materials
-                    (standees, flex boards, flags, etc.).</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Special mention and verbal acknowledgment during opening,
-                    closing, and major event segments.</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Customized promotional booth space (for Platinum or Gold
-                    sponsors) at the venue for engagement.</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Opportunity to distribute samples or merchandise during the
-                    event.</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Feature in media coverages, including press releases and
-                    college digital platforms.</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Tagging and mentions on the event's official social media
-                    handles and campaign hashtags.</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Any exclusive benefit as agreed upon in the sponsorship
-                    proposal.</span
-                  >
-                </li>
-              </ul>
-              <p class="note-italic">
-                <span class="ed" contenteditable="true" data-ph="Note"
-                  >Note:</span
-                >
-                <span class="ed" contenteditable="true"
-                  >Detailed deliverables shall be based on the agreed category
-                  and sponsorship amount.</span
-                >
-              </p>
-              <div class="sec-head" data-sec="3" data-page="1">
-                <span class="sec-head-num">3.</span
-                ><span class="sec-head-text" contenteditable="true"
-                  >Sponsor Obligations</span
-                >
-              </div>
-              <p>
-                <span class="ed" contenteditable="true"
-                  >The Sponsor agrees to provide the following to support the
-                  APEX PITCH &amp; POP 2026:</span
-                >
-              </p>
-              <ul id="sec3-list">
-                <li>
-                  Sponsorship amount of
-                  <strong
-                    >NPR
-                    <span
-                      class="ed"
-                      contenteditable="true"
-                      id="dc-amount"
-                      data-ph="[Amount]"
-                      >[Insert Agreed Amount in NPR]</span
-                    ></strong
-                  >
-                  or in-kind support equivalent to the selected sponsorship
-                  tier.
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Timely submission of company logos, brand guidelines, and
-                    promotional materials for use.</span
-                  >
-                </li>
-                <li>
-                  Delivery of any gift items, vouchers, technical products, or
-                  merchandise, as agreed, by
+                    data-ph="Agreement"
+                    >Agreement</span
+                  >") is made on this
                   <span
-                    class="ed"
                     contenteditable="true"
-                    id="dc-deadline"
-                    data-ph="[Deadline]"
-                    >[Insert Deadline Date]</span
-                  >.
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Coordination with the student organizing team regarding
-                    brand usage and representation.</span
+                    id="dc-date2"
+                    data-ph="[Insert Date]"
+                    >[Insert Date]</span
+                  >, by and between:
+                </p>
+                <p>
+                  <strong
+                    ><span
+                      contenteditable="true"
+                      data-ph="APEX MEDIA AND MARKETING CLUB"
+                      >APEX MEDIA AND MARKETING CLUB</span
+                    ></strong
+                  >, hereinafter referred to as the
+                  <strong
+                    >"<span contenteditable="true" data-ph="Sponsee"
+                      >Sponsee</span
+                    >,"</strong
                   >
-                </li>
-              </ul>
+                  a student-led organizing body under
+                  <span contenteditable="true" data-ph="Apex College"
+                    >Apex College</span
+                  >, located in
+                  <span
+                    contenteditable="true"
+                    id="dc-sponsee-loc"
+                    data-ph="Mid-Baneshwor, Kathmandu, Nepal"
+                    >Mid-Baneshwor, Kathmandu, Nepal</span
+                  >,
+                </p>
+                <p contenteditable="true"><strong>AND</strong></p>
+                <p>
+                  <strong
+                    ><span
+                      contenteditable="true"
+                      id="dc-spname"
+                      data-ph="[Sponsor Company Name]"
+                      >[Insert Sponsor Company Name]</span
+                    ></strong
+                  >, hereinafter referred to as the
+                  <strong
+                    >"<span contenteditable="true" data-ph="Sponsor"
+                      >Sponsor</span
+                    >,"</strong
+                  >
+                  located at
+                  <span
+                    contenteditable="true"
+                    id="dc-spaddr"
+                    data-ph="[Sponsor's Address]"
+                    >[Insert Sponsor's Address]</span
+                  >.
+                </p>
+
+                <div class="sec-head" data-sec="1" data-page="1">
+                  <span class="sec-head-num">1.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Event Details</span
+                  >
+                </div>
+                <p>
+                  The sponsorship is in support of
+                  <strong
+                    ><span contenteditable="true" data-ph="Event Name"
+                      >APEX PITCH &amp; POP 2026</span
+                    ></strong
+                  >, a
+                  <span contenteditable="true" data-ph="description"
+                    >student-led inter-college celebration of creativity,
+                    innovation, media, entertainment, and collaboration</span
+                  >
+                  organized by
+                  <span contenteditable="true" data-ph="Organizer"
+                    >Apex Media and Marketing Club</span
+                  >, scheduled at
+                  <span contenteditable="true" id="dc-venue" data-ph="Venue"
+                    >Apex College</span
+                  >
+                  in
+                  <span
+                    contenteditable="true"
+                    id="dc-evdate"
+                    data-ph="[Event Dates]"
+                    >May 15–17, 2026</span
+                  >.
+                </p>
+
+                <div class="sec-head" data-sec="2" data-page="1">
+                  <span class="sec-head-num">2.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Sponsee Obligations</span
+                  >
+                </div>
+                <p contenteditable="true">
+                  The Sponsee agrees to provide the following deliverables to
+                  the Sponsor based on the agreed sponsorship tier:
+                </p>
+                <ul id="sec2-list">
+                  <li contenteditable="true">
+                    Inclusion of Sponsor's logo and name in all major event
+                    promotional materials (posters, banners, backdrops, digital
+                    invites, and social media).
+                  </li>
+                  <li contenteditable="true">
+                    Stage and venue branding with Sponsor-provided materials
+                    (standees, flex boards, flags, etc.).
+                  </li>
+                  <li contenteditable="true">
+                    Special mention and verbal acknowledgment during opening,
+                    closing, and major event segments.
+                  </li>
+                  <li contenteditable="true">
+                    Customized promotional booth space (for Platinum or Gold
+                    sponsors) at the venue for engagement.
+                  </li>
+                  <li contenteditable="true">
+                    Opportunity to distribute samples or merchandise during the
+                    event.
+                  </li>
+                  <li contenteditable="true">
+                    Feature in media coverages, including press releases and
+                    college digital platforms.
+                  </li>
+                  <li contenteditable="true">
+                    Tagging and mentions on the event's official social media
+                    handles and campaign hashtags.
+                  </li>
+                  <li contenteditable="true">
+                    Any exclusive benefit as agreed upon in the sponsorship
+                    proposal.
+                  </li>
+                </ul>
+                <p class="note-italic">
+                  <span contenteditable="true"
+                    >Note: Detailed deliverables shall be based on the agreed
+                    category and sponsorship amount.</span
+                  >
+                </p>
+
+                <div class="sec-head" data-sec="3" data-page="1">
+                  <span class="sec-head-num">3.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Sponsor Obligations</span
+                  >
+                </div>
+                <p contenteditable="true">
+                  The Sponsor agrees to provide the following to support the
+                  APEX PITCH &amp; POP 2026:
+                </p>
+                <ul id="sec3-list">
+                  <li contenteditable="true">
+                    Sponsorship amount of
+                    <strong
+                      >NPR
+                      <span
+                        contenteditable="true"
+                        id="dc-amount"
+                        data-ph="[Amount]"
+                        >[Insert Agreed Amount in NPR]</span
+                      ></strong
+                    >
+                    or in-kind support equivalent to the selected sponsorship
+                    tier.
+                  </li>
+                  <li contenteditable="true">
+                    Timely submission of company logos, brand guidelines, and
+                    promotional materials for use.
+                  </li>
+                  <li contenteditable="true">
+                    Delivery of any gift items, vouchers, technical products, or
+                    merchandise, as agreed, by
+                    <span
+                      contenteditable="true"
+                      id="dc-deadline"
+                      data-ph="[Deadline]"
+                      >[Insert Deadline Date]</span
+                    >.
+                  </li>
+                  <li contenteditable="true">
+                    Coordination with the student organizing team regarding
+                    brand usage and representation.
+                  </li>
+                </ul>
+
+                <div class="sec-head" data-sec="4" data-page="1">
+                  <span class="sec-head-num">4.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Sponsor Trademarks and Materials</span
+                  >
+                </div>
+                <p contenteditable="true">
+                  Subject to this Agreement, the Sponsor grants the Sponsee
+                  non-exclusive rights to use Sponsor's name, logos, trademarks,
+                  slogans, and relevant content strictly for promotional and
+                  marketing purposes of the APEX PITCH &amp; POP 2026. The
+                  Sponsee agrees to adhere to the Sponsor's brand guidelines and
+                  shall not alter or misuse the brand in any form.
+                </p>
+              </div>
             </div>
           </div>
           <div class="pg-foot">
             <span class="footer-ed" contenteditable="true" id="footer1-text"
-              >Apex College, Mid Baneshwor &nbsp;|&nbsp; Apex Media and
-              Marketing Club &nbsp;|&nbsp; Apex Pitch &amp; Pop 2026</span
+              >Apex College, Mid Baneshwor | Apex Media and Marketing Club |
+              Apex Pitch &amp; Pop 2026</span
             >
           </div>
         </div>
-        <!-- PAGE 2 -->
+
+        <!-- ═══════════ PAGE 2 ═══════════ -->
         <div class="a4" id="page2">
           <div class="pg-top"></div>
           <div class="wm-t" id="wm-t-2">APEX PITCH &amp; POP</div>
@@ -2278,6 +2220,7 @@
           <div class="corner c-bl"></div>
           <div class="corner c-br"></div>
           <div class="pg-body">
+            <!-- LOGOS -->
             <div class="logos-row">
               <div class="logo-slot" id="slot-L1-2">
                 <div class="logo-slot-ph">Apex M&amp;M<br />Club Logo</div>
@@ -2291,202 +2234,163 @@
                 <div class="logo-slot-ph">Apex College<br />Logo</div>
               </div>
             </div>
-            <div class="doc-text" id="p2-content">
-              <div class="sec-head" data-sec="4" data-page="2">
-                <span class="sec-head-num">4.</span
-                ><span class="sec-head-text" contenteditable="true"
-                  >Sponsor Trademarks and Materials</span
-                >
-              </div>
-              <p>
-                <span class="ed" contenteditable="true"
-                  >Subject to this Agreement, the Sponsor grants the Sponsee
-                  non-exclusive rights to use Sponsor's name, logos, trademarks,
-                  slogans, and relevant content strictly for promotional and
-                  marketing purposes of the APEX PITCH &amp; POP 2026. The
-                  Sponsee agrees to adhere to the Sponsor's brand guidelines and
-                  shall not alter or misuse the brand in any form.</span
-                >
-              </p>
-              <div class="sec-head" data-sec="5" data-page="2">
-                <span class="sec-head-num">5.</span
-                ><span class="sec-head-text" contenteditable="true"
-                  >Term and Validity</span
-                >
-              </div>
-              <p>
-                <span class="ed" contenteditable="true"
-                  >This Agreement shall be valid from the date of signing until
+            <!-- DOCUMENT CONTENT -->
+            <div class="doc-content">
+              <div class="doc-text" id="p2-content">
+                <div class="sec-head" data-sec="5" data-page="2">
+                  <span class="sec-head-num">5.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Term and Validity</span
+                  >
+                </div>
+                <p contenteditable="true">
+                  This Agreement shall be valid from the date of signing until
                   the completion of all obligations by both parties and the
-                  conclusion of the APEX PITCH &amp; POP 2026.</span
-                >
-              </p>
-              <div class="sec-head" data-sec="6" data-page="2">
-                <span class="sec-head-num">6.</span
-                ><span class="sec-head-text" contenteditable="true"
-                  >General Conditions</span
-                >
-              </div>
-              <ul id="sec6-list">
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >This Agreement does not constitute a partnership or joint
-                    venture.</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >Any amendments must be made in writing and agreed upon by
-                    both parties.</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >In case of event cancellation, both parties shall meet to
-                    discuss fair and appropriate next steps or
-                    compensation.</span
-                  >
-                </li>
-                <li>
-                  <span class="li-ed" contenteditable="true"
-                    >The Sponsee shall not be held responsible for any
-                    unforeseen events (e.g., natural disasters, political
-                    unrest) that may affect the event execution.</span
-                  >
-                </li>
-              </ul>
-              <div class="sig-wrap">
-                <p class="sig-intro">
-                  <span class="ed" contenteditable="true"
-                    >By signing below, both parties confirm that they have read,
-                    understood, and agree to the terms and conditions set forth
-                    in this Agreement.</span
-                  >
+                  conclusion of the APEX PITCH &amp; POP 2026.
                 </p>
-                <div class="sig-cols">
-                  <div class="sig-col">
-                    <div class="col-hd">
-                      <span class="col-hd-ed" contenteditable="true"
-                        >For the Sponsee</span
-                      >
+
+                <div class="sec-head" data-sec="6" data-page="2">
+                  <span class="sec-head-num">6.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >General Conditions</span
+                  >
+                </div>
+                <ul id="sec6-list">
+                  <li contenteditable="true">
+                    This Agreement does not constitute a partnership or joint
+                    venture.
+                  </li>
+                  <li contenteditable="true">
+                    Any amendments must be made in writing and agreed upon by
+                    both parties.
+                  </li>
+                  <li contenteditable="true">
+                    In case of event cancellation, both parties shall meet to
+                    discuss fair and appropriate next steps or compensation.
+                  </li>
+                  <li contenteditable="true">
+                    The Sponsee shall not be held responsible for any unforeseen
+                    events (e.g., natural disasters, political unrest) that may
+                    affect the event execution.
+                  </li>
+                </ul>
+
+                <!-- SIGNATURES -->
+                <div class="sig-wrap">
+                  <p class="sig-intro">
+                    <span contenteditable="true"
+                      >By signing below, both parties confirm that they have
+                      read, understood, and agree to the terms and conditions
+                      set forth in this Agreement.</span
+                    >
+                  </p>
+                  <div class="sig-cols">
+                    <div class="sig-col">
+                      <div class="col-hd">
+                        <span contenteditable="true">For the Sponsee</span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Name:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sname"
+                          data-ph="[Name]"
+                          >Swadhin Lingden</span
+                        >
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true"
+                            >Designation:</span
+                          ></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sdesig"
+                          data-ph="[Designation]"
+                          >President</span
+                        >
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true"
+                            >Organization:</span
+                          ></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sorg"
+                          data-ph="[Organization]"
+                          >Apex Media and Marketing Club</span
+                        >
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Date:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          data-ph="[Date]"
+                        ></span>
+                      </div>
+                      <div class="sig-row sig-row-tall">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Signature:</span></span
+                        ><span class="sig-val" contenteditable="true"></span>
+                      </div>
                     </div>
-                    <div class="sig-row">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Name:</span
-                        ></span
-                      ><span
-                        class="sig-val"
-                        contenteditable="true"
-                        id="dc-sname"
-                        data-ph="[Name]"
-                        >Swadhin Lingden</span
-                      >
-                    </div>
-                    <div class="sig-row">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Designation:</span
-                        ></span
-                      ><span
-                        class="sig-val"
-                        contenteditable="true"
-                        id="dc-sdesig"
-                        data-ph="[Designation]"
-                        >President</span
-                      >
-                    </div>
-                    <div class="sig-row">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Organization:</span
-                        ></span
-                      ><span
-                        class="sig-val"
-                        contenteditable="true"
-                        id="dc-sorg"
-                        data-ph="[Organization]"
-                        >Apex Media and Marketing Club</span
-                      >
-                    </div>
-                    <div class="sig-row">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Date:</span
-                        ></span
-                      ><span
-                        class="sig-val"
-                        contenteditable="true"
-                        data-ph="[Date]"
-                      ></span>
-                    </div>
-                    <div class="sig-row sig-row-tall">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Signature:</span
-                        ></span
-                      ><span class="sig-val" contenteditable="true"></span>
-                    </div>
-                  </div>
-                  <div class="sig-col">
-                    <div class="col-hd">
-                      <span class="col-hd-ed" contenteditable="true"
-                        >For the Sponsor</span
-                      >
-                    </div>
-                    <div class="sig-row">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Name:</span
-                        ></span
-                      ><span
-                        class="sig-val"
-                        contenteditable="true"
-                        id="dc-sp2name"
-                        data-ph="[Name]"
-                      ></span>
-                    </div>
-                    <div class="sig-row">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Designation:</span
-                        ></span
-                      ><span
-                        class="sig-val"
-                        contenteditable="true"
-                        id="dc-sp2desig"
-                        data-ph="[Designation]"
-                      ></span>
-                    </div>
-                    <div class="sig-row">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Company:</span
-                        ></span
-                      ><span
-                        class="sig-val"
-                        contenteditable="true"
-                        id="dc-sp2co"
-                        data-ph="[Company Name]"
-                      ></span>
-                    </div>
-                    <div class="sig-row">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Date:</span
-                        ></span
-                      ><span
-                        class="sig-val"
-                        contenteditable="true"
-                        data-ph="[Date]"
-                      ></span>
-                    </div>
-                    <div class="sig-row sig-row-tall">
-                      <span class="sig-lbl"
-                        ><span class="sig-lbl-ed" contenteditable="true"
-                          >Signature:</span
-                        ></span
-                      ><span class="sig-val" contenteditable="true"></span>
+                    <div class="sig-col">
+                      <div class="col-hd">
+                        <span contenteditable="true">For the Sponsor</span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Name:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sp2name"
+                          data-ph="[Name]"
+                        ></span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true"
+                            >Designation:</span
+                          ></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sp2desig"
+                          data-ph="[Designation]"
+                        ></span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Company:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sp2co"
+                          data-ph="[Company Name]"
+                        ></span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Date:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          data-ph="[Date]"
+                        ></span>
+                      </div>
+                      <div class="sig-row sig-row-tall">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Signature:</span></span
+                        ><span class="sig-val" contenteditable="true"></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2495,22 +2399,24 @@
           </div>
           <div class="pg-foot">
             <span class="footer-ed" contenteditable="true" id="footer2-text"
-              >Apex College, Mid Baneshwor &nbsp;|&nbsp; Apex Media and
-              Marketing Club &nbsp;|&nbsp; Apex Pitch &amp; Pop 2026</span
+              >Apex College, Mid Baneshwor | Apex Media and Marketing Club |
+              Apex Pitch &amp; Pop 2026</span
             >
           </div>
         </div>
       </div>
+      <!-- /page-wrap -->
     </div>
+    <!-- /main -->
+
     <script>
-      // Full JavaScript logic remains unchanged - all functions preserved
       const PW = 794,
         PH = 1123,
         EW = 2480,
         EH = 3508,
         ESCALE = EW / PW;
-      const STORE_KEY = "apex_agreement_v6",
-        HIST_KEY = "apex_history_v6",
+      const STORE_KEY = "apex_agreement_v7",
+        HIST_KEY = "apex_history_v7",
         MAX_HIST = 5;
       let sbVisible = true,
         editMode = true,
@@ -2520,12 +2426,14 @@
         saveTimer = null,
         wmSrc = null;
       const logos = { L1: null, EV: null, L2: null };
+
       function toast(msg, dur = 2200) {
         const t = document.getElementById("toast");
         t.textContent = msg;
         t.classList.add("show");
         setTimeout(() => t.classList.remove("show"), dur);
       }
+
       function toggleSb() {
         sbVisible = !sbVisible;
         document.getElementById("sb").classList.toggle("hidden", !sbVisible);
@@ -2534,6 +2442,7 @@
           .classList.toggle("sb-hidden", !sbVisible);
         document.getElementById("sb-fab").textContent = sbVisible ? "✕" : "☰";
       }
+
       function showTab(id, btn) {
         document
           .querySelectorAll(".tab-pane")
@@ -2544,6 +2453,7 @@
         document.getElementById(id).classList.add("active");
         btn.classList.add("active");
       }
+
       function scheduleSave() {
         const dot = document.getElementById("save-dot");
         dot.classList.add("saving");
@@ -2552,6 +2462,7 @@
         clearTimeout(saveTimer);
         saveTimer = setTimeout(doSave, 800);
       }
+
       function doSave() {
         try {
           const data = collectData();
@@ -2569,15 +2480,16 @@
           document.getElementById("save-status").textContent = "Save failed";
         }
       }
+
       function collectData() {
         const sidebarFields = [
           "sb-date",
-          "sb-refno",
           "sb-evdate",
           "sb-venue",
           "sb-footer",
           "sb-spname",
           "sb-spaddr",
+          "sb-tier",
           "sb-amount",
           "sb-payment",
           "sb-deadline",
@@ -2603,15 +2515,9 @@
         document.querySelectorAll("[contenteditable][id]").forEach((el) => {
           editables[el.id] = el.innerHTML;
         });
-        const pill = document.getElementById("dc-tier-pill");
         return {
           sidebar,
           editables,
-          tierPill: {
-            text: pill.textContent,
-            display: pill.style.display,
-            bg: pill.style.background,
-          },
           logos: { L1: logos.L1, EV: logos.EV, L2: logos.L2 },
           watermark: wmSrc,
           accent: currentAccent,
@@ -2620,6 +2526,7 @@
           timestamp: Date.now(),
         };
       }
+
       function pushHistory(data) {
         try {
           let h = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
@@ -2629,6 +2536,7 @@
           renderHist(h);
         } catch (e) {}
       }
+
       function renderHist(h) {
         const p = document.getElementById("hist-panel");
         if (!h || !h.length) {
@@ -2643,6 +2551,7 @@
           })
           .join("");
       }
+
       function restoreVer(idx) {
         if (!confirm("Restore this version?")) return;
         try {
@@ -2653,6 +2562,7 @@
           alert("Could not restore.");
         }
       }
+
       function restoreData() {
         const raw = localStorage.getItem(STORE_KEY);
         if (!raw) {
@@ -2671,6 +2581,7 @@
           renderHist(h);
         } catch (e) {}
       }
+
       function applyData(data) {
         if (!data) return;
         if (data.sidebar) {
@@ -2686,12 +2597,6 @@
             const el = document.getElementById(id);
             if (el) el.innerHTML = html;
           });
-        }
-        if (data.tierPill) {
-          const pill = document.getElementById("dc-tier-pill");
-          pill.textContent = data.tierPill.text;
-          pill.style.display = data.tierPill.display;
-          if (data.tierPill.bg) pill.style.background = data.tierPill.bg;
         }
         if (data.logos) {
           Object.entries(data.logos).forEach(([key, src]) => {
@@ -2735,12 +2640,14 @@
         updateWMVis();
         document.getElementById("save-status").textContent = "Restored ✓";
       }
+
       function clearData() {
         if (!confirm("Clear all saved data and reset?")) return;
         localStorage.removeItem(STORE_KEY);
         localStorage.removeItem(HIST_KEY);
         location.reload();
       }
+
       function exportJSON() {
         const blob = new Blob([JSON.stringify(collectData(), null, 2)], {
           type: "application/json",
@@ -2750,6 +2657,7 @@
         a.download = "apex_agreement_backup.json";
         a.click();
       }
+
       function importJSON(evt) {
         const file = evt.target.files[0];
         if (!file) return;
@@ -2765,6 +2673,7 @@
         };
         r.readAsText(file);
       }
+
       function updateStats() {
         const text = document.getElementById("page-wrap").innerText || "";
         const words = text
@@ -2776,76 +2685,30 @@
         document.getElementById("wc-chars").textContent =
           text.length.toLocaleString();
       }
+
       function toggleEdit() {
         editMode = !editMode;
         document.body.classList.toggle("no-edit", !editMode);
+        document.body.classList.toggle("edit-on", editMode);
         const btn = document.getElementById("edit-btn");
         btn.textContent = editMode ? "✏ Edit Mode: ON" : "🔒 Edit Mode: OFF";
         btn.classList.toggle("on", editMode);
         document.getElementById("tip-bar").innerHTML = editMode
-          ? '✏️ <strong>Edit Mode ON</strong> — Click any <span class="tip-hl">highlighted text</span> to edit. Right-click for options.'
+          ? "✏️ <strong>Edit Mode ON</strong> — Click any text to edit it directly."
           : "🔒 <strong>Edit Mode OFF</strong> — Document locked. Ready for clean download.";
-        const all = document.querySelectorAll(
-          ".ed,.li-ed,.sec-head-text,.sig-val,.col-hd-ed,.sig-lbl-ed,.footer-ed,.doc-title-ed",
-        );
-        all.forEach((el) =>
-          el.setAttribute("contenteditable", editMode ? "true" : "false"),
-        );
-        if (editMode) applyGranular();
+        // Toggle contenteditable on all elements
+        document.querySelectorAll("[contenteditable]").forEach((el) => {
+          el.setAttribute("contenteditable", editMode ? "true" : "false");
+        });
         scheduleSave();
       }
-      function applyGranular() {
-        if (!editMode) return;
-        const locks = {
-          headers: !document.getElementById("tgl-headers").checked,
-          paragraphs: !document.getElementById("tgl-paragraphs").checked,
-          lists: !document.getElementById("tgl-lists").checked,
-          sigs: !document.getElementById("tgl-sigs").checked,
-          title: !document.getElementById("tgl-title").checked,
-          footer: !document.getElementById("tgl-footer").checked,
-        };
-        ["headers", "paragraphs", "lists", "sigs", "title", "footer"].forEach(
-          (k) => document.body.classList.toggle("lock-" + k, locks[k]),
-        );
-        const colhd = document.getElementById("tgl-colhd").checked;
-        const siglbl = document.getElementById("tgl-siglbl").checked;
-        document
-          .querySelectorAll(".col-hd-ed")
-          .forEach((el) =>
-            el.setAttribute(
-              "contenteditable",
-              colhd && editMode ? "true" : "false",
-            ),
-          );
-        document
-          .querySelectorAll(".sig-lbl-ed")
-          .forEach((el) =>
-            el.setAttribute(
-              "contenteditable",
-              siglbl && editMode ? "true" : "false",
-            ),
-          );
-      }
-      function setAllToggles(val) {
-        [
-          "tgl-headers",
-          "tgl-paragraphs",
-          "tgl-lists",
-          "tgl-sigs",
-          "tgl-title",
-          "tgl-footer",
-          "tgl-colhd",
-          "tgl-siglbl",
-        ].forEach((id) => {
-          document.getElementById(id).checked = val;
-        });
-        applyGranular();
-      }
+
       function sb2id(sbId, docId) {
         const v = document.getElementById(sbId)?.value.trim() || "";
         const el = document.getElementById(docId);
         if (el) el.textContent = v || el.dataset.ph || "";
       }
+
       function syncDate() {
         const raw = document.getElementById("sb-date").value;
         if (!raw) return;
@@ -2860,6 +2723,7 @@
           if (el) el.textContent = fmt;
         });
       }
+
       function syncDeadline() {
         const raw = document.getElementById("sb-deadline").value;
         if (!raw) return;
@@ -2872,11 +2736,13 @@
             year: "numeric",
           });
       }
+
       function syncSig(sbId, docId) {
         const el = document.getElementById(docId);
         if (el)
           el.textContent = document.getElementById(sbId)?.value.trim() || "";
       }
+
       function syncFooter() {
         const v = document.getElementById("sb-footer").value.trim();
         ["footer1-text", "footer2-text"].forEach((id) => {
@@ -2884,22 +2750,18 @@
           if (el) el.innerHTML = v;
         });
       }
+
       function applyTier() {
         const raw = document.getElementById("sb-tier").value;
         if (!raw) return;
         const [name, amount, color] = raw.split("|");
-        const el = document.getElementById("dc-tier-text");
-        if (el) el.textContent = name + " Sponsor";
-        const pill = document.getElementById("dc-tier-pill");
-        pill.textContent = name.toUpperCase();
-        pill.style.display = "inline-block";
-        if (color) pill.style.background = color;
         if (amount && amount !== "—") {
           document.getElementById("sb-amount").value = amount;
           sb2id("sb-amount", "dc-amount");
         }
         scheduleSave();
       }
+
       function uploadLogo(evt, key) {
         const file = evt.target.files[0];
         if (!file) return;
@@ -2917,6 +2779,7 @@
         };
         r.readAsDataURL(file);
       }
+
       function clearLogo(key) {
         logos[key] = null;
         const p = document.getElementById("prev-" + key);
@@ -2944,6 +2807,7 @@
         });
         scheduleSave();
       }
+
       function renderLogos() {
         ["1", "2"].forEach((pg) => {
           Object.entries(logos).forEach(([key, src]) => {
@@ -2955,6 +2819,7 @@
           });
         });
       }
+
       function uploadWatermark(evt) {
         const file = evt.target.files[0];
         if (!file) return;
@@ -2971,6 +2836,7 @@
         };
         r.readAsDataURL(file);
       }
+
       function applyWM() {
         const rot = document.getElementById("sb-wmrot").value;
         const op = document.getElementById("sb-wmop").value / 100;
@@ -2998,6 +2864,7 @@
         });
         updateWMVis();
       }
+
       function updateWMText() {
         if (wmSrc) return;
         const v =
@@ -3068,6 +2935,7 @@
           }
         });
       }
+
       function removeWM() {
         wmSrc = null;
         [1, 2].forEach((pg) => {
@@ -3091,6 +2959,7 @@
         updateWMSz();
         scheduleSave();
       }
+
       function applyAccent(dotEl) {
         const color = dotEl.dataset.color;
         document
@@ -3099,6 +2968,7 @@
         applyAccentDirect(color);
         scheduleSave();
       }
+
       function applyAccentDirect(color) {
         currentAccent = color;
         document.documentElement.style.setProperty("--m", color);
@@ -3124,9 +2994,6 @@
           .querySelectorAll(".col-hd")
           .forEach((el) => (el.style.background = color));
         document
-          .querySelectorAll(".tier-pill")
-          .forEach((el) => (el.style.background = color));
-        document
           .querySelectorAll(".sig-lbl")
           .forEach((el) => (el.style.color = shadeColor(color, -10)));
         document
@@ -3135,10 +3002,11 @@
         document
           .querySelectorAll(".sig-wrap")
           .forEach((el) => (el.style.borderTopColor = color));
-        document.querySelectorAll(".corner").forEach((el) => {
-          el.style.borderColor = color;
-        });
+        document
+          .querySelectorAll(".corner")
+          .forEach((el) => (el.style.borderColor = color));
       }
+
       function shadeColor(color, pct) {
         const num = parseInt(color.replace("#", ""), 16);
         const r = Math.max(0, Math.min(255, (num >> 16) + pct * 2));
@@ -3148,6 +3016,7 @@
           "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
         );
       }
+
       function adjustZoom(delta) {
         if (delta === 0) currentZoom = 100;
         else currentZoom = Math.max(40, Math.min(160, currentZoom + delta));
@@ -3159,6 +3028,8 @@
           `scale(${currentZoom / 100})`;
         document.getElementById("zoom-val").textContent = currentZoom + "%";
       }
+
+      /* Section Manager */
       function refreshSecList() {
         const list = document.getElementById("sec-list");
         list.innerHTML = "";
@@ -3169,7 +3040,7 @@
             sh.querySelector(".sec-head-text")?.textContent.trim() || "";
           const item = document.createElement("div");
           item.className = "sec-item";
-          item.innerHTML = `<span class="si-num">${num}.</span><span class="si-name">${title} <span style="color:#604040;font-size:9px;">(p${pg})</span></span><div class="si-btns"><button class="si-up" title="Move up">↑</button><button class="si-dn" title="Move down">↓</button><button class="si-del" title="Delete">✕</button></div>`;
+          item.innerHTML = `<span class="si-num">${num}.</span><span class="si-name">${title} <span style="color:#604040;font-size:9px;">(p${pg})</span></span><div class="si-btns"><button class="si-up">↑</button><button class="si-dn">↓</button><button class="si-del">✕</button></div>`;
           item.querySelector(".si-name").onclick = () =>
             sh.scrollIntoView({ behavior: "smooth", block: "center" });
           item.querySelector(".si-up").onclick = (e) => {
@@ -3187,6 +3058,7 @@
           list.appendChild(item);
         });
       }
+
       function getSectionNodes(secNum) {
         const sh = document.querySelector(`.sec-head[data-sec="${secNum}"]`);
         if (!sh) return null;
@@ -3207,6 +3079,7 @@
         }
         return { sh, parent, nodes, si, ei };
       }
+
       function deleteSection(secNum) {
         if (!confirm("Delete section " + secNum + "?")) return;
         const info = getSectionNodes(secNum);
@@ -3219,6 +3092,7 @@
         toast("Section deleted");
         scheduleSave();
       }
+
       function moveSec(secNum, dir) {
         const info = getSectionNodes(secNum);
         if (!info) return;
@@ -3261,12 +3135,14 @@
         refreshSecList();
         toast("Moved ✓");
       }
+
       function toggleAddType() {
         document.getElementById("add-sec-wrap").style.display =
           document.getElementById("add-type").value === "bullet"
             ? "block"
             : "none";
       }
+
       function addItem() {
         const type = document.getElementById("add-type").value;
         const pg = document.getElementById("add-page").value;
@@ -3287,7 +3163,8 @@
           secDiv.dataset.page = pg;
           secDiv.innerHTML = `<span class="sec-head-num">${sn}.</span><span class="sec-head-text" contenteditable="${ce}">${heading || "New Section"}</span>`;
           const para = document.createElement("p");
-          para.innerHTML = `<span class="ed" contenteditable="${ce}">${content || "Section content goes here."}</span>`;
+          para.setAttribute("contenteditable", ce);
+          para.textContent = content || "Section content goes here.";
           if (sigWrap) {
             targetContent.insertBefore(secDiv, sigWrap);
             targetContent.insertBefore(para, sigWrap);
@@ -3307,12 +3184,14 @@
         } else if (type === "note") {
           const note = document.createElement("p");
           note.className = "note-italic";
-          note.innerHTML = `<span class="ed" contenteditable="${ce}">${content || heading || "Note goes here."}</span>`;
+          note.setAttribute("contenteditable", ce);
+          note.textContent = content || heading || "Note goes here.";
           if (sigWrap) targetContent.insertBefore(note, sigWrap);
           else targetContent.appendChild(note);
         } else if (type === "para") {
           const para = document.createElement("p");
-          para.innerHTML = `<span class="ed" contenteditable="${ce}">${content || heading || "Paragraph text."}</span>`;
+          para.setAttribute("contenteditable", ce);
+          para.textContent = content || heading || "Paragraph text.";
           if (sigWrap) targetContent.insertBefore(para, sigWrap);
           else targetContent.appendChild(para);
         } else if (type === "bullet") {
@@ -3326,7 +3205,8 @@
             return;
           }
           const li = document.createElement("li");
-          li.innerHTML = `<span class="li-ed" contenteditable="${ce}">${content || "New bullet point."}</span>`;
+          li.setAttribute("contenteditable", ce);
+          li.textContent = content || "New bullet point.";
           tList.appendChild(li);
         } else if (type === "sigrow") {
           const sig = targetContent.querySelector(".sig-wrap");
@@ -3337,7 +3217,7 @@
           sig.querySelectorAll(".sig-col").forEach((col) => {
             const row = document.createElement("div");
             row.className = "sig-row";
-            row.innerHTML = `<span class="sig-lbl"><span class="sig-lbl-ed" contenteditable="${ce}">${heading || "New Field:"}</span></span><span class="sig-val" contenteditable="${ce}" data-ph="[${(heading || "").replace(":", "")}]">${content || ""}</span>`;
+            row.innerHTML = `<span class="sig-lbl"><span contenteditable="${ce}">${heading || "New Field:"}</span></span><span class="sig-val" contenteditable="${ce}" data-ph="[${(heading || "").replace(":", "")}]">${content || ""}</span>`;
             const tall = col.querySelector(".sig-row-tall");
             if (tall) col.insertBefore(row, tall);
             else col.appendChild(row);
@@ -3350,12 +3230,13 @@
         toast("Added to Page " + pg + " ✓");
         scheduleSave();
       }
+
+      /* Context Menu */
       const ctxMenu = document.getElementById("ctx-menu");
       document.addEventListener("contextmenu", (e) => {
-        const target = e.target.closest(
-          ".li-ed,.ed,.sec-head-text,.sig-val,.col-hd-ed,.sig-lbl-ed,.footer-ed,.doc-title-ed",
-        );
-        if (!target || !editMode) return;
+        if (!editMode) return;
+        const target = e.target.closest('[contenteditable="true"]');
+        if (!target || target.closest("#sb")) return;
         e.preventDefault();
         showCtx(e.clientX, e.clientY, target);
       });
@@ -3363,6 +3244,7 @@
       document.addEventListener("keydown", (ev) => {
         if (ev.key === "Escape") hideCtx();
       });
+
       function showCtx(x, y, target) {
         ctxMenu.innerHTML = "";
         const items = [
@@ -3409,16 +3291,13 @@
             },
           },
         ];
-        if (target.classList.contains("li-ed")) {
+        if (target.tagName === "LI") {
           items.push(
             { sep: true },
             {
               icon: "✕",
               label: "Delete this bullet",
-              fn: () => {
-                const li = target.closest("li");
-                if (li) li.remove();
-              },
+              fn: () => target.remove(),
             },
           );
         }
@@ -3458,14 +3337,20 @@
       function hideCtx() {
         ctxMenu.classList.remove("show");
       }
+
+      /* ═══ EXPORT — CLEAN A4 PDF/PNG ═══ */
       async function renderPage(pageId) {
         const el = document.getElementById(pageId);
-        const eds = el.querySelectorAll(".ed,.li-ed");
-        const edBg = [];
-        eds.forEach((e, i) => {
-          edBg[i] = e.style.background;
-          e.style.background = "transparent";
-        });
+        // Strip edit highlights for clean export
+        const wasEditOn = document.body.classList.contains("edit-on");
+        document.body.classList.remove("edit-on");
+        document.body.classList.add("no-edit");
+        // Temporarily remove all contenteditable for clean render
+        const ces = el.querySelectorAll("[contenteditable]");
+        ces.forEach((e) => e.removeAttribute("contenteditable"));
+
+        await new Promise((r) => setTimeout(r, 60)); // Let styles settle
+
         const canvas = await html2canvas(el, {
           scale: ESCALE,
           useCORS: true,
@@ -3474,36 +3359,20 @@
           logging: false,
           width: PW,
           height: PH,
-          windowWidth: PW + 600,
-          windowHeight: PH + 300,
+          windowWidth: PW,
+          windowHeight: PH,
           scrollX: 0,
-          scrollY: -window.scrollY,
+          scrollY: 0,
           imageTimeout: 15000,
           onclone: (doc) => {
-            ["sb", "sb-fab", "tip-bar", "ctx-menu"].forEach((id) => {
+            ["sb", "sb-fab", "tip-bar", "ctx-menu", "pg-meta"].forEach((id) => {
               const e2 = doc.getElementById(id);
               if (e2) e2.style.display = "none";
             });
             const pg = doc.getElementById(pageId);
             if (pg) {
-              pg.style.width = PW + "px";
-              pg.style.minWidth = PW + "px";
-              pg.style.maxWidth = PW + "px";
-              pg.style.height = PH + "px";
-              pg.style.minHeight = PH + "px";
-              pg.style.maxHeight = PH + "px";
-              pg.style.overflow = "hidden";
-              pg.style.position = "relative";
-              pg.style.transform = "none";
-              pg.style.boxShadow = "none";
-              pg.style.margin = "0";
-              pg.style.flexShrink = "0";
+              pg.style.cssText = `width:${PW}px!important;min-width:${PW}px!important;max-width:${PW}px!important;height:${PH}px!important;min-height:${PH}px!important;max-height:${PH}px!important;overflow:hidden!important;position:relative!important;transform:none!important;box-shadow:none!important;margin:0!important;flex-shrink:0!important;`;
             }
-            doc
-              .querySelectorAll(
-                ".ed,.li-ed,.sec-head-text,.sig-val,.doc-title-ed,.footer-ed,.col-hd-ed,.sig-lbl-ed",
-              )
-              .forEach((e) => (e.style.background = "transparent"));
             const main = doc.getElementById("main");
             if (main) {
               main.style.marginLeft = "0";
@@ -3514,11 +3383,22 @@
             if (pw) {
               pw.style.transform = "none";
             }
+            // Remove all edit backgrounds in clone
+            doc.querySelectorAll("[contenteditable]").forEach((e) => {
+              e.style.background = "transparent";
+              e.style.outline = "none";
+            });
           },
         });
-        eds.forEach((e, i) => {
-          e.style.background = edBg[i];
-        });
+
+        // Restore
+        ces.forEach((e) => e.setAttribute("contenteditable", "true"));
+        if (wasEditOn) {
+          document.body.classList.add("edit-on");
+          document.body.classList.remove("no-edit");
+        }
+
+        // Ensure correct output size
         if (canvas.width === EW && canvas.height === EH) return canvas;
         const out = document.createElement("canvas");
         out.width = EW;
@@ -3529,6 +3409,7 @@
         ctx.drawImage(canvas, 0, 0, EW, EH);
         return out;
       }
+
       function setProgress(pct) {
         const wrap = document.getElementById("progress-wrap");
         const bar = document.getElementById("progress-bar");
@@ -3540,6 +3421,7 @@
         wrap.classList.add("active");
         bar.style.width = pct + "%";
       }
+
       async function downloadPDF() {
         const btn = document.getElementById("dl-pdf");
         btn.textContent = "⏳ Rendering…";
@@ -3594,6 +3476,7 @@
           btn.disabled = false;
         }
       }
+
       async function downloadImg(n) {
         toast("Rendering Page " + n + "…", 3000);
         try {
@@ -3613,6 +3496,8 @@
         await new Promise((r) => setTimeout(r, 900));
         await downloadImg(2);
       }
+
+      /* Init */
       document.addEventListener("DOMContentLoaded", () => {
         restoreData();
         refreshSecList();
@@ -3623,12 +3508,15 @@
         setInterval(updateStats, 6000);
         updateStats();
         document.getElementById("save-status").textContent = "Ready";
+        // Track highest section number
         let maxSec = 6;
         document.querySelectorAll(".sec-head[data-sec]").forEach((sh) => {
           const n = parseInt(sh.dataset.sec, 10);
           if (n > maxSec) maxSec = n;
         });
         nextSecNum = maxSec + 1;
+        // Ensure body has edit-on class
+        document.body.classList.add("edit-on");
       });
     </script>
   </body>
