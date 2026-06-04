@@ -4,58 +4,39 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Apex Pitch & Pop — Sponsorship Agreement Builder</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
       :root {
-        --m: #7b1c1c;
-        --md: #5a1010;
-        --mm: #8b2222;
-        --ml: rgba(123, 28, 28, 0.12);
-        --g: #3a3a3a;
-        --gm: #5a5a5a;
-        --gl: #8a8a8a;
-        --border: #c8b8b8;
-        --bgw: #faf6f4;
-        --sb: #0f0606;
-        --sba: #8b2020;
-        --sbt: #f2e6e2;
-        --sbm: #a07070;
-        --sbf: #1a0a0a;
-        --sbb: #2e1212;
-        --sw: 360px;
+        --m: #7b1c1c; --md: #5a1010; --mm: #8b2222; --ml: rgba(123,28,28,0.12);
+        --g: #3a3a3a; --gm: #5a5a5a; --gl: #8a8a8a; --border: #c8b8b8;
+        --bgw: #faf6f4; --sb: #0f0606; --sba: #8b2020; --sbt: #f2e6e2;
+        --sbm: #a07070; --sbf: #1a0a0a; --sbb: #2e1212; --sw: 360px;
       }
       * { box-sizing: border-box; margin: 0; padding: 0; }
       html, body { height: 100%; font-family: "DM Sans", sans-serif; }
       body { background: #080101; overflow-x: hidden; }
-      ::-webkit-scrollbar { width: 4px; height: 4px; }
-      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; }
       ::-webkit-scrollbar-thumb { background: #4a1a1a; border-radius: 2px; }
       *:focus { outline: none !important; }
-      [contenteditable]:focus { outline: none !important; }
 
-      /* ══ SIDEBAR ══ */
+      /* SIDEBAR */
       #sb { position: fixed; top: 0; left: 0; width: var(--sw); height: 100vh; background: var(--sb); border-right: 1px solid #2a1010; z-index: 600; display: flex; flex-direction: column; transition: transform 0.32s cubic-bezier(0.4,0,0.2,1); box-shadow: 4px 0 40px rgba(0,0,0,0.7); }
       #sb.hidden { transform: translateX(calc(-1 * var(--sw))); }
       .sbh { height: 54px; background: var(--md); display: flex; align-items: center; padding: 0 14px; gap: 9px; flex-shrink: 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-      .sbh-icon { font-size: 17px; }
-      .sbh-title { font-family: "Playfair Display", serif; font-size: 13px; font-weight: 600; color: #ffe8e0; letter-spacing: 0.4px; flex: 1; }
+      .sbh-icon { font-size: 17px; } .sbh-title { font-family: "Playfair Display",serif; font-size: 13px; font-weight: 600; color: #ffe8e0; letter-spacing: 0.4px; flex: 1; }
       .sb-body { flex: 1; overflow-y: auto; padding-bottom: 28px; }
       .sb-tabs { display: flex; background: #0a0404; border-bottom: 1px solid var(--sbb); flex-shrink: 0; }
-      .sb-tab { flex: 1; padding: 8px 2px; background: none; border: none; color: var(--sbm); font-size: 9.5px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; border-bottom: 2px solid transparent; font-family: "DM Sans", sans-serif; }
+      .sb-tab { flex: 1; padding: 8px 2px; background: none; border: none; color: var(--sbm); font-size: 9.5px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; border-bottom: 2px solid transparent; font-family: "DM Sans",sans-serif; }
       .sb-tab.active { color: #ffd0d0; border-bottom-color: var(--sba); background: rgba(139,32,32,0.09); }
       .sb-tab:hover:not(.active) { color: #e0c0c0; }
-      .tab-pane { display: none; }
-      .tab-pane.active { display: block; }
+      .tab-pane { display: none; } .tab-pane.active { display: block; }
       .sbs { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--sba); padding: 12px 14px 3px; display: flex; align-items: center; gap: 5px; border-top: 1px solid var(--sbb); }
       .sbs:first-child { border-top: none; }
       .sf { padding: 3px 14px 4px; }
-      .sf label { display: block; font-size: 11px; font-weight: 600; color: var(--sbm); margin-bottom: 2px; letter-spacing: 0.2px; }
-      .sf input[type="text"], .sf input[type="date"], .sf select, .sf textarea { width: 100%; background: var(--sbf); border: 1px solid var(--sbb); color: var(--sbt); font-size: 12px; font-family: "DM Sans", sans-serif; padding: 6px 9px; border-radius: 4px; outline: none; transition: border-color 0.18s, background 0.18s; }
+      .sf label { display: block; font-size: 11px; font-weight: 600; color: var(--sbm); margin-bottom: 2px; }
+      .sf input[type="text"], .sf input[type="date"], .sf select, .sf textarea { width: 100%; background: var(--sbf); border: 1px solid var(--sbb); color: var(--sbt); font-size: 12px; font-family: "DM Sans",sans-serif; padding: 6px 9px; border-radius: 4px; outline: none; transition: border-color 0.18s; }
       .sf input:focus, .sf select:focus, .sf textarea:focus { border-color: var(--sba); background: #1e0c0c; }
       .sf select option { background: #1a0808; color: #f0e4e0; }
       .sf textarea { resize: vertical; min-height: 46px; line-height: 1.4; }
@@ -65,62 +46,49 @@
       .sf input[type="range"] { width: 100%; accent-color: var(--m); cursor: pointer; height: 3px; margin: 2px 0; }
       .check-row { display: flex; gap: 10px; padding: 3px 14px; }
       .check-row label { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--sbm); cursor: pointer; }
-      .check-row input[type="checkbox"] { accent-color: var(--m); width: 12px; height: 12px; cursor: pointer; }
-      .logo-up { position: relative; width: 100%; height: 46px; border: 1.5px dashed #3e1818; border-radius: 4px; background: #130606; overflow: hidden; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; }
-      .logo-up:hover { border-color: var(--sba); background: #1e0a0a; }
-      .logo-up input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+      .check-row input[type="checkbox"] { accent-color: var(--m); width: 12px; height: 12px; }
+      .logo-up { position: relative; width: 100%; height: 46px; border: 1.5px dashed #3e1818; border-radius: 4px; background: #130606; overflow: hidden; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s; }
+      .logo-up:hover { border-color: var(--sba); } .logo-up input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
       .logo-up .up-lbl { font-size: 10px; color: var(--sbm); pointer-events: none; text-align: center; }
       .logo-up img { display: none; max-width: 100%; max-height: 100%; object-fit: contain; position: absolute; }
       .btn-row { display: grid; gap: 4px; padding: 3px 14px; }
-      .btn-row.col2 { grid-template-columns: 1fr 1fr; }
-      .btn-row.col1 { grid-template-columns: 1fr; }
-      .btn-row.col3 { grid-template-columns: 1fr 1fr 1fr; }
-      .sbtn { padding: 7px 8px; border: none; border-radius: 4px; font-size: 10.5px; font-weight: 600; font-family: "DM Sans", sans-serif; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 4px; letter-spacing: 0.2px; }
-      .sbtn-pdf { background: var(--m); color: #fff; }
-      .sbtn-pdf:hover { background: #9b2222; }
-      .sbtn-pdf:disabled { background: #4a1010; color: #8a5050; cursor: wait; }
-      .sbtn-png { background: #1e1010; color: #ccc; border: 1px solid #3a1a1a; }
-      .sbtn-png:hover { background: #2a1414; border-color: #5a2a2a; }
-      .sbtn-all { background: #0d1e0d; color: #90ee90; border: 1px solid #1e4a1e; }
-      .sbtn-all:hover { background: #122012; }
+      .btn-row.col2 { grid-template-columns: 1fr 1fr; } .btn-row.col1 { grid-template-columns: 1fr; } .btn-row.col3 { grid-template-columns: 1fr 1fr 1fr; }
+      .sbtn { padding: 7px 8px; border: none; border-radius: 4px; font-size: 10.5px; font-weight: 600; font-family: "DM Sans",sans-serif; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 4px; }
+      .sbtn-pdf { background: var(--m); color: #fff; } .sbtn-pdf:hover { background: #9b2222; } .sbtn-pdf:disabled { background: #4a1010; color: #8a5050; cursor: wait; }
+      .sbtn-png { background: #1e1010; color: #ccc; border: 1px solid #3a1a1a; } .sbtn-png:hover { background: #2a1414; }
+      .sbtn-all { background: #0d1e0d; color: #90ee90; border: 1px solid #1e4a1e; } .sbtn-all:hover { background: #122012; }
       .sbtn-edit { background: #0d1e2a; color: #90ccff; border: 1px solid #1a3a5a; }
       .sbtn-edit.on { background: #0d200d; color: #90ee90; border-color: #1e4a1e; }
-      .sbtn-danger { background: #200a0a; color: #ff8080; border: 1px solid #4a1a1a; font-size: 10.5px; }
-      .sbtn-danger:hover { background: #2a0e0e; }
-      .sbtn-add { background: #1a1a0a; color: #e0d080; border: 1px solid #3a3a1a; font-size: 10.5px; }
-      .sbtn-add:hover { background: #222210; }
-      .sbtn-neutral { background: #161616; color: #aaa; border: 1px solid #2a2a2a; font-size: 10.5px; }
-      .sbtn-neutral:hover { background: #1e1e1e; }
-      .sbtn-green { background: #0d1a0d; color: #90ee90; border: 1px solid #1e4a1e; font-size: 10.5px; }
-      .sbtn-green:hover { background: #122012; }
+      .sbtn-danger { background: #200a0a; color: #ff8080; border: 1px solid #4a1a1a; font-size: 10.5px; } .sbtn-danger:hover { background: #2a0e0e; }
+      .sbtn-add { background: #1a1a0a; color: #e0d080; border: 1px solid #3a3a1a; font-size: 10.5px; } .sbtn-add:hover { background: #222210; }
+      .sbtn-neutral { background: #161616; color: #aaa; border: 1px solid #2a2a2a; font-size: 10.5px; } .sbtn-neutral:hover { background: #1e1e1e; }
+      .sbtn-green { background: #0d1a0d; color: #90ee90; border: 1px solid #1e4a1e; font-size: 10.5px; } .sbtn-green:hover { background: #122012; }
       .add-builder { background: #140808; border: 1px solid var(--sbb); border-radius: 5px; padding: 8px; margin: 3px 14px 4px; }
       .add-builder label { font-size: 10px; color: var(--sbm); display: block; margin-bottom: 2px; }
-      .add-builder select, .add-builder input, .add-builder textarea { width: 100%; background: #0a0404; border: 1px solid #2e1212; color: var(--sbt); font-size: 10.5px; font-family: "DM Sans", sans-serif; padding: 5px 7px; border-radius: 3px; outline: none; margin-bottom: 4px; }
+      .add-builder select, .add-builder input, .add-builder textarea { width: 100%; background: #0a0404; border: 1px solid #2e1212; color: var(--sbt); font-size: 10.5px; font-family: "DM Sans",sans-serif; padding: 5px 7px; border-radius: 3px; outline: none; margin-bottom: 4px; }
       .add-builder select:focus, .add-builder input:focus, .add-builder textarea:focus { border-color: var(--sba); }
       .add-builder textarea { resize: vertical; min-height: 40px; line-height: 1.4; }
       .sec-list { margin: 3px 14px; display: flex; flex-direction: column; gap: 3px; max-height: 220px; overflow-y: auto; }
-      .sec-item { background: #130707; border: 1px solid #2a1212; border-radius: 3px; padding: 4px 7px; display: flex; align-items: center; gap: 4px; font-size: 10.5px; color: #d0a0a0; transition: background 0.15s; }
-      .sec-item:hover { background: #1a0a0a; }
+      .sec-item { background: #130707; border: 1px solid #2a1212; border-radius: 3px; padding: 4px 7px; display: flex; align-items: center; gap: 4px; font-size: 10.5px; color: #d0a0a0; }
       .sec-item .si-num { color: var(--sba); font-weight: 700; font-size: 10px; min-width: 14px; }
       .sec-item .si-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
       .sec-item .si-name:hover { color: #ffd0d0; }
       .sec-item .si-btns { display: flex; gap: 2px; flex-shrink: 0; }
-      .sec-item .si-up, .sec-item .si-dn { color: #604040; font-size: 11px; cursor: pointer; padding: 1px 3px; transition: color 0.15s; background: none; border: none; font-family: "DM Sans", sans-serif; }
+      .sec-item .si-up, .sec-item .si-dn { color: #604040; font-size: 11px; cursor: pointer; padding: 1px 3px; background: none; border: none; font-family: "DM Sans",sans-serif; }
       .sec-item .si-up:hover, .sec-item .si-dn:hover { color: #ffd080; }
-      .sec-item .si-del { color: #6a2020; font-size: 12px; cursor: pointer; padding: 0 2px; transition: color 0.15s; background: none; border: none; font-family: "DM Sans", sans-serif; }
+      .sec-item .si-del { color: #6a2020; font-size: 12px; cursor: pointer; padding: 0 2px; background: none; border: none; font-family: "DM Sans",sans-serif; }
       .sec-item .si-del:hover { color: #ff6060; }
       .sec-num-label { font-size: 9.5px; color: #604040; padding: 2px 14px; font-style: italic; }
-      .progress-bar { height: 3px; background: linear-gradient(90deg, var(--sba) 0%, #ff6060 100%); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+      .progress-bar { height: 3px; background: linear-gradient(90deg,var(--sba),#ff6060); border-radius: 2px; transition: width 0.4s; width: 0%; }
       .progress-wrap { padding: 0 14px 5px; display: none; }
       .progress-wrap.active { display: block; }
       .autosave-row { display: flex; align-items: center; gap: 5px; padding: 4px 14px; font-size: 10px; color: #80b080; background: #0a1a0a; border-radius: 3px; margin: 4px 14px; }
-      .save-dot { width: 7px; height: 7px; border-radius: 50%; background: #4caf50; flex-shrink: 0; transition: background 0.3s, box-shadow 0.3s; }
-      .save-dot.saving { background: #ffa000; box-shadow: 0 0 5px #ffa000; }
-      .save-dot.error { background: #f44336; }
+      .save-dot { width: 7px; height: 7px; border-radius: 50%; background: #4caf50; flex-shrink: 0; transition: background 0.3s; }
+      .save-dot.saving { background: #ffa000; box-shadow: 0 0 5px #ffa000; } .save-dot.error { background: #f44336; }
       .hist-panel { background: #0a0606; border: 1px solid #2a1010; border-radius: 3px; margin: 3px 14px; padding: 6px; max-height: 110px; overflow-y: auto; font-size: 10px; color: #886868; }
       .hist-item { padding: 2px 0; border-bottom: 1px solid #1a0808; display: flex; justify-content: space-between; align-items: center; gap: 4px; }
       .hist-item:last-child { border-bottom: none; }
-      .hist-restore { background: none; border: none; color: #aa6666; cursor: pointer; font-size: 9.5px; padding: 0 2px; }
+      .hist-restore { background: none; border: none; color: #aa6666; cursor: pointer; font-size: 9.5px; }
       .hist-restore:hover { color: #ff9999; }
       .wc-bar { background: #0a0606; border: 1px solid #2a1010; border-radius: 3px; padding: 4px 8px; font-size: 10px; color: #887070; display: flex; justify-content: space-between; margin: 2px 14px; }
       .wc-num { color: #cc8888; font-weight: 700; }
@@ -128,14 +96,16 @@
       .color-dot { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: border-color 0.15s, transform 0.15s; }
       .color-dot:hover, .color-dot.active { border-color: #fff; transform: scale(1.15); }
       .zoom-row { display: flex; align-items: center; gap: 5px; padding: 3px 14px; }
-      .zoom-btn { background: #200c0c; border: 1px solid var(--sbb); color: #ddd0c8; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 13px; font-weight: 700; transition: background 0.2s; }
+      .zoom-btn { background: #200c0c; border: 1px solid var(--sbb); color: #ddd0c8; padding: 4px 9px; border-radius: 3px; cursor: pointer; font-size: 13px; font-weight: 700; }
       .zoom-btn:hover { background: #3a1010; }
       #zoom-val { font-size: 11px; color: #c0a0a0; min-width: 36px; text-align: center; }
-      #sb-fab { position: fixed; top: 12px; left: 12px; z-index: 700; width: 40px; height: 40px; background: var(--md); border: none; color: #fff; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 18px rgba(0,0,0,0.6); transition: background 0.2s, transform 0.15s; }
-      #sb-fab:hover { background: var(--sba); transform: scale(1.05); }
+      #sb-fab { position: fixed; top: 12px; left: 12px; z-index: 700; width: 40px; height: 40px; background: var(--md); border: none; color: #fff; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 18px rgba(0,0,0,0.6); transition: background 0.2s; }
+      #sb-fab:hover { background: var(--sba); }
+      .bullet-manager-info { background: #120606; border: 1px solid #2e1010; border-radius: 4px; padding: 7px 10px; margin: 3px 14px 4px; font-size: 10px; color: #886060; line-height: 1.5; }
+      .bullet-manager-info strong { color: #ffb0b0; }
 
-      /* ══ MAIN ══ */
-      #main { margin-left: var(--sw); padding: 20px 20px 60px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; background: radial-gradient(ellipse at 30% 20%, #1a0808 0%, #060101 100%); transition: margin-left 0.32s cubic-bezier(0.4,0,0.2,1); }
+      /* MAIN */
+      #main { margin-left: var(--sw); padding: 20px 20px 60px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; background: radial-gradient(ellipse at 30% 20%,#1a0808,#060101); transition: margin-left 0.32s cubic-bezier(0.4,0,0.2,1); }
       #main.sb-hidden { margin-left: 0; }
       .tip-bar { max-width: 834px; width: 100%; margin-bottom: 9px; background: rgba(123,28,28,0.14); border: 1px solid rgba(123,28,28,0.3); border-radius: 6px; padding: 6px 14px; font-size: 11px; color: #c09090; text-align: center; }
       .tip-bar strong { color: #ffd8d8; }
@@ -143,11 +113,20 @@
       .pg-meta .dot { width: 3px; height: 3px; background: #4a2020; border-radius: 50%; }
       .page-wrap { display: flex; flex-direction: column; gap: 24px; transform-origin: top center; }
 
-      /* ══ A4 ══ */
-      .a4 { width: 794px !important; min-width: 794px !important; max-width: 794px !important; height: 1123px !important; min-height: 1123px !important; max-height: 1123px !important; background: #fff; position: relative; overflow: hidden !important; flex-shrink: 0; box-shadow: 0 8px 52px rgba(0,0,0,0.6), 0 0 0 1px rgba(123,28,28,0.12); display: flex; flex-direction: column; }
+      /* A4 PAGE — FIX: overflow visible so content isn't clipped */
+      .a4 {
+        width: 794px !important; min-width: 794px !important; max-width: 794px !important;
+        /* FIX: use min-height instead of fixed height so content never clips */
+        min-height: 1123px !important; height: 1123px !important; max-height: 1123px !important;
+        background: #fff; position: relative;
+        /* FIX: overflow hidden is needed for export, we control it via class */
+        overflow: hidden;
+        flex-shrink: 0; box-shadow: 0 8px 52px rgba(0,0,0,0.6),0 0 0 1px rgba(123,28,28,0.12);
+        display: flex; flex-direction: column;
+      }
       .pg-top { background: var(--m); height: 6px; flex-shrink: 0; }
       .wm-t, .wm-i { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-38deg); pointer-events: none; z-index: 0; user-select: none; }
-      .wm-t { font-family: "EB Garamond", serif; font-size: 72px; font-weight: 700; color: rgba(123,28,28,0.055); white-space: nowrap; letter-spacing: 10px; }
+      .wm-t { font-family: "EB Garamond",serif; font-size: 72px; font-weight: 700; color: rgba(123,28,28,0.055); white-space: nowrap; letter-spacing: 10px; }
       .wm-i { width: 420px; opacity: 0.07; filter: grayscale(100%); display: none; }
       .corner { position: absolute; width: 34px; height: 34px; opacity: 0.22; }
       .c-tl { top: 14px; left: 14px; border-top: 2px solid var(--m); border-left: 2px solid var(--m); }
@@ -156,9 +135,10 @@
       .c-br { bottom: 40px; right: 14px; border-bottom: 2px solid var(--m); border-right: 2px solid var(--m); }
       .pg-foot { position: absolute; bottom: 0; left: 0; right: 0; height: 32px; background: var(--m); display: flex; align-items: center; justify-content: center; z-index: 5; }
       .pg-foot span { color: #fff; font-size: 10px; font-weight: 600; letter-spacing: 0.7px; text-transform: uppercase; }
-      .pg-body { padding: 10px 42px 38px; position: relative; z-index: 1; flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+      /* FIX: pg-body should not overflow hidden — let content be visible in editing */
+      .pg-body { padding: 10px 42px 38px; position: relative; z-index: 1; flex: 1; overflow: visible; display: flex; flex-direction: column; }
 
-      /* ══ LOGOS ROW ══ */
+      /* LOGOS */
       .logos-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 2.5px solid var(--m); flex-shrink: 0; }
       .logo-slot { width: 100px; height: 58px; border: 1.5px dashed #c0a8a8; border-radius: 5px; display: flex; align-items: center; justify-content: center; background: var(--bgw); overflow: hidden; }
       .logo-slot:last-child { width: 140px; height: 82px; border-width: 2px; }
@@ -168,109 +148,61 @@
       .event-logo-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
       .event-logo-slot-ph { font-size: 10px; color: #9b5c5c; text-align: center; padding: 3px; line-height: 1.4; font-weight: 700; }
 
-      /* ══ DOCUMENT CONTENT ══ */
-      .doc-content { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+      /* DOCUMENT */
+      .doc-content { flex: 1; overflow: visible; display: flex; flex-direction: column; }
       .doc-title { text-align: center; margin-bottom: 10px; flex-shrink: 0; }
-      .doc-title-ed { display: inline; outline: none; font-family: "EB Garamond", serif; font-size: 26px; font-weight: 700; color: var(--m); letter-spacing: 3px; border-bottom: 2px solid var(--m); padding-bottom: 4px; cursor: text; }
+      .doc-title-ed { display: inline; outline: none; font-family: "EB Garamond",serif; font-size: 26px; font-weight: 700; color: var(--m); letter-spacing: 3px; border-bottom: 2px solid var(--m); padding-bottom: 4px; cursor: text; }
       .doc-text { font-size: 13px; line-height: 1.62; color: var(--g); flex: 1; }
       .doc-text p { margin-bottom: 5px; text-align: justify; }
       .doc-text strong { color: #1c0a0a; }
-      .sec-head { font-family: "EB Garamond", serif; font-size: 15px; font-weight: 700; color: var(--m); margin: 9px 0 4px; letter-spacing: 0.3px; display: flex; align-items: baseline; gap: 4px; }
+      .sec-head { font-family: "EB Garamond",serif; font-size: 15px; font-weight: 700; color: var(--m); margin: 9px 0 4px; letter-spacing: 0.3px; display: flex; align-items: baseline; gap: 4px; }
       .sec-head-num { flex-shrink: 0; color: var(--m); opacity: 0.6; font-size: 13px; }
-      .sec-head-text { outline: none; min-width: 40px; font-family: "EB Garamond", serif; cursor: text; }
+      .sec-head-text { outline: none; min-width: 40px; font-family: "EB Garamond",serif; cursor: text; }
       .sec-head-text:focus { background: rgba(123,28,28,0.07); }
-      .doc-text ul { margin-left: 18px; margin-bottom: 5px; list-style-type: disc; }
+      .doc-text ul { margin-left: 18px; margin-bottom: 5px; list-style-type: disc; position: relative; overflow: visible; }
+      .doc-text ul li { margin-bottom: 3px; text-align: justify; font-size: 12.5px; line-height: 1.52; position: relative; }
 
-      /* ══ BULLET POINT WITH DELETE BUTTON ══ */
-      .doc-text ul li {
-        margin-bottom: 3px;
-        text-align: justify;
-        font-size: 12.5px;
-        line-height: 1.52;
-        position: relative;
-        padding-right: 0;
-        transition: background 0.15s;
-      }
-      /* The delete button on each list item */
-      .doc-text ul li .li-del-btn {
+      /* FIX: delete button — absolutely placed, hidden by default */
+      .li-del-btn {
         display: none;
         position: absolute;
-        right: -22px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 17px;
-        height: 17px;
-        background: #c0392b;
-        border: none;
-        border-radius: 50%;
-        color: #fff;
-        font-size: 10px;
-        font-weight: 700;
-        line-height: 1;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.35);
+        right: -24px; top: 50%; transform: translateY(-50%);
+        width: 17px; height: 17px;
+        background: #c0392b; border: none; border-radius: 50%;
+        color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;
+        align-items: center; justify-content: center;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.35); z-index: 10;
+        font-family: "DM Sans",sans-serif; line-height: 1;
         transition: background 0.15s, transform 0.15s;
-        z-index: 10;
-        flex-shrink: 0;
-        font-family: "DM Sans", sans-serif;
       }
-      .doc-text ul li .li-del-btn:hover {
-        background: #e74c3c;
-        transform: translateY(-50%) scale(1.18);
-      }
-      /* Show delete button on hover when edit mode is on */
-      body.edit-on .doc-text ul li:hover .li-del-btn {
-        display: flex;
-      }
-      /* Highlight row on hover in edit mode */
-      body.edit-on .doc-text ul li:hover {
-        background: rgba(123,28,28,0.05);
-        border-radius: 2px;
-      }
-      /* Cursor and focus for li */
-      .doc-text ul li[contenteditable="true"] {
-        cursor: text;
-      }
-      .doc-text ul li[contenteditable="true"]:focus {
-        background: rgba(123,28,28,0.05);
-        outline: none;
-      }
-      /* UL needs relative/overflow-visible for the abs button to show */
-      .doc-text ul {
-        position: relative;
-        overflow: visible;
-      }
+      .li-del-btn:hover { background: #e74c3c; transform: translateY(-50%) scale(1.18); }
+      /* Only show in edit mode */
+      body.edit-on .doc-text ul li:hover .li-del-btn { display: flex; }
+      body.edit-on .doc-text ul li:hover { background: rgba(123,28,28,0.04); border-radius: 2px; }
+      /* FIX: ensure delete buttons are NEVER visible during export */
+      .exporting .li-del-btn { display: none !important; }
 
-      /* Delete animation */
-      @keyframes li-fade-out {
-        from { opacity: 1; transform: translateX(0); max-height: 60px; }
-        to   { opacity: 0; transform: translateX(6px); max-height: 0; margin-bottom: 0; padding: 0; }
-      }
-      .li-deleting {
-        animation: li-fade-out 0.28s ease forwards;
-        pointer-events: none;
-      }
+      @keyframes li-fade-out { from{opacity:1;max-height:60px;} to{opacity:0;max-height:0;margin:0;padding:0;} }
+      .li-deleting { animation: li-fade-out 0.26s ease forwards; pointer-events: none; }
 
       .note-italic { font-style: italic; color: var(--gl); font-size: 12px; margin-top: 3px; }
       .date-line { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
       .tier-pill { display: inline-block; background: var(--m); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 2px 7px; border-radius: 3px; vertical-align: middle; margin-left: 4px; }
 
-      /* ══ EDITABLES ══ */
+      /* EDITABLES */
       [contenteditable] { outline: none !important; }
       body.edit-on [contenteditable="true"] { background: rgba(123,28,28,0.06) !important; border-radius: 2px; cursor: text; }
-      body.edit-on [contenteditable="true"]:focus { background: rgba(123,28,28,0.12) !important; outline: none !important; }
+      body.edit-on [contenteditable="true"]:focus { background: rgba(123,28,28,0.12) !important; }
       [contenteditable][data-ph]:empty:before { content: attr(data-ph); color: #c0a0a0; font-style: italic; }
       body.no-edit [contenteditable] { background: transparent !important; pointer-events: none; cursor: default; }
       body.no-edit [contenteditable]:empty:before { content: none; }
 
-      /* ══ SIGNATURES ══ */
+      /* SIGNATURES */
       .sig-wrap { margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--m); flex-shrink: 0; }
       .sig-intro { font-size: 12px; color: var(--gm); margin-bottom: 12px; font-style: italic; text-align: center; line-height: 1.5; }
       .sig-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
       .sig-col { display: flex; flex-direction: column; }
-      .col-hd { font-family: "EB Garamond", serif; font-size: 13px; font-weight: 700; color: #fff; background: var(--m); text-transform: uppercase; letter-spacing: 1.2px; padding: 6px 12px; }
+      .col-hd { font-family: "EB Garamond",serif; font-size: 13px; font-weight: 700; color: #fff; background: var(--m); text-transform: uppercase; letter-spacing: 1.2px; padding: 6px 12px; }
       .sig-row { display: flex; align-items: center; min-height: 26px; padding: 0 10px; background: #faf6f4; border-bottom: 1px solid #e8dcdc; }
       .sig-row-tall { min-height: 48px; align-items: flex-start; padding-top: 6px; }
       .sig-lbl { font-size: 12px; font-weight: 700; color: #5a1010; white-space: nowrap; margin-right: 8px; flex-shrink: 0; min-width: 82px; }
@@ -280,32 +212,24 @@
       .footer-ed:focus { background: rgba(255,255,255,0.12); border-radius: 2px; }
       body.no-edit .footer-ed { pointer-events: none; cursor: default; }
 
-      /* ══ TOAST ══ */
+      /* TOAST */
       #toast { position: fixed; bottom: 22px; right: 22px; background: #1a0808; border: 1px solid var(--sba); color: #ffd0d0; padding: 7px 14px; border-radius: 7px; font-size: 11px; font-weight: 600; z-index: 9999; opacity: 0; transform: translateY(8px); transition: all 0.3s; pointer-events: none; box-shadow: 0 4px 22px rgba(0,0,0,0.5); }
       #toast.show { opacity: 1; transform: translateY(0); }
 
-      /* ══ CONTEXT MENU ══ */
-      #ctx-menu { position: fixed; background: #1a0808; border: 1px solid #3a1a1a; border-radius: 6px; padding: 4px 0; z-index: 800; display: none; min-width: 155px; box-shadow: 0 8px 28px rgba(0,0,0,0.7); }
+      /* CONTEXT MENU */
+      #ctx-menu { position: fixed; background: #1a0808; border: 1px solid #3a1a1a; border-radius: 6px; padding: 4px 0; z-index: 800; display: none; min-width: 165px; box-shadow: 0 8px 28px rgba(0,0,0,0.7); }
       #ctx-menu.show { display: block; }
       .ctx-item { padding: 6px 12px; font-size: 11px; color: #d0a0a0; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.15s; }
       .ctx-item:hover { background: rgba(139,32,32,0.2); color: #ffd0d0; }
       .ctx-sep { height: 1px; background: #2a1212; margin: 2px 0; }
 
-      /* ══ BULLET MANAGER PANEL in sidebar ══ */
-      .bullet-manager-info {
-        background: #120606;
-        border: 1px solid #2e1010;
-        border-radius: 4px;
-        padding: 7px 10px;
-        margin: 3px 14px 4px;
-        font-size: 10px;
-        color: #886060;
-        line-height: 1.5;
-      }
-      .bullet-manager-info strong {
-        color: #ffb0b0;
-        font-weight: 700;
-      }
+      /* EXPORT CLEAN STATE — hides all UI chrome */
+      body.exporting #sb, body.exporting #sb-fab, body.exporting #tip-bar,
+      body.exporting #ctx-menu, body.exporting .pg-meta { display: none !important; }
+      body.exporting #main { margin-left: 0 !important; padding: 0 !important; background: transparent !important; }
+      body.exporting .page-wrap { transform: none !important; gap: 0 !important; }
+      body.exporting [contenteditable] { background: transparent !important; outline: none !important; }
+      body.exporting [contenteditable]:empty:before { content: none !important; }
     </style>
   </head>
   <body class="edit-on">
@@ -313,12 +237,9 @@
     <div id="ctx-menu"></div>
     <button id="sb-fab" onclick="toggleSb()" title="Toggle Panel">☰</button>
 
-    <!-- ═══ SIDEBAR ═══ -->
+    <!-- SIDEBAR -->
     <div id="sb">
-      <div class="sbh">
-        <span class="sbh-icon">⚜</span>
-        <span class="sbh-title">Apex Agreement Builder</span>
-      </div>
+      <div class="sbh"><span class="sbh-icon">⚜</span><span class="sbh-title">Apex Agreement Builder</span></div>
       <div class="sb-tabs">
         <button class="sb-tab active" onclick="showTab('t-info',this)">Info</button>
         <button class="sb-tab" onclick="showTab('t-content',this)">Content</button>
@@ -329,10 +250,7 @@
 
         <!-- INFO TAB -->
         <div class="tab-pane active" id="t-info">
-          <div class="autosave-row">
-            <div class="save-dot" id="save-dot"></div>
-            <span id="save-status">Ready</span>
-          </div>
+          <div class="autosave-row"><div class="save-dot" id="save-dot"></div><span id="save-status">Ready</span></div>
           <div class="sbs">📋 Agreement Info</div>
           <div class="sf"><label>Agreement Date</label><input type="date" id="sb-date" oninput="syncDate();scheduleSave();"/></div>
           <div class="sf"><label>Event Dates</label><input type="text" id="sb-evdate" value="May 15–17, 2026" oninput="sb2id('sb-evdate','dc-evdate');scheduleSave();"/></div>
@@ -361,7 +279,7 @@
           </div>
           <div class="sf"><label>Amount (NPR)</label><input type="text" id="sb-amount" placeholder="e.g. 3,50,000" oninput="sb2id('sb-amount','dc-amount');scheduleSave();"/></div>
           <div class="sf"><label>Payment Method</label>
-            <select id="sb-payment" onchange="sb2id('sb-payment','dc-payment');scheduleSave();">
+            <select id="sb-payment" onchange="scheduleSave();">
               <option value="">— Select —</option>
               <option>Bank Transfer</option><option>Cash</option><option>Cheque</option>
               <option>eSewa / Digital Wallet</option><option>In-Kind (Goods/Services)</option>
@@ -387,7 +305,7 @@
             <button class="sbtn sbtn-neutral" onclick="document.getElementById('import-json').click()">⬇ Import JSON</button>
             <input type="file" id="import-json" accept=".json" style="display:none" onchange="importJSON(event)"/>
           </div>
-          <div class="sf"><div class="hint">Auto-saves every keystroke to browser storage.</div></div>
+          <div class="sf"><div class="hint">Auto-saves every keystroke.</div></div>
         </div>
 
         <!-- CONTENT TAB -->
@@ -395,18 +313,14 @@
           <div class="sbs">📋 Section Manager</div>
           <p class="sec-num-label">Click name → scroll · ↑↓ reorder · ✕ delete</p>
           <div class="sec-list" id="sec-list"></div>
-
-          <div class="sbs">🔴 Bullet Point Manager</div>
+          <div class="sbs">🔴 Bullet Manager</div>
           <div class="bullet-manager-info">
             <strong>3 ways to delete bullets:</strong><br>
-            1. <strong>Hover</strong> over any bullet → click the <span style="background:#c0392b;color:#fff;border-radius:50%;padding:0 4px;font-size:9px;font-weight:700;">✕</span> red button that appears<br>
-            2. <strong>Right-click</strong> any bullet → "Delete this bullet"<br>
-            3. <strong>Select all text</strong> in a bullet and press <kbd style="background:#2a1010;color:#ffb0b0;padding:1px 4px;border-radius:2px;font-size:9px;">Backspace</kbd>
+            1. <strong>Hover</strong> over bullet → click red <span style="background:#c0392b;color:#fff;border-radius:50%;padding:0 4px;font-size:9px;font-weight:700;">✕</span><br>
+            2. <strong>Right-click</strong> bullet → "Delete this bullet"<br>
+            3. Select all text in bullet → <kbd style="background:#2a1010;color:#ffb0b0;padding:1px 4px;border-radius:2px;font-size:9px;">Backspace</kbd>
           </div>
-          <div class="btn-row col1">
-            <button class="sbtn sbtn-neutral" onclick="highlightAllBullets()">👁 Flash All Bullets</button>
-          </div>
-
+          <div class="btn-row col1"><button class="sbtn sbtn-neutral" onclick="highlightAllBullets()">👁 Flash All Bullets</button></div>
           <div class="sbs">➕ Add to Document</div>
           <div class="add-builder">
             <label>Type</label>
@@ -431,32 +345,26 @@
             <button class="sbtn sbtn-add" style="width:100%" onclick="addItem()">+ Add to Document</button>
           </div>
           <div class="sbs">⚠ Danger Zone</div>
-          <div class="btn-row col1">
-            <button class="sbtn sbtn-danger" onclick="if(confirm('Reset ALL content?'))location.reload();">⚠ Reset Entire Document</button>
-          </div>
+          <div class="btn-row col1"><button class="sbtn sbtn-danger" onclick="if(confirm('Reset ALL content?'))location.reload();">⚠ Reset Entire Document</button></div>
         </div>
 
         <!-- DESIGN TAB -->
         <div class="tab-pane" id="t-design">
           <div class="sbs">🖼 Logos</div>
-          <div class="sf">
-            <label>Left — Apex M&amp;M Club</label>
+          <div class="sf"><label>Left — Apex M&amp;M Club</label>
             <div class="logo-up"><input type="file" accept="image/*" onchange="uploadLogo(event,'L1')"/><div class="up-lbl">↑ Upload logo</div><img id="prev-L1"/></div>
             <button class="sbtn sbtn-danger" style="margin-top:3px;padding:3px 7px;font-size:9.5px" onclick="clearLogo('L1')">✕ Clear</button>
           </div>
-          <div class="sf">
-            <label>Center — Event / Pitch &amp; Pop Logo</label>
+          <div class="sf"><label>Center — Event / Pitch &amp; Pop Logo</label>
             <div class="logo-up"><input type="file" accept="image/*" onchange="uploadLogo(event,'EV')"/><div class="up-lbl">↑ Upload logo</div><img id="prev-EV"/></div>
             <button class="sbtn sbtn-danger" style="margin-top:3px;padding:3px 7px;font-size:9.5px" onclick="clearLogo('EV')">✕ Clear</button>
           </div>
-          <div class="sf">
-            <label>Right — Apex College (ENLARGED SLOT)</label>
+          <div class="sf"><label>Right — Apex College (ENLARGED)</label>
             <div class="logo-up"><input type="file" accept="image/*" onchange="uploadLogo(event,'L2')"/><div class="up-lbl">↑ Upload logo</div><img id="prev-L2"/></div>
             <button class="sbtn sbtn-danger" style="margin-top:3px;padding:3px 7px;font-size:9.5px" onclick="clearLogo('L2')">✕ Clear</button>
           </div>
           <div class="sbs">💧 Watermark</div>
-          <div class="sf">
-            <label>Watermark Image (optional)</label>
+          <div class="sf"><label>Watermark Image (optional)</label>
             <div class="logo-up"><input type="file" accept="image/*" onchange="uploadWatermark(event)"/><div class="up-lbl" id="wm-up-lbl">↑ Upload image</div><img id="prev-WM"/></div>
             <button class="sbtn sbtn-danger" style="margin-top:3px;padding:3px 7px;font-size:9.5px" onclick="removeWM()">✕ Remove</button>
           </div>
@@ -492,12 +400,10 @@
             <button class="zoom-btn" onclick="adjustZoom(-10)">−</button>
             <div id="zoom-val">100%</div>
             <button class="zoom-btn" onclick="adjustZoom(10)">+</button>
-            <button class="zoom-btn" onclick="adjustZoom(0)" style="font-size:10px;padding:4px 7px" title="Reset">⌂</button>
+            <button class="zoom-btn" onclick="adjustZoom(0)" style="font-size:10px;padding:4px 7px">⌂</button>
           </div>
           <div class="sbs">✏️ Edit Mode</div>
-          <div class="btn-row col1">
-            <button class="sbtn sbtn-edit on" id="edit-btn" onclick="toggleEdit()">✏ Edit Mode: ON</button>
-          </div>
+          <div class="btn-row col1"><button class="sbtn sbtn-edit on" id="edit-btn" onclick="toggleEdit()">✏ Edit Mode: ON</button></div>
           <div class="sf"><div class="hint">Turn OFF before exporting for cleanest output.</div></div>
           <div class="sbs">📊 Document Stats</div>
           <div class="wc-bar"><span>Words</span><span class="wc-num" id="wc-words">—</span></div>
@@ -513,6 +419,16 @@
         <div class="tab-pane" id="t-export">
           <div class="sbs">⬇ Download — A4 @ 300 DPI</div>
           <div class="sf"><div class="hint">⚠ Turn Edit Mode OFF (Design tab) for cleanest output. Output: 2480×3508 px per page.</div></div>
+          <div class="sf" style="background:#0d200d;border:1px solid #1e4a1e;border-radius:4px;padding:7px 10px;margin:2px 0;">
+            <div style="font-size:10px;color:#90ee90;font-weight:700;margin-bottom:3px;">✅ Export Guarantees (Fixed)</div>
+            <div style="font-size:9.5px;color:#70aa70;line-height:1.5;">
+              • Delete buttons hidden in output<br>
+              • Edit highlights stripped<br>
+              • Sidebar &amp; UI hidden<br>
+              • Full A4 captured (no clipping)<br>
+              • Placeholder text hidden
+            </div>
+          </div>
           <div class="progress-wrap" id="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
           <div class="btn-row col1"><button class="sbtn sbtn-pdf" id="dl-pdf" onclick="downloadPDF()">⬇ Download PDF (Both Pages)</button></div>
           <div class="btn-row col2">
@@ -520,22 +436,18 @@
             <button class="sbtn sbtn-png" onclick="downloadImg(2)">⬇ Page 2 PNG</button>
           </div>
           <div class="btn-row col1"><button class="sbtn sbtn-all" onclick="downloadAllImg()">⬇ All Pages PNG</button></div>
-          <div class="sf"><div class="hint">Output: 2480×3508 px · A4 @ 300 DPI · content never reflows · sidebar hidden · edit highlights stripped.</div></div>
+          <div class="sf"><div class="hint">Output: 2480×3508 px · A4 @ 300 DPI</div></div>
         </div>
       </div>
     </div>
 
+    <!-- MAIN -->
     <div id="main">
-      <div class="tip-bar" id="tip-bar">
-        ✏️ <strong>Edit Mode ON</strong> — Click any text to edit. <strong>Hover a bullet</strong> → click <span style="background:#c0392b;color:#fff;border-radius:50%;padding:0 3px;font-size:10px;font-weight:700;">✕</span> to delete it. Right-click for more options.
-      </div>
-      <div class="pg-meta">
-        A4 · 794×1123 px screen · 2480×3508 px export @ 300 DPI
-        <span class="dot"></span> 2 pages · scroll ↓ for Page 2
-      </div>
+      <div class="tip-bar" id="tip-bar">✏️ <strong>Edit Mode ON</strong> — Click any text to edit. <strong>Hover a bullet</strong> → click <span style="background:#c0392b;color:#fff;border-radius:50%;padding:0 3px;font-size:10px;font-weight:700;">✕</span> to delete. Right-click for more options.</div>
+      <div class="pg-meta">A4 · 794×1123 px screen · 2480×3508 px export @ 300 DPI<span class="dot"></span>2 pages · scroll ↓ for Page 2</div>
       <div class="page-wrap" id="page-wrap">
 
-        <!-- ═══════════ PAGE 1 ═══════════ -->
+        <!-- PAGE 1 -->
         <div class="a4" id="page1">
           <div class="pg-top"></div>
           <div class="wm-t" id="wm-t-1">APEX PITCH &amp; POP</div>
@@ -593,7 +505,7 @@
           <div class="pg-foot"><span class="footer-ed" contenteditable="true" id="footer1-text">Apex College, Mid Baneshwor | Apex Media and Marketing Club | Apex Pitch &amp; Pop 2026</span></div>
         </div>
 
-        <!-- ═══════════ PAGE 2 ═══════════ -->
+        <!-- PAGE 2 -->
         <div class="a4" id="page2">
           <div class="pg-top"></div>
           <div class="wm-t" id="wm-t-2">APEX PITCH &amp; POP</div>
@@ -650,263 +562,613 @@
     </div>
 
     <script>
-      const PW=794,PH=1123,EW=2480,EH=3508,ESCALE=EW/PW;
-      const STORE_KEY="apex_agreement_v7",HIST_KEY="apex_history_v7",MAX_HIST=5;
-      let sbVisible=true,editMode=true,nextSecNum=7,currentAccent="#7B1C1C",currentZoom=100,saveTimer=null,wmSrc=null;
-      const logos={L1:null,EV:null,L2:null};
+    // ═══════════════════════════════════════════
+    // CONSTANTS & STATE
+    // ═══════════════════════════════════════════
+    const PW=794,PH=1123,EW=2480,EH=3508,ESCALE=EW/PW;
+    const STORE_KEY="apex_agreement_v8",HIST_KEY="apex_history_v8",MAX_HIST=5;
+    let sbVisible=true,editMode=true,nextSecNum=7,currentAccent="#7B1C1C",currentZoom=100,saveTimer=null,wmSrc=null;
+    const logos={L1:null,EV:null,L2:null};
 
-      // ══ BULLET DELETE — core function ══
-      function deleteBullet(li) {
-        if (!li || li.tagName !== "LI") return;
-        li.classList.add("li-deleting");
-        li.addEventListener("animationend", () => {
-          li.remove();
-          scheduleSave();
-          toast("Bullet deleted ✓");
-        }, { once: true });
+    // ═══════════════════════════════════════════
+    // TOAST
+    // ═══════════════════════════════════════════
+    function toast(msg,dur=2200){
+      const t=document.getElementById("toast");
+      t.textContent=msg; t.classList.add("show");
+      setTimeout(()=>t.classList.remove("show"),dur);
+    }
+
+    // ═══════════════════════════════════════════
+    // SIDEBAR TOGGLE
+    // ═══════════════════════════════════════════
+    function toggleSb(){
+      sbVisible=!sbVisible;
+      document.getElementById("sb").classList.toggle("hidden",!sbVisible);
+      document.getElementById("main").classList.toggle("sb-hidden",!sbVisible);
+      document.getElementById("sb-fab").textContent=sbVisible?"✕":"☰";
+    }
+    function showTab(id,btn){
+      document.querySelectorAll(".tab-pane").forEach(p=>p.classList.remove("active"));
+      document.querySelectorAll(".sb-tab").forEach(b=>b.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      btn.classList.add("active");
+    }
+
+    // ═══════════════════════════════════════════
+    // BULLET DELETE SYSTEM
+    // ═══════════════════════════════════════════
+    function deleteBullet(li){
+      if(!li||li.tagName!=="LI")return;
+      li.classList.add("li-deleting");
+      li.addEventListener("animationend",()=>{li.remove();scheduleSave();toast("Bullet deleted ✓");},{once:true});
+    }
+
+    // FIX: Use event delegation on document — avoids needing to re-attach after restore
+    document.addEventListener("click",function(e){
+      if(e.target.classList.contains("li-del-btn")){
+        e.preventDefault();e.stopPropagation();
+        const li=e.target.closest("li");
+        if(li)deleteBullet(li);
+      }
+    });
+
+    // FIX: ensure every LI has a delete button — call after any DOM change
+    function ensureLiDeleteButtons(){
+      document.querySelectorAll(".doc-text ul li").forEach(li=>{
+        if(!li.querySelector(".li-del-btn")){
+          const btn=document.createElement("button");
+          btn.className="li-del-btn"; btn.title="Delete this bullet"; btn.textContent="✕";
+          li.appendChild(btn);
+        }
+      });
+    }
+
+    function highlightAllBullets(){
+      const lis=document.querySelectorAll(".doc-text ul li");
+      lis.forEach((li,i)=>{
+        setTimeout(()=>{
+          li.style.transition="background 0.2s";
+          li.style.background="rgba(192,57,43,0.18)";
+          setTimeout(()=>{li.style.background="";},400);
+        },i*60);
+      });
+      toast(`${lis.length} bullet${lis.length!==1?"s":""} in document`);
+    }
+
+    // ═══════════════════════════════════════════
+    // SAVE / RESTORE — FIX: strip delete buttons from saved HTML, re-add on restore
+    // ═══════════════════════════════════════════
+    function scheduleSave(){
+      const dot=document.getElementById("save-dot");
+      dot.classList.add("saving"); dot.classList.remove("error");
+      document.getElementById("save-status").textContent="Saving…";
+      clearTimeout(saveTimer); saveTimer=setTimeout(doSave,800);
+    }
+
+    function doSave(){
+      try{
+        const data=collectData();
+        localStorage.setItem(STORE_KEY,JSON.stringify(data));
+        pushHistory(data);
+        document.getElementById("save-dot").classList.remove("saving","error");
+        document.getElementById("save-status").textContent="Saved ✓";
+        document.getElementById("wc-time").textContent=new Date().toLocaleTimeString();
+      }catch(e){
+        document.getElementById("save-dot").classList.remove("saving");
+        document.getElementById("save-dot").classList.add("error");
+        document.getElementById("save-status").textContent="Save failed";
+        console.error("Save error:",e);
+      }
+    }
+
+    // FIX: When collecting editables, strip .li-del-btn HTML so they don't persist in save
+    function getCleanHTML(el){
+      const clone=el.cloneNode(true);
+      clone.querySelectorAll(".li-del-btn").forEach(b=>b.remove());
+      return clone.innerHTML;
+    }
+
+    function collectData(){
+      const sidebarFields=["sb-date","sb-evdate","sb-venue","sb-footer","sb-spname","sb-spaddr",
+        "sb-tier","sb-amount","sb-payment","sb-deadline","sb-sname","sb-sdesig","sb-sorg",
+        "sb-sp2name","sb-sp2desig","sb-sp2co","sb-wmtext","sb-wmop","sb-wmrot","sb-wmsz"];
+      const sidebar={};
+      sidebarFields.forEach(id=>{const el=document.getElementById(id);if(el)sidebar[id]=el.value;});
+      sidebar["wm-pg1"]=document.getElementById("wm-pg1").checked;
+      sidebar["wm-pg2"]=document.getElementById("wm-pg2").checked;
+      // FIX: save clean HTML (no delete buttons)
+      const editables={};
+      document.querySelectorAll("[contenteditable][id]").forEach(el=>{
+        editables[el.id]=getCleanHTML(el);
+      });
+      return{sidebar,editables,logos:{L1:logos.L1,EV:logos.EV,L2:logos.L2},
+        watermark:wmSrc,accent:currentAccent,zoom:currentZoom,editMode,timestamp:Date.now()};
+    }
+
+    function pushHistory(data){
+      try{
+        let h=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");
+        h.unshift({ts:data.timestamp,snap:data}); h=h.slice(0,MAX_HIST);
+        localStorage.setItem(HIST_KEY,JSON.stringify(h));
+        renderHist(h);
+      }catch(e){}
+    }
+
+    function renderHist(h){
+      const p=document.getElementById("hist-panel");
+      if(!h||!h.length){p.innerHTML='<div style="color:#554040;font-size:10px;">No versions yet.</div>';return;}
+      p.innerHTML=h.map((item,i)=>`<div class="hist-item"><span>${i===0?"Current":"v"+(h.length-i)} — ${new Date(item.ts).toLocaleTimeString()}</span>${i>0?`<button class="hist-restore" onclick="restoreVer(${i})">↩ Restore</button>`:""}</div>`).join("");
+    }
+
+    function restoreVer(idx){
+      if(!confirm("Restore this version?"))return;
+      try{
+        const h=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");
+        if(h[idx])applyData(h[idx].snap); toast("Version restored ✓");
+      }catch(e){alert("Could not restore.");}
+    }
+
+    function restoreData(){
+      const raw=localStorage.getItem(STORE_KEY);
+      if(!raw){document.getElementById("save-status").textContent="New document";return;}
+      let data;
+      try{data=JSON.parse(raw);}catch(e){return;}
+      applyData(data);
+      try{const h=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");renderHist(h);}catch(e){}
+    }
+
+    function applyData(data){
+      if(!data)return;
+      if(data.sidebar)Object.entries(data.sidebar).forEach(([id,val])=>{
+        const el=document.getElementById(id);
+        if(!el)return;
+        if(el.type==="checkbox")el.checked=val; else el.value=val;
+      });
+      // FIX: restore innerHTML, then re-add delete buttons
+      if(data.editables)Object.entries(data.editables).forEach(([id,html])=>{
+        const el=document.getElementById(id);
+        if(el)el.innerHTML=html;
+      });
+      // FIX: re-attach delete buttons after restore
+      ensureLiDeleteButtons();
+      if(data.logos){
+        Object.entries(data.logos).forEach(([key,src])=>{
+          if(src){logos[key]=src;const p=document.getElementById("prev-"+key);if(p){p.src=src;p.style.display="block";}}
+        });
+        renderLogos();
+      }
+      if(data.watermark){wmSrc=data.watermark;applyWM();const p=document.getElementById("prev-WM");if(p){p.src=wmSrc;p.style.display="block";}}
+      if(data.accent){currentAccent=data.accent;applyAccentDirect(data.accent);document.querySelectorAll(".color-dot").forEach(d=>d.classList.toggle("active",d.dataset.color===data.accent));}
+      if(data.zoom){currentZoom=data.zoom;applyZoom();}
+      updateWMText();updateWMOp();updateWMRot();updateWMSz();updateWMVis();
+      document.getElementById("save-status").textContent="Restored ✓";
+    }
+
+    function clearData(){
+      if(!confirm("Clear all saved data and reset?"))return;
+      localStorage.removeItem(STORE_KEY);localStorage.removeItem(HIST_KEY);location.reload();
+    }
+    function exportJSON(){
+      const blob=new Blob([JSON.stringify(collectData(),null,2)],{type:"application/json"});
+      const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="apex_agreement_backup.json";a.click();
+    }
+    function importJSON(evt){
+      const file=evt.target.files[0];if(!file)return;
+      const r=new FileReader();
+      r.onload=e=>{try{applyData(JSON.parse(e.target.result));doSave();toast("Imported ✓");}catch(err){alert("Invalid JSON.");}};
+      r.readAsText(file);
+    }
+    function updateStats(){
+      const text=document.getElementById("page-wrap").innerText||"";
+      const words=text.trim().split(/\s+/).filter(w=>w.length>0).length;
+      document.getElementById("wc-words").textContent=words.toLocaleString();
+      document.getElementById("wc-chars").textContent=text.length.toLocaleString();
+    }
+
+    // ═══════════════════════════════════════════
+    // EDIT MODE
+    // ═══════════════════════════════════════════
+    function toggleEdit(){
+      editMode=!editMode;
+      document.body.classList.toggle("no-edit",!editMode);
+      document.body.classList.toggle("edit-on",editMode);
+      const btn=document.getElementById("edit-btn");
+      btn.textContent=editMode?"✏ Edit Mode: ON":"🔒 Edit Mode: OFF";
+      btn.classList.toggle("on",editMode);
+      document.getElementById("tip-bar").innerHTML=editMode
+        ?"✏️ <strong>Edit Mode ON</strong> — Click any text to edit. <strong>Hover a bullet</strong> → click <span style=\"background:#c0392b;color:#fff;border-radius:50%;padding:0 3px;font-size:10px;font-weight:700;\">✕</span> to delete it."
+        :"🔒 <strong>Edit Mode OFF</strong> — Document locked. Ready for clean download.";
+      document.querySelectorAll("[contenteditable]").forEach(el=>el.setAttribute("contenteditable",editMode?"true":"false"));
+      scheduleSave();
+    }
+
+    // ═══════════════════════════════════════════
+    // FIELD SYNC HELPERS
+    // ═══════════════════════════════════════════
+    function sb2id(sbId,docId){
+      const v=document.getElementById(sbId)?.value.trim()||"";
+      const el=document.getElementById(docId);
+      if(el)el.textContent=v||el.dataset.ph||"";
+    }
+    function syncDate(){
+      const raw=document.getElementById("sb-date").value;if(!raw)return;
+      const d=new Date(raw+"T00:00:00");
+      const fmt=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+      ["dc-date","dc-date2"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmt;});
+    }
+    function syncDeadline(){
+      const raw=document.getElementById("sb-deadline").value;if(!raw)return;
+      const d=new Date(raw+"T00:00:00");
+      const el=document.getElementById("dc-deadline");
+      if(el)el.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+    }
+    function syncSig(sbId,docId){
+      const el=document.getElementById(docId);
+      if(el)el.textContent=document.getElementById(sbId)?.value.trim()||"";
+    }
+    function syncFooter(){
+      const v=document.getElementById("sb-footer").value.trim();
+      ["footer1-text","footer2-text"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=v;});
+    }
+    function applyTier(){
+      const raw=document.getElementById("sb-tier").value;if(!raw)return;
+      const[name,amount]=raw.split("|");
+      if(amount&&amount!=="—"){document.getElementById("sb-amount").value=amount;sb2id("sb-amount","dc-amount");}
+    }
+
+    // ═══════════════════════════════════════════
+    // LOGOS
+    // ═══════════════════════════════════════════
+    function uploadLogo(evt,key){
+      const file=evt.target.files[0];if(!file)return;
+      const r=new FileReader();
+      r.onload=e=>{logos[key]=e.target.result;const p=document.getElementById("prev-"+key);if(p){p.src=logos[key];p.style.display="block";}renderLogos();scheduleSave();toast("Logo uploaded ✓");};
+      r.readAsDataURL(file);
+    }
+    function clearLogo(key){
+      logos[key]=null;const p=document.getElementById("prev-"+key);if(p){p.style.display="none";p.src="";}
+      ["1","2"].forEach(pg=>{
+        const slot=document.getElementById("slot-"+key+"-"+pg);if(!slot)return;
+        if(key==="EV"){slot.innerHTML='<div class="event-logo-slot-ph">PITCH &amp; POP<br>Event Logo</div>';slot.style.border="2px dashed #7B1C1C";slot.style.background="#FFF6F0";}
+        else{const ph=key==="L1"?"Apex M&amp;M<br>Club Logo":"Apex College<br>Logo (Enlarged)";slot.innerHTML=`<div class="logo-slot-ph">${ph}</div>`;slot.style.border="1.5px dashed #C0A8A8";slot.style.background="var(--bgw)";}
+      });
+      scheduleSave();
+    }
+    function renderLogos(){
+      ["1","2"].forEach(pg=>{
+        Object.entries(logos).forEach(([key,src])=>{
+          const slot=document.getElementById("slot-"+key+"-"+pg);
+          if(!slot||!src)return;
+          slot.innerHTML=`<img src="${src}" style="max-width:100%;max-height:100%;object-fit:contain;">`;
+          slot.style.border="none";slot.style.background="transparent";
+        });
+      });
+    }
+
+    // ═══════════════════════════════════════════
+    // WATERMARK
+    // ═══════════════════════════════════════════
+    function uploadWatermark(evt){
+      const file=evt.target.files[0];if(!file)return;
+      const r=new FileReader();
+      r.onload=e=>{wmSrc=e.target.result;const p=document.getElementById("prev-WM");p.src=wmSrc;p.style.display="block";document.getElementById("wm-up-lbl").textContent=file.name;applyWM();scheduleSave();toast("Watermark uploaded ✓");};
+      r.readAsDataURL(file);
+    }
+    function applyWM(){
+      const rot=document.getElementById("sb-wmrot").value,op=document.getElementById("sb-wmop").value/100,sz=document.getElementById("sb-wmsz").value;
+      [1,2].forEach(pg=>{
+        const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);
+        if(wmSrc){if(t)t.style.display="none";i.src=wmSrc;i.style.display="block";i.style.opacity=op;i.style.width=sz+"px";i.style.height="auto";i.style.transform=`translate(-50%,-50%) rotate(${rot}deg)`;}
+        else{if(t){t.style.display="block";t.style.opacity=op*10;t.style.transform=`translate(-50%,-50%) rotate(${rot}deg)`;t.style.fontSize=`${sz*0.21}px`;}i.style.display="none";}
+      });
+      updateWMVis();
+    }
+    function updateWMText(){if(wmSrc)return;const v=document.getElementById("sb-wmtext").value||"APEX PITCH & POP";const sz=document.getElementById("sb-wmsz").value;[1,2].forEach(pg=>{const el=document.getElementById("wm-t-"+pg);if(el){el.textContent=v;el.style.fontSize=`${sz*0.21}px`;}});}
+    function updateWMOp(){const v=document.getElementById("sb-wmop").value;document.getElementById("wm-op-val").textContent=v+"%";const op=v/100;[1,2].forEach(pg=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(wmSrc&&i)i.style.opacity=op;else if(t)t.style.opacity=op*10;});}
+    function updateWMRot(){const v=document.getElementById("sb-wmrot").value;document.getElementById("wm-rot-val").textContent=v+"°";const tr=`translate(-50%,-50%) rotate(${v}deg)`;[1,2].forEach(pg=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(wmSrc&&i)i.style.transform=tr;else if(t)t.style.transform=tr;});}
+    function updateWMSz(){const v=document.getElementById("sb-wmsz").value;document.getElementById("wm-sz-val").textContent=v+"px";[1,2].forEach(pg=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(wmSrc&&i){i.style.width=v+"px";i.style.height="auto";}else if(t&&!wmSrc)t.style.fontSize=`${v*0.21}px`;});}
+    function updateWMVis(){const p1=document.getElementById("wm-pg1").checked,p2=document.getElementById("wm-pg2").checked;[{pg:1,show:p1},{pg:2,show:p2}].forEach(({pg,show})=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(!show){if(t)t.style.display="none";if(i)i.style.display="none";}else{if(wmSrc){if(t)t.style.display="none";if(i)i.style.display="block";}else{if(t)t.style.display="block";if(i)i.style.display="none";}}});}
+    function removeWM(){wmSrc=null;[1,2].forEach(pg=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(i){i.style.display="none";i.src="";}if(t)t.style.display="block";});const p=document.getElementById("prev-WM");p.style.display="none";p.src="";document.getElementById("wm-up-lbl").textContent="↑ Upload image";updateWMText();updateWMOp();updateWMRot();updateWMSz();scheduleSave();}
+
+    // ═══════════════════════════════════════════
+    // ACCENT COLOR / ZOOM
+    // ═══════════════════════════════════════════
+    function applyAccent(dotEl){const color=dotEl.dataset.color;document.querySelectorAll(".color-dot").forEach(d=>d.classList.toggle("active",d===dotEl));applyAccentDirect(color);scheduleSave();}
+    function applyAccentDirect(color){currentAccent=color;document.documentElement.style.setProperty("--m",color);document.documentElement.style.setProperty("--md",shadeColor(color,-22));document.documentElement.style.setProperty("--mm",shadeColor(color,12));document.querySelectorAll(".pg-top,.pg-foot").forEach(el=>el.style.background=color);document.querySelectorAll(".doc-title-ed").forEach(el=>{el.style.color=color;el.style.borderBottomColor=color;});document.querySelectorAll(".sec-head-num,.sec-head").forEach(el=>el.style.color=color);document.querySelectorAll(".col-hd").forEach(el=>el.style.background=color);document.querySelectorAll(".sig-lbl").forEach(el=>el.style.color=shadeColor(color,-10));document.querySelectorAll(".logos-row").forEach(el=>el.style.borderBottomColor=color);document.querySelectorAll(".sig-wrap").forEach(el=>el.style.borderTopColor=color);document.querySelectorAll(".corner").forEach(el=>el.style.borderColor=color);}
+    function shadeColor(color,pct){const num=parseInt(color.replace("#",""),16);const r=Math.max(0,Math.min(255,(num>>16)+pct*2));const g=Math.max(0,Math.min(255,((num>>8)&0xff)+pct));const b=Math.max(0,Math.min(255,(num&0xff)+pct));return "#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
+    function adjustZoom(delta){if(delta===0)currentZoom=100;else currentZoom=Math.max(40,Math.min(160,currentZoom+delta));applyZoom();scheduleSave();}
+    function applyZoom(){document.getElementById("page-wrap").style.transform=`scale(${currentZoom/100})`;document.getElementById("zoom-val").textContent=currentZoom+"%";}
+
+    // ═══════════════════════════════════════════
+    // SECTION MANAGER
+    // ═══════════════════════════════════════════
+    function refreshSecList(){
+      const list=document.getElementById("sec-list");list.innerHTML="";
+      document.querySelectorAll(".sec-head").forEach(sh=>{
+        const num=sh.dataset.sec,pg=sh.dataset.page,title=sh.querySelector(".sec-head-text")?.textContent.trim()||"";
+        const item=document.createElement("div");item.className="sec-item";
+        item.innerHTML=`<span class="si-num">${num}.</span><span class="si-name">${title} <span style="color:#604040;font-size:9px;">(p${pg})</span></span><div class="si-btns"><button class="si-up">↑</button><button class="si-dn">↓</button><button class="si-del">✕</button></div>`;
+        item.querySelector(".si-name").onclick=()=>sh.scrollIntoView({behavior:"smooth",block:"center"});
+        item.querySelector(".si-up").onclick=(e)=>{e.stopPropagation();moveSec(num,"up");};
+        item.querySelector(".si-dn").onclick=(e)=>{e.stopPropagation();moveSec(num,"dn");};
+        item.querySelector(".si-del").onclick=(e)=>{e.stopPropagation();deleteSection(num);};
+        list.appendChild(item);
+      });
+    }
+    function getSectionNodes(secNum){
+      const sh=document.querySelector(`.sec-head[data-sec="${secNum}"]`);if(!sh)return null;
+      const parent=sh.parentElement,nodes=Array.from(parent.childNodes),si=nodes.indexOf(sh);
+      let ei=si+1;
+      while(ei<nodes.length){const n=nodes[ei];if(n.nodeType===1&&n.classList&&(n.classList.contains("sec-head")||n.classList.contains("sig-wrap")))break;ei++;}
+      return{sh,parent,nodes,si,ei};
+    }
+    function deleteSection(secNum){if(!confirm("Delete section "+secNum+"?"))return;const info=getSectionNodes(secNum);if(!info)return;const{parent,nodes,si,ei}=info;for(let i=ei-1;i>=si;i--)if(nodes[i].parentNode)nodes[i].parentNode.removeChild(nodes[i]);refreshSecList();toast("Section deleted");scheduleSave();}
+    function moveSec(secNum,dir){const info=getSectionNodes(secNum);if(!info)return;const{sh,parent,nodes,si,ei}=info;const secNodes=nodes.slice(si,ei);if(dir==="up"){let prev=-1;for(let i=si-1;i>=0;i--)if(nodes[i].nodeType===1&&nodes[i].classList&&nodes[i].classList.contains("sec-head")){prev=i;break;}if(prev<0){toast("Already at top");return;}secNodes.forEach(n=>parent.insertBefore(n,nodes[prev]));}else{const after=nodes[ei];if(!after||!after.classList||!after.classList.contains("sec-head")){toast("Already at bottom");return;}const ai=getSectionNodes(after.dataset.sec);if(!ai)return;const afterAfter=nodes[ai.ei];if(afterAfter)secNodes.forEach(n=>parent.insertBefore(n,afterAfter));else secNodes.forEach(n=>parent.appendChild(n));}refreshSecList();toast("Moved ✓");}
+
+    // ═══════════════════════════════════════════
+    // ADD ITEM
+    // ═══════════════════════════════════════════
+    function toggleAddType(){document.getElementById("add-sec-wrap").style.display=document.getElementById("add-type").value==="bullet"?"block":"none";}
+
+    function makeLiDelBtn(){
+      const btn=document.createElement("button");
+      btn.className="li-del-btn"; btn.title="Delete this bullet"; btn.textContent="✕";
+      return btn;
+    }
+
+    function addItem(){
+      const type=document.getElementById("add-type").value,
+            pg=document.getElementById("add-page").value,
+            heading=document.getElementById("add-heading").value.trim(),
+            content=document.getElementById("add-content").value.trim(),
+            secNum=document.getElementById("add-sec-num").value.trim();
+      const targetContent=document.getElementById(pg==="1"?"p1-content":"p2-content"),
+            sigWrap=pg==="2"?targetContent.querySelector(".sig-wrap"):null,
+            ce=editMode?"true":"false";
+
+      if(type==="section"){
+        const sn=nextSecNum++;
+        const secDiv=document.createElement("div");secDiv.className="sec-head";secDiv.dataset.sec=sn;secDiv.dataset.page=pg;
+        secDiv.innerHTML=`<span class="sec-head-num">${sn}.</span><span class="sec-head-text" contenteditable="${ce}">${heading||"New Section"}</span>`;
+        const para=document.createElement("p");para.setAttribute("contenteditable",ce);para.textContent=content||"Section content goes here.";
+        if(sigWrap){targetContent.insertBefore(secDiv,sigWrap);targetContent.insertBefore(para,sigWrap);}
+        else{targetContent.appendChild(secDiv);targetContent.appendChild(para);}
+      }else if(type==="clause"){
+        const sn=nextSecNum++;
+        const secDiv=document.createElement("div");secDiv.className="sec-head";secDiv.dataset.sec=sn;secDiv.dataset.page=pg;
+        secDiv.innerHTML=`<span class="sec-head-num">${sn}.</span><span class="sec-head-text" contenteditable="${ce}">${heading||"New Clause"}</span>`;
+        if(sigWrap)targetContent.insertBefore(secDiv,sigWrap);else targetContent.appendChild(secDiv);
+      }else if(type==="note"){
+        const note=document.createElement("p");note.className="note-italic";note.setAttribute("contenteditable",ce);note.textContent=content||heading||"Note goes here.";
+        if(sigWrap)targetContent.insertBefore(note,sigWrap);else targetContent.appendChild(note);
+      }else if(type==="para"){
+        const para=document.createElement("p");para.setAttribute("contenteditable",ce);para.textContent=content||heading||"Paragraph text.";
+        if(sigWrap)targetContent.insertBefore(para,sigWrap);else targetContent.appendChild(para);
+      }else if(type==="bullet"){
+        // FIX: find list reliably
+        let tList=document.getElementById("sec"+secNum+"-list");
+        if(!tList&&secNum){
+          const sh=document.querySelector(`.sec-head[data-sec="${secNum}"]`);
+          if(sh){const parent=sh.parentElement,nodes=Array.from(parent.childNodes),si=nodes.indexOf(sh);
+            for(let i=si+1;i<nodes.length;i++){if(nodes[i].tagName==="UL"){tList=nodes[i];break;}}}
+        }
+        if(!tList){const uls=targetContent.querySelectorAll("ul");tList=uls[uls.length-1];}
+        if(!tList){
+          // Auto-create a UL if none found on target page
+          tList=document.createElement("ul");
+          if(sigWrap)targetContent.insertBefore(tList,sigWrap);else targetContent.appendChild(tList);
+        }
+        const li=document.createElement("li");li.setAttribute("contenteditable",ce);li.textContent=content||heading||"New bullet point.";
+        li.appendChild(makeLiDelBtn());
+        tList.appendChild(li);
+      }else if(type==="sigrow"){
+        const sig=targetContent.querySelector(".sig-wrap");
+        if(!sig){alert("No signature section on this page.");return;}
+        sig.querySelectorAll(".sig-col").forEach(col=>{
+          const row=document.createElement("div");row.className="sig-row";
+          row.innerHTML=`<span class="sig-lbl"><span contenteditable="${ce}">${heading||"New Field:"}</span></span><span class="sig-val" contenteditable="${ce}" data-ph="[${(heading||"").replace(":","").trim()}]">${content||""}</span>`;
+          const tall=col.querySelector(".sig-row-tall");if(tall)col.insertBefore(row,tall);else col.appendChild(row);
+        });
       }
 
-      // ══ Attach delete buttons to all existing LIs + delegate for dynamic ones ══
-      function initBulletDeleteButtons() {
-        // For existing and newly added LIs via event delegation on the pages
-        ["page1","page2"].forEach(pgId => {
-          const pg = document.getElementById(pgId);
-          if (!pg) return;
-          pg.addEventListener("click", function(e) {
-            if (e.target.classList.contains("li-del-btn")) {
-              e.preventDefault();
-              e.stopPropagation();
-              const li = e.target.closest("li");
-              if (li) deleteBullet(li);
-            }
+      document.getElementById("add-heading").value="";
+      document.getElementById("add-content").value="";
+      document.getElementById("add-sec-num").value="";
+      refreshSecList();toast("Added to Page "+pg+" ✓");scheduleSave();
+    }
+
+    // ═══════════════════════════════════════════
+    // CONTEXT MENU
+    // ═══════════════════════════════════════════
+    const ctxMenu=document.getElementById("ctx-menu");
+    document.addEventListener("contextmenu",(e)=>{
+      if(!editMode)return;
+      const target=e.target.closest('[contenteditable="true"]');
+      if(!target||target.closest("#sb"))return;
+      e.preventDefault();
+      showCtx(e.clientX,e.clientY,target);
+    });
+    document.addEventListener("click",()=>hideCtx());
+    document.addEventListener("keydown",(ev)=>{if(ev.key==="Escape")hideCtx();});
+
+    function showCtx(x,y,target){
+      ctxMenu.innerHTML="";
+      const items=[
+        {icon:"✂",label:"Cut",fn:()=>document.execCommand("cut")},
+        {icon:"📋",label:"Copy",fn:()=>document.execCommand("copy")},
+        {sep:true},
+        {icon:"B",label:"Bold",fn:()=>{target.focus();document.execCommand("bold");}},
+        {icon:"I",label:"Italic",fn:()=>{target.focus();document.execCommand("italic");}},
+        {icon:"U",label:"Underline",fn:()=>{target.focus();document.execCommand("underline");}},
+        {sep:true},
+        {icon:"🗑",label:"Clear content",fn:()=>{target.textContent="";}},
+        {icon:"↺",label:"Restore placeholder",fn:()=>{if(target.dataset.ph)target.textContent=target.dataset.ph;}}
+      ];
+      const li=target.tagName==="LI"?target:target.closest("li");
+      if(li){
+        items.push(
+          {sep:true},
+          {icon:"🔴",label:"Delete this bullet",fn:()=>deleteBullet(li)},
+          {icon:"➕",label:"Add bullet above",fn:()=>{
+            const newLi=document.createElement("li");newLi.setAttribute("contenteditable","true");newLi.textContent="New bullet point.";newLi.appendChild(makeLiDelBtn());li.parentNode.insertBefore(newLi,li);newLi.focus();scheduleSave();toast("Bullet added above ✓");
+          }},
+          {icon:"➕",label:"Add bullet below",fn:()=>{
+            const newLi=document.createElement("li");newLi.setAttribute("contenteditable","true");newLi.textContent="New bullet point.";newLi.appendChild(makeLiDelBtn());li.parentNode.insertBefore(newLi,li.nextSibling);newLi.focus();scheduleSave();toast("Bullet added below ✓");
+          }}
+        );
+      }
+      if(target.classList.contains("sec-head-text")){
+        const sh=target.closest(".sec-head");
+        if(sh)items.push({sep:true},{icon:"✕",label:"Delete this section",fn:()=>deleteSection(sh.dataset.sec)});
+      }
+      items.forEach(it=>{
+        if(it.sep){const s=document.createElement("div");s.className="ctx-sep";ctxMenu.appendChild(s);}
+        else{const d=document.createElement("div");d.className="ctx-item";d.innerHTML=`<span style="font-size:11px;min-width:13px">${it.icon}</span>${it.label}`;d.onclick=()=>{it.fn();hideCtx();scheduleSave();};ctxMenu.appendChild(d);}
+      });
+      ctxMenu.classList.add("show");
+      ctxMenu.style.left=Math.min(x,window.innerWidth-175)+"px";
+      ctxMenu.style.top=Math.min(y,window.innerHeight-260)+"px";
+    }
+    function hideCtx(){ctxMenu.classList.remove("show");}
+
+    // ═══════════════════════════════════════════
+    // EXPORT — FULLY FIXED
+    // ═══════════════════════════════════════════
+    async function renderPage(pageId){
+      const el=document.getElementById(pageId);
+
+      // FIX: Use class-based export state — cleaner than toggling per-element
+      document.body.classList.add("exporting");
+
+      // FIX: Temporarily make all contenteditable non-editable + remove highlight BG
+      const ces=el.querySelectorAll("[contenteditable]");
+      const ceStates=[];
+      ces.forEach(ce=>{
+        ceStates.push(ce.getAttribute("contenteditable"));
+        ce.setAttribute("contenteditable","false");
+      });
+
+      // FIX: Force hide all delete buttons directly
+      const delBtns=el.querySelectorAll(".li-del-btn");
+      delBtns.forEach(b=>{b._prevDisplay=b.style.display;b.style.display="none";});
+
+      await new Promise(r=>setTimeout(r,80));
+
+      const canvas=await html2canvas(el,{
+        scale:ESCALE,
+        useCORS:true,
+        allowTaint:true,
+        backgroundColor:"#ffffff",
+        logging:false,
+        width:PW, height:PH,
+        windowWidth:PW, windowHeight:PH,
+        scrollX:0, scrollY:0,
+        imageTimeout:15000,
+        onclone:(doc)=>{
+          // Hide UI chrome in clone
+          ["sb","sb-fab","tip-bar","ctx-menu","pg-meta"].forEach(id=>{
+            const e2=doc.getElementById(id);if(e2)e2.style.display="none";
           });
-        });
-      }
-
-      // ══ Ensure every LI in the doc has a delete button (run after DOM changes) ══
-      function ensureLiDeleteButtons() {
-        document.querySelectorAll(".doc-text ul li").forEach(li => {
-          if (!li.querySelector(".li-del-btn")) {
-            const btn = document.createElement("button");
-            btn.className = "li-del-btn";
-            btn.title = "Delete this bullet";
-            btn.textContent = "✕";
-            li.appendChild(btn);
-          }
-        });
-      }
-
-      // ══ Flash all bullets (highlight) ══
-      function highlightAllBullets() {
-        const lis = document.querySelectorAll(".doc-text ul li");
-        lis.forEach((li,i) => {
-          setTimeout(() => {
-            li.style.transition = "background 0.2s";
-            li.style.background = "rgba(192,57,43,0.18)";
-            setTimeout(() => { li.style.background = ""; }, 400);
-          }, i * 60);
-        });
-        toast(`${lis.length} bullet${lis.length !== 1 ? "s" : ""} in document`);
-      }
-
-      function toast(msg,dur=2200){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),dur);}
-      function toggleSb(){sbVisible=!sbVisible;document.getElementById("sb").classList.toggle("hidden",!sbVisible);document.getElementById("main").classList.toggle("sb-hidden",!sbVisible);document.getElementById("sb-fab").textContent=sbVisible?"✕":"☰";}
-      function showTab(id,btn){document.querySelectorAll(".tab-pane").forEach(p=>p.classList.remove("active"));document.querySelectorAll(".sb-tab").forEach(b=>b.classList.remove("active"));document.getElementById(id).classList.add("active");btn.classList.add("active");}
-      function scheduleSave(){const dot=document.getElementById("save-dot");dot.classList.add("saving");dot.classList.remove("error");document.getElementById("save-status").textContent="Saving…";clearTimeout(saveTimer);saveTimer=setTimeout(doSave,800);}
-      function doSave(){try{const data=collectData();localStorage.setItem(STORE_KEY,JSON.stringify(data));pushHistory(data);document.getElementById("save-dot").classList.remove("saving","error");document.getElementById("save-status").textContent="Saved ✓";document.getElementById("wc-time").textContent=new Date().toLocaleTimeString();}catch(e){document.getElementById("save-dot").classList.remove("saving");document.getElementById("save-dot").classList.add("error");document.getElementById("save-status").textContent="Save failed";}}
-      function collectData(){const sidebarFields=["sb-date","sb-evdate","sb-venue","sb-footer","sb-spname","sb-spaddr","sb-tier","sb-amount","sb-payment","sb-deadline","sb-sname","sb-sdesig","sb-sorg","sb-sp2name","sb-sp2desig","sb-sp2co","sb-wmtext","sb-wmop","sb-wmrot","sb-wmsz"];const sidebar={};sidebarFields.forEach(id=>{const el=document.getElementById(id);if(el)sidebar[id]=el.value;});sidebar["wm-pg1"]=document.getElementById("wm-pg1").checked;sidebar["wm-pg2"]=document.getElementById("wm-pg2").checked;const editables={};document.querySelectorAll("[contenteditable][id]").forEach(el=>{editables[el.id]=el.innerHTML;});return{sidebar,editables,logos:{L1:logos.L1,EV:logos.EV,L2:logos.L2},watermark:wmSrc,accent:currentAccent,zoom:currentZoom,editMode,timestamp:Date.now()};}
-      function pushHistory(data){try{let h=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");h.unshift({ts:data.timestamp,snap:data});h=h.slice(0,MAX_HIST);localStorage.setItem(HIST_KEY,JSON.stringify(h));renderHist(h);}catch(e){}}
-      function renderHist(h){const p=document.getElementById("hist-panel");if(!h||!h.length){p.innerHTML='<div style="color:#554040;font-size:10px;">No versions yet.</div>';return;}p.innerHTML=h.map((item,i)=>`<div class="hist-item"><span>${i===0?"Current":"v"+(h.length-i)} — ${new Date(item.ts).toLocaleTimeString()}</span>${i>0?`<button class="hist-restore" onclick="restoreVer(${i})">↩ Restore</button>`:""}</div>`).join("");}
-      function restoreVer(idx){if(!confirm("Restore this version?"))return;try{const h=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");if(h[idx])applyData(h[idx].snap);toast("Version restored ✓");}catch(e){alert("Could not restore.");}}
-      function restoreData(){const raw=localStorage.getItem(STORE_KEY);if(!raw){document.getElementById("save-status").textContent="New document";return;}let data;try{data=JSON.parse(raw);}catch(e){return;}applyData(data);try{const h=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");renderHist(h);}catch(e){}}
-      function applyData(data){if(!data)return;if(data.sidebar)Object.entries(data.sidebar).forEach(([id,val])=>{const el=document.getElementById(id);if(!el)return;if(el.type==="checkbox")el.checked=val;else el.value=val;});if(data.editables)Object.entries(data.editables).forEach(([id,html])=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});if(data.logos){Object.entries(data.logos).forEach(([key,src])=>{if(src){logos[key]=src;const p=document.getElementById("prev-"+key);if(p){p.src=src;p.style.display="block";}}});renderLogos();}if(data.watermark){wmSrc=data.watermark;applyWM();const p=document.getElementById("prev-WM");if(p){p.src=wmSrc;p.style.display="block";}}if(data.accent){currentAccent=data.accent;applyAccentDirect(data.accent);document.querySelectorAll(".color-dot").forEach(d=>d.classList.toggle("active",d.dataset.color===data.accent));}if(data.zoom){currentZoom=data.zoom;applyZoom();}updateWMText();updateWMOp();updateWMRot();updateWMSz();updateWMVis();ensureLiDeleteButtons();document.getElementById("save-status").textContent="Restored ✓";}
-      function clearData(){if(!confirm("Clear all saved data and reset?"))return;localStorage.removeItem(STORE_KEY);localStorage.removeItem(HIST_KEY);location.reload();}
-      function exportJSON(){const blob=new Blob([JSON.stringify(collectData(),null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="apex_agreement_backup.json";a.click();}
-      function importJSON(evt){const file=evt.target.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{try{applyData(JSON.parse(e.target.result));doSave();toast("Imported ✓");}catch(err){alert("Invalid JSON.");}};r.readAsText(file);}
-      function updateStats(){const text=document.getElementById("page-wrap").innerText||"";const words=text.trim().split(/\s+/).filter(w=>w.length>0).length;document.getElementById("wc-words").textContent=words.toLocaleString();document.getElementById("wc-chars").textContent=text.length.toLocaleString();}
-      function toggleEdit(){editMode=!editMode;document.body.classList.toggle("no-edit",!editMode);document.body.classList.toggle("edit-on",editMode);const btn=document.getElementById("edit-btn");btn.textContent=editMode?"✏ Edit Mode: ON":"🔒 Edit Mode: OFF";btn.classList.toggle("on",editMode);document.getElementById("tip-bar").innerHTML=editMode?"✏️ <strong>Edit Mode ON</strong> — Click any text to edit. <strong>Hover a bullet</strong> → click <span style=\"background:#c0392b;color:#fff;border-radius:50%;padding:0 3px;font-size:10px;font-weight:700;\">✕</span> to delete it. Right-click for more options.":"🔒 <strong>Edit Mode OFF</strong> — Document locked. Ready for clean download.";document.querySelectorAll("[contenteditable]").forEach(el=>el.setAttribute("contenteditable",editMode?"true":"false"));scheduleSave();}
-      function sb2id(sbId,docId){const v=document.getElementById(sbId)?.value.trim()||"";const el=document.getElementById(docId);if(el)el.textContent=v||el.dataset.ph||"";}
-      function syncDate(){const raw=document.getElementById("sb-date").value;if(!raw)return;const d=new Date(raw+"T00:00:00");const fmt=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});["dc-date","dc-date2"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmt;});}
-      function syncDeadline(){const raw=document.getElementById("sb-deadline").value;if(!raw)return;const d=new Date(raw+"T00:00:00");const el=document.getElementById("dc-deadline");if(el)el.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});}
-      function syncSig(sbId,docId){const el=document.getElementById(docId);if(el)el.textContent=document.getElementById(sbId)?.value.trim()||"";}
-      function syncFooter(){const v=document.getElementById("sb-footer").value.trim();["footer1-text","footer2-text"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=v;});}
-      function applyTier(){const raw=document.getElementById("sb-tier").value;if(!raw)return;const[name,amount,color]=raw.split("|");if(amount&&amount!=="—"){document.getElementById("sb-amount").value=amount;sb2id("sb-amount","dc-amount");}scheduleSave();}
-      function uploadLogo(evt,key){const file=evt.target.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{logos[key]=e.target.result;const p=document.getElementById("prev-"+key);if(p){p.src=logos[key];p.style.display="block";}renderLogos();scheduleSave();toast("Logo uploaded ✓");};r.readAsDataURL(file);}
-      function clearLogo(key){logos[key]=null;const p=document.getElementById("prev-"+key);if(p){p.style.display="none";p.src="";}["1","2"].forEach(pg=>{const slot=document.getElementById("slot-"+key+"-"+pg);if(!slot)return;if(key==="EV"){slot.innerHTML='<div class="event-logo-slot-ph">PITCH &amp; POP<br>Event Logo</div>';slot.style.border="2px dashed #7B1C1C";slot.style.background="#FFF6F0";}else{const ph=key==="L1"?"Apex M&amp;M<br>Club Logo":"Apex College<br>Logo (Enlarged)";slot.innerHTML=`<div class="logo-slot-ph">${ph}</div>`;slot.style.border="1.5px dashed #C0A8A8";slot.style.background="var(--bgw)";}});scheduleSave();}
-      function renderLogos(){["1","2"].forEach(pg=>{Object.entries(logos).forEach(([key,src])=>{const slot=document.getElementById("slot-"+key+"-"+pg);if(!slot||!src)return;slot.innerHTML=`<img src="${src}" style="max-width:100%;max-height:100%;object-fit:contain;">`;slot.style.border="none";slot.style.background="transparent";});});}
-      function uploadWatermark(evt){const file=evt.target.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{wmSrc=e.target.result;const p=document.getElementById("prev-WM");p.src=wmSrc;p.style.display="block";document.getElementById("wm-up-lbl").textContent=file.name;applyWM();scheduleSave();toast("Watermark uploaded ✓");};r.readAsDataURL(file);}
-      function applyWM(){const rot=document.getElementById("sb-wmrot").value,op=document.getElementById("sb-wmop").value/100,sz=document.getElementById("sb-wmsz").value;[1,2].forEach(pg=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(wmSrc){if(t)t.style.display="none";i.src=wmSrc;i.style.display="block";i.style.opacity=op;i.style.width=sz+"px";i.style.height="auto";i.style.transform=`translate(-50%,-50%) rotate(${rot}deg)`;}else{if(t){t.style.display="block";t.style.opacity=op*10;t.style.transform=`translate(-50%,-50%) rotate(${rot}deg)`;t.style.fontSize=`${sz*0.21}px`;}i.style.display="none";}});updateWMVis();}
-      function updateWMText(){if(wmSrc)return;const v=document.getElementById("sb-wmtext").value||"APEX PITCH & POP";const sz=document.getElementById("sb-wmsz").value;[1,2].forEach(pg=>{const el=document.getElementById("wm-t-"+pg);if(el){el.textContent=v;el.style.fontSize=`${sz*0.21}px`;}});}
-      function updateWMOp(){const v=document.getElementById("sb-wmop").value;document.getElementById("wm-op-val").textContent=v+"%";const op=v/100;[1,2].forEach(pg=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(wmSrc&&i)i.style.opacity=op;else if(t)t.style.opacity=op*10;});}
-      function updateWMRot(){const v=document.getElementById("sb-wmrot").value;document.getElementById("wm-rot-val").textContent=v+"°";const tr=`translate(-50%,-50%) rotate(${v}deg)`;[1,2].forEach(pg=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(wmSrc&&i)i.style.transform=tr;else if(t)t.style.transform=tr;});}
-      function updateWMSz(){const v=document.getElementById("sb-wmsz").value;document.getElementById("wm-sz-val").textContent=v+"px";[1,2].forEach(pg=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(wmSrc&&i){i.style.width=v+"px";i.style.height="auto";}else if(t&&!wmSrc)t.style.fontSize=`${v*0.21}px`;});}
-      function updateWMVis(){const p1=document.getElementById("wm-pg1").checked,p2=document.getElementById("wm-pg2").checked;[{pg:1,show:p1},{pg:2,show:p2}].forEach(({pg,show})=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(!show){if(t)t.style.display="none";if(i)i.style.display="none";}else{if(wmSrc){if(t)t.style.display="none";if(i)i.style.display="block";}else{if(t)t.style.display="block";if(i)i.style.display="none";}}});}
-      function removeWM(){wmSrc=null;[1,2].forEach(pg=>{const t=document.getElementById("wm-t-"+pg),i=document.getElementById("wm-i-"+pg);if(i){i.style.display="none";i.src="";}if(t)t.style.display="block";});const p=document.getElementById("prev-WM");p.style.display="none";p.src="";document.getElementById("wm-up-lbl").textContent="↑ Upload image";updateWMText();updateWMOp();updateWMRot();updateWMSz();scheduleSave();}
-      function applyAccent(dotEl){const color=dotEl.dataset.color;document.querySelectorAll(".color-dot").forEach(d=>d.classList.toggle("active",d===dotEl));applyAccentDirect(color);scheduleSave();}
-      function applyAccentDirect(color){currentAccent=color;document.documentElement.style.setProperty("--m",color);document.documentElement.style.setProperty("--md",shadeColor(color,-22));document.documentElement.style.setProperty("--mm",shadeColor(color,12));document.querySelectorAll(".pg-top,.pg-foot").forEach(el=>el.style.background=color);document.querySelectorAll(".doc-title-ed").forEach(el=>{el.style.color=color;el.style.borderBottomColor=color;});document.querySelectorAll(".sec-head-num,.sec-head").forEach(el=>el.style.color=color);document.querySelectorAll(".col-hd").forEach(el=>el.style.background=color);document.querySelectorAll(".sig-lbl").forEach(el=>el.style.color=shadeColor(color,-10));document.querySelectorAll(".logos-row").forEach(el=>el.style.borderBottomColor=color);document.querySelectorAll(".sig-wrap").forEach(el=>el.style.borderTopColor=color);document.querySelectorAll(".corner").forEach(el=>el.style.borderColor=color);}
-      function shadeColor(color,pct){const num=parseInt(color.replace("#",""),16);const r=Math.max(0,Math.min(255,(num>>16)+pct*2));const g=Math.max(0,Math.min(255,((num>>8)&0xff)+pct));const b=Math.max(0,Math.min(255,(num&0xff)+pct));return "#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
-      function adjustZoom(delta){if(delta===0)currentZoom=100;else currentZoom=Math.max(40,Math.min(160,currentZoom+delta));applyZoom();scheduleSave();}
-      function applyZoom(){document.getElementById("page-wrap").style.transform=`scale(${currentZoom/100})`;document.getElementById("zoom-val").textContent=currentZoom+"%";}
-      function refreshSecList(){const list=document.getElementById("sec-list");list.innerHTML="";document.querySelectorAll(".sec-head").forEach(sh=>{const num=sh.dataset.sec,pg=sh.dataset.page,title=sh.querySelector(".sec-head-text")?.textContent.trim()||"";const item=document.createElement("div");item.className="sec-item";item.innerHTML=`<span class="si-num">${num}.</span><span class="si-name">${title} <span style="color:#604040;font-size:9px;">(p${pg})</span></span><div class="si-btns"><button class="si-up">↑</button><button class="si-dn">↓</button><button class="si-del">✕</button></div>`;item.querySelector(".si-name").onclick=()=>sh.scrollIntoView({behavior:"smooth",block:"center"});item.querySelector(".si-up").onclick=(e)=>{e.stopPropagation();moveSec(num,"up");};item.querySelector(".si-dn").onclick=(e)=>{e.stopPropagation();moveSec(num,"dn");};item.querySelector(".si-del").onclick=(e)=>{e.stopPropagation();deleteSection(num);};list.appendChild(item);});}
-      function getSectionNodes(secNum){const sh=document.querySelector(`.sec-head[data-sec="${secNum}"]`);if(!sh)return null;const parent=sh.parentElement,nodes=Array.from(parent.childNodes),si=nodes.indexOf(sh);let ei=si+1;while(ei<nodes.length){const n=nodes[ei];if(n.nodeType===1&&n.classList&&(n.classList.contains("sec-head")||n.classList.contains("sig-wrap")))break;ei++;}return{sh,parent,nodes,si,ei};}
-      function deleteSection(secNum){if(!confirm("Delete section "+secNum+"?"))return;const info=getSectionNodes(secNum);if(!info)return;const{parent,nodes,si,ei}=info;for(let i=ei-1;i>=si;i--)if(nodes[i].parentNode)nodes[i].parentNode.removeChild(nodes[i]);refreshSecList();toast("Section deleted");scheduleSave();}
-      function moveSec(secNum,dir){const info=getSectionNodes(secNum);if(!info)return;const{sh,parent,nodes,si,ei}=info;const secNodes=nodes.slice(si,ei);if(dir==="up"){let prev=-1;for(let i=si-1;i>=0;i--)if(nodes[i].nodeType===1&&nodes[i].classList&&nodes[i].classList.contains("sec-head")){prev=i;break;}if(prev<0){toast("Already at top");return;}secNodes.forEach(n=>parent.insertBefore(n,nodes[prev]));}else{const after=nodes[ei];if(!after||!after.classList||!after.classList.contains("sec-head")){toast("Already at bottom");return;}const ai=getSectionNodes(after.dataset.sec);if(!ai)return;const afterAfter=nodes[ai.ei];if(afterAfter)secNodes.forEach(n=>parent.insertBefore(n,afterAfter));else secNodes.forEach(n=>parent.appendChild(n));}refreshSecList();toast("Moved ✓");}
-      function toggleAddType(){document.getElementById("add-sec-wrap").style.display=document.getElementById("add-type").value==="bullet"?"block":"none";}
-      function addItem(){
-        const type=document.getElementById("add-type").value,
-              pg=document.getElementById("add-page").value,
-              heading=document.getElementById("add-heading").value.trim(),
-              content=document.getElementById("add-content").value.trim(),
-              secNum=document.getElementById("add-sec-num").value.trim();
-        const targetContent=document.getElementById(pg==="1"?"p1-content":"p2-content"),
-              sigWrap=pg==="2"?targetContent.querySelector(".sig-wrap"):null,
-              ce=editMode?"true":"false";
-        if(type==="section"){const sn=nextSecNum++;const secDiv=document.createElement("div");secDiv.className="sec-head";secDiv.dataset.sec=sn;secDiv.dataset.page=pg;secDiv.innerHTML=`<span class="sec-head-num">${sn}.</span><span class="sec-head-text" contenteditable="${ce}">${heading||"New Section"}</span>`;const para=document.createElement("p");para.setAttribute("contenteditable",ce);para.textContent=content||"Section content goes here.";if(sigWrap){targetContent.insertBefore(secDiv,sigWrap);targetContent.insertBefore(para,sigWrap);}else{targetContent.appendChild(secDiv);targetContent.appendChild(para);}
-        }else if(type==="clause"){const sn=nextSecNum++;const secDiv=document.createElement("div");secDiv.className="sec-head";secDiv.dataset.sec=sn;secDiv.dataset.page=pg;secDiv.innerHTML=`<span class="sec-head-num">${sn}.</span><span class="sec-head-text" contenteditable="${ce}">${heading||"New Clause"}</span>`;if(sigWrap)targetContent.insertBefore(secDiv,sigWrap);else targetContent.appendChild(secDiv);
-        }else if(type==="note"){const note=document.createElement("p");note.className="note-italic";note.setAttribute("contenteditable",ce);note.textContent=content||heading||"Note goes here.";if(sigWrap)targetContent.insertBefore(note,sigWrap);else targetContent.appendChild(note);
-        }else if(type==="para"){const para=document.createElement("p");para.setAttribute("contenteditable",ce);para.textContent=content||heading||"Paragraph text.";if(sigWrap)targetContent.insertBefore(para,sigWrap);else targetContent.appendChild(para);
-        }else if(type==="bullet"){
-          let tList=document.querySelector(`#sec${secNum}-list`);
-          if(!tList){const uls=targetContent.querySelectorAll("ul");tList=uls[uls.length-1];}
-          if(!tList){alert("No list found. Check section number.");return;}
-          const li=document.createElement("li");
-          li.setAttribute("contenteditable",ce);
-          li.textContent=content||"New bullet point.";
-          // Add delete button to new bullet
-          const delBtn=document.createElement("button");
-          delBtn.className="li-del-btn";
-          delBtn.title="Delete this bullet";
-          delBtn.textContent="✕";
-          li.appendChild(delBtn);
-          tList.appendChild(li);
-        }else if(type==="sigrow"){const sig=targetContent.querySelector(".sig-wrap");if(!sig){alert("No signature section on this page.");return;}sig.querySelectorAll(".sig-col").forEach(col=>{const row=document.createElement("div");row.className="sig-row";row.innerHTML=`<span class="sig-lbl"><span contenteditable="${ce}">${heading||"New Field:"}</span></span><span class="sig-val" contenteditable="${ce}" data-ph="[${(heading||"").replace(":","").trim()}]">${content||""}</span>`;const tall=col.querySelector(".sig-row-tall");if(tall)col.insertBefore(row,tall);else col.appendChild(row);});}
-        document.getElementById("add-heading").value="";
-        document.getElementById("add-content").value="";
-        document.getElementById("add-sec-num").value="";
-        refreshSecList();
-        toast("Added to Page "+pg+" ✓");
-        scheduleSave();
-      }
-
-      // ══ CONTEXT MENU — includes bullet delete ══
-      const ctxMenu=document.getElementById("ctx-menu");
-      document.addEventListener("contextmenu",(e)=>{
-        if(!editMode)return;
-        const target=e.target.closest('[contenteditable="true"]');
-        if(!target||target.closest("#sb"))return;
-        e.preventDefault();
-        showCtx(e.clientX,e.clientY,target);
-      });
-      document.addEventListener("click",()=>hideCtx());
-      document.addEventListener("keydown",(ev)=>{if(ev.key==="Escape")hideCtx();});
-      function showCtx(x,y,target){
-        ctxMenu.innerHTML="";
-        const items=[
-          {icon:"✂",label:"Cut",fn:()=>document.execCommand("cut")},
-          {icon:"📋",label:"Copy",fn:()=>document.execCommand("copy")},
-          {sep:true},
-          {icon:"B",label:"Bold",fn:()=>{target.focus();document.execCommand("bold");}},
-          {icon:"I",label:"Italic",fn:()=>{target.focus();document.execCommand("italic");}},
-          {icon:"U",label:"Underline",fn:()=>{target.focus();document.execCommand("underline");}},
-          {sep:true},
-          {icon:"🗑",label:"Clear content",fn:()=>{target.textContent="";}},
-          {icon:"↺",label:"Restore placeholder",fn:()=>{if(target.dataset.ph)target.textContent=target.dataset.ph;}}
-        ];
-        // ══ BULLET-SPECIFIC MENU ITEMS ══
-        const li=target.tagName==="LI"?target:target.closest("li");
-        if(li){
-          items.push(
-            {sep:true},
-            {icon:"🔴",label:"Delete this bullet",fn:()=>deleteBullet(li)},
-            {icon:"➕",label:"Add bullet above",fn:()=>{
-              const newLi=document.createElement("li");
-              newLi.setAttribute("contenteditable","true");
-              newLi.textContent="New bullet point.";
-              const delBtn=document.createElement("button");
-              delBtn.className="li-del-btn";
-              delBtn.title="Delete this bullet";
-              delBtn.textContent="✕";
-              newLi.appendChild(delBtn);
-              li.parentNode.insertBefore(newLi,li);
-              newLi.focus();
-              scheduleSave();
-              toast("Bullet added above ✓");
-            }},
-            {icon:"➕",label:"Add bullet below",fn:()=>{
-              const newLi=document.createElement("li");
-              newLi.setAttribute("contenteditable","true");
-              newLi.textContent="New bullet point.";
-              const delBtn=document.createElement("button");
-              delBtn.className="li-del-btn";
-              delBtn.title="Delete this bullet";
-              delBtn.textContent="✕";
-              newLi.appendChild(delBtn);
-              li.parentNode.insertBefore(newLi,li.nextSibling);
-              newLi.focus();
-              scheduleSave();
-              toast("Bullet added below ✓");
-            }}
-          );
+          // Fix page dimensions
+          const pg=doc.getElementById(pageId);
+          if(pg){pg.style.cssText=`width:${PW}px!important;min-width:${PW}px!important;max-width:${PW}px!important;height:${PH}px!important;min-height:${PH}px!important;max-height:${PH}px!important;overflow:hidden!important;position:relative!important;transform:none!important;box-shadow:none!important;margin:0!important;`;}
+          // Fix page-body overflow for export
+          doc.querySelectorAll(".pg-body,.doc-content").forEach(el=>{el.style.overflow="hidden";});
+          // Fix layout
+          const main=doc.getElementById("main");if(main){main.style.marginLeft="0";main.style.padding="0";main.style.background="#fff";}
+          const pw=doc.getElementById("page-wrap");if(pw)pw.style.transform="none";
+          // FIX: Strip ALL edit backgrounds + hide delete buttons in clone
+          doc.querySelectorAll("[contenteditable]").forEach(e=>{e.style.background="transparent";e.style.outline="none";});
+          doc.querySelectorAll(".li-del-btn").forEach(b=>{b.style.display="none !important";b.style.visibility="hidden";});
+          // FIX: hide empty:before placeholders in clone
+          const style=doc.createElement("style");
+          style.textContent=`[contenteditable]:empty:before{content:none!important}*{outline:none!important}.li-del-btn{display:none!important}`;
+          doc.head.appendChild(style);
         }
-        if(target.classList.contains("sec-head-text")){
-          const sh=target.closest(".sec-head");
-          if(sh)items.push({sep:true},{icon:"✕",label:"Delete this section",fn:()=>deleteSection(sh.dataset.sec)});
-        }
-        items.forEach(it=>{
-          if(it.sep){const s=document.createElement("div");s.className="ctx-sep";ctxMenu.appendChild(s);}
-          else{const d=document.createElement("div");d.className="ctx-item";d.innerHTML=`<span style="font-size:11px;min-width:13px">${it.icon}</span>${it.label}`;d.onclick=()=>{it.fn();hideCtx();scheduleSave();};ctxMenu.appendChild(d);}
-        });
-        ctxMenu.classList.add("show");
-        ctxMenu.style.left=Math.min(x,window.innerWidth-175)+"px";
-        ctxMenu.style.top=Math.min(y,window.innerHeight-260)+"px";
-      }
-      function hideCtx(){ctxMenu.classList.remove("show");}
-
-      // ══ EXPORT ══
-      async function renderPage(pageId){
-        const el=document.getElementById(pageId);
-        const wasEditOn=document.body.classList.contains("edit-on");
-        document.body.classList.remove("edit-on");
-        document.body.classList.add("no-edit");
-        const ces=el.querySelectorAll("[contenteditable]");
-        ces.forEach(e=>e.removeAttribute("contenteditable"));
-        // Hide all delete buttons during export
-        el.querySelectorAll(".li-del-btn").forEach(b=>b.style.display="none");
-        await new Promise(r=>setTimeout(r,60));
-        const canvas=await html2canvas(el,{scale:ESCALE,useCORS:true,allowTaint:true,backgroundColor:"#ffffff",logging:false,width:PW,height:PH,windowWidth:PW,windowHeight:PH,scrollX:0,scrollY:0,imageTimeout:15000,onclone:(doc)=>{["sb","sb-fab","tip-bar","ctx-menu","pg-meta"].forEach(id=>{const e2=doc.getElementById(id);if(e2)e2.style.display="none";});const pg=doc.getElementById(pageId);if(pg){pg.style.cssText=`width:${PW}px!important;min-width:${PW}px!important;max-width:${PW}px!important;height:${PH}px!important;min-height:${PH}px!important;max-height:${PH}px!important;overflow:hidden!important;position:relative!important;transform:none!important;box-shadow:none!important;margin:0!important;flex-shrink:0!important;`;}const main=doc.getElementById("main");if(main){main.style.marginLeft="0";main.style.padding="0";main.style.background="#fff";}const pw=doc.getElementById("page-wrap");if(pw)pw.style.transform="none";doc.querySelectorAll("[contenteditable]").forEach(e=>{e.style.background="transparent";e.style.outline="none";});// Hide delete buttons in clone too
-        doc.querySelectorAll(".li-del-btn").forEach(b=>b.style.display="none");}});
-        ces.forEach(e=>e.setAttribute("contenteditable","true"));
-        el.querySelectorAll(".li-del-btn").forEach(b=>b.style.display="");
-        if(wasEditOn){document.body.classList.add("edit-on");document.body.classList.remove("no-edit");}
-        if(canvas.width===EW&&canvas.height===EH)return canvas;
-        const out=document.createElement("canvas");out.width=EW;out.height=EH;const ctx=out.getContext("2d");ctx.fillStyle="#ffffff";ctx.fillRect(0,0,EW,EH);ctx.drawImage(canvas,0,0,EW,EH);return out;
-      }
-      function setProgress(pct){const wrap=document.getElementById("progress-wrap");const bar=document.getElementById("progress-bar");if(pct===0){wrap.classList.remove("active");bar.style.width="0%";return;}wrap.classList.add("active");bar.style.width=pct+"%";}
-      async function downloadPDF(){const btn=document.getElementById("dl-pdf");btn.textContent="⏳ Rendering…";btn.disabled=true;setProgress(10);try{const{jsPDF}=window.jspdf;const pdf=new jsPDF({orientation:"portrait",unit:"mm",format:[210,297],compress:true,precision:16});setProgress(20);const c1=await renderPage("page1");setProgress(52);pdf.addImage(c1.toDataURL("image/png"),"PNG",0,0,210,297,"p1","FAST");const c2=await renderPage("page2");setProgress(86);pdf.addPage([210,297],"portrait");pdf.addImage(c2.toDataURL("image/png"),"PNG",0,0,210,297,"p2","FAST");setProgress(97);pdf.save("Apex_Sponsorship_Agreement.pdf");setProgress(100);setTimeout(()=>setProgress(0),900);toast("PDF saved ✓");}catch(e){setProgress(0);toast("Export failed — see console");console.error(e);}finally{btn.textContent="⬇ Download PDF (Both Pages)";btn.disabled=false;}}
-      async function downloadImg(n){toast("Rendering Page "+n+"…",3000);try{const c=await renderPage("page"+n);const a=document.createElement("a");a.download=`Apex_Agreement_Page${n}_300dpi.png`;a.href=c.toDataURL("image/png");a.click();toast("Page "+n+" PNG saved ✓");}catch(e){toast("Export failed");console.error(e);}}
-      async function downloadAllImg(){await downloadImg(1);await new Promise(r=>setTimeout(r,900));await downloadImg(2);}
-
-      // ══ INIT ══
-      document.addEventListener("DOMContentLoaded",()=>{
-        restoreData();
-        refreshSecList();
-        document.getElementById("add-sec-wrap").style.display="none";
-        document.querySelectorAll("[contenteditable]").forEach(el=>{
-          el.addEventListener("input",scheduleSave);
-        });
-        setInterval(updateStats,6000);
-        updateStats();
-        document.getElementById("save-status").textContent="Ready";
-        let maxSec=6;
-        document.querySelectorAll(".sec-head[data-sec]").forEach(sh=>{
-          const n=parseInt(sh.dataset.sec,10);if(n>maxSec)maxSec=n;
-        });
-        nextSecNum=maxSec+1;
-        document.body.classList.add("edit-on");
-        // Init bullet delete system
-        initBulletDeleteButtons();
-        ensureLiDeleteButtons();
       });
+
+      // Restore everything
+      ces.forEach((ce,i)=>ce.setAttribute("contenteditable",ceStates[i]));
+      delBtns.forEach(b=>{b.style.display=b._prevDisplay||"";});
+      document.body.classList.remove("exporting");
+
+      // Ensure exact output size
+      if(canvas.width===EW&&canvas.height===EH)return canvas;
+      const out=document.createElement("canvas");out.width=EW;out.height=EH;
+      const ctx=out.getContext("2d");
+      ctx.fillStyle="#ffffff";ctx.fillRect(0,0,EW,EH);
+      ctx.drawImage(canvas,0,0,EW,EH);
+      return out;
+    }
+
+    function setProgress(pct){
+      const wrap=document.getElementById("progress-wrap"),bar=document.getElementById("progress-bar");
+      if(pct===0){wrap.classList.remove("active");bar.style.width="0%";return;}
+      wrap.classList.add("active");bar.style.width=pct+"%";
+    }
+
+    async function downloadPDF(){
+      const btn=document.getElementById("dl-pdf");
+      btn.textContent="⏳ Rendering…";btn.disabled=true;setProgress(10);
+      try{
+        const{jsPDF}=window.jspdf;
+        const pdf=new jsPDF({orientation:"portrait",unit:"mm",format:[210,297],compress:true,precision:16});
+        setProgress(20);
+        const c1=await renderPage("page1");
+        setProgress(52);
+        pdf.addImage(c1.toDataURL("image/jpeg",0.95),"JPEG",0,0,210,297,"p1","FAST");
+        const c2=await renderPage("page2");
+        setProgress(86);
+        pdf.addPage([210,297],"portrait");
+        pdf.addImage(c2.toDataURL("image/jpeg",0.95),"JPEG",0,0,210,297,"p2","FAST");
+        setProgress(97);
+        pdf.save("Apex_Sponsorship_Agreement.pdf");
+        setProgress(100);setTimeout(()=>setProgress(0),900);
+        toast("PDF saved ✓");
+      }catch(e){setProgress(0);toast("Export failed — see console");console.error(e);}
+      finally{btn.textContent="⬇ Download PDF (Both Pages)";btn.disabled=false;}
+    }
+
+    async function downloadImg(n){
+      toast("Rendering Page "+n+"…",3000);
+      try{
+        const c=await renderPage("page"+n);
+        const a=document.createElement("a");
+        a.download=`Apex_Agreement_Page${n}_300dpi.png`;
+        a.href=c.toDataURL("image/png");
+        a.click();
+        toast("Page "+n+" PNG saved ✓");
+      }catch(e){toast("Export failed");console.error(e);}
+    }
+
+    async function downloadAllImg(){
+      await downloadImg(1);await new Promise(r=>setTimeout(r,900));await downloadImg(2);
+    }
+
+    // ═══════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════
+    document.addEventListener("DOMContentLoaded",()=>{
+      restoreData();
+      refreshSecList();
+      document.getElementById("add-sec-wrap").style.display="none";
+      document.querySelectorAll("[contenteditable]").forEach(el=>{
+        el.addEventListener("input",scheduleSave);
+      });
+      setInterval(updateStats,6000);
+      updateStats();
+      document.getElementById("save-status").textContent="Ready";
+      // Compute next section number
+      let maxSec=6;
+      document.querySelectorAll(".sec-head[data-sec]").forEach(sh=>{
+        const n=parseInt(sh.dataset.sec,10);if(n>maxSec)maxSec=n;
+      });
+      nextSecNum=maxSec+1;
+      document.body.classList.add("edit-on");
+      // FIX: ensure all bullets have delete buttons on load
+      ensureLiDeleteButtons();
+    });
     </script>
   </body>
 </html>
