@@ -261,7 +261,7 @@
           <div class="sf"><label>Sponsor Address</label><input type="text" id="sb-spaddr" placeholder="e.g. Putalisadak, Kathmandu" oninput="sb2id('sb-spaddr','dc-spaddr');scheduleSave();"/></div>
           <div class="sbs">💰 Sponsorship</div>
           <div class="sf"><label>Sponsorship Tier</label>
-            <select id="sb-tier" onchange="applyTier();scheduleSave();">
+            <select id="sb-tier" onchange="applyTier(); switchTemplate(); scheduleSave();">
               <option value="">— Select Tier —</option>
               <option value="Platinum|3,50,000|#4A3A6A">Platinum — Rs. 3,50,000</option>
               <option value="Gold|3,00,000|#7A6010">Gold — Rs. 3,00,000</option>
@@ -977,6 +977,64 @@
       document.getElementById("add-sec-num").value="";
       refreshSecList();toast("Added to Page "+pg+" ✓");scheduleSave();
     }
+
+      // ═══════════════════════════════════════════
+// DYNAMIC TEMPLATES
+// ═══════════════════════════════════════════
+const docTemplates = {
+  stall: {
+    title: "STALL AGREEMENT",
+    sponseeBullets: `
+      <li contenteditable="true">Provide a designated promotional stall space for the Sponsor at the event venue for the agreed duration.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Special mention and verbal acknowledgment during opening, closing, and major event segments.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `,
+    sponsorBullets: `
+      <li contenteditable="true">Payment of the agreed stall fee for the selected placement duration.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Setup, operation, and teardown of the promotional stall within the timeframes designated by the organizing committee.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Ensure all stall activities, promotional materials, and staff conduct align with Apex College guidelines and do not disrupt the main event.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `
+  },
+  default: {
+    title: "SPONSORSHIP AGREEMENT",
+    sponseeBullets: `
+      <li contenteditable="true">Inclusion of Sponsor's logo and name in all major event promotional materials (posters, banners, backdrops, digital invites, and social media).<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Stage and venue branding with Sponsor-provided materials (standees, flex boards, flags, etc.).<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Customized promotional booth space at the venue for engagement.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Opportunity to distribute samples or merchandise during the event.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Feature in media coverages, including press releases and college digital platforms.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Tagging and mentions on the event's official social media handles and campaign hashtags.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `,
+    sponsorBullets: `
+      <li contenteditable="true">Sponsorship amount or in-kind support equivalent to the selected sponsorship tier.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Timely submission of company logos, brand guidelines, and promotional materials for use.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Coordination with the student organizing team regarding brand usage and representation.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `
+  }
+};
+
+function switchTemplate() {
+  const raw = document.getElementById("sb-tier").value;
+  if (!raw) return;
+  
+  const [tierName] = raw.split("|");
+  let tpl = docTemplates.default;
+
+  // Check if the selected tier is a Stall
+  if (tierName.includes("Stall")) {
+    tpl = docTemplates.stall;
+  }
+
+  // Ask the user before wiping out their current text
+  if (confirm(`Do you want to load the default template for the ${tierName} tier? This will replace your current bullet points.`)) {
+    document.getElementById("dc-doctitle").textContent = tpl.title;
+    document.getElementById("sec2-list").innerHTML = tpl.sponseeBullets;
+    document.getElementById("sec3-list").innerHTML = tpl.sponsorBullets;
+    
+    // Make sure the new bullets have working delete buttons
+    ensureLiDeleteButtons();
+    toast(`Loaded template for ${tierName} ✓`);
+  }
+}
 
     // ═══════════════════════════════════════════
     // CONTEXT MENU
