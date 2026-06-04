@@ -978,7 +978,7 @@
       refreshSecList();toast("Added to Page "+pg+" ✓");scheduleSave();
     }
 
-      // ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
 // DYNAMIC TEMPLATES
 // ═══════════════════════════════════════════
 const docTemplates = {
@@ -994,24 +994,97 @@ const docTemplates = {
       <li contenteditable="true">Ensure all stall activities, promotional materials, and staff conduct align with Apex College guidelines and do not disrupt the main event.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
     `
   },
+  platinumGold: {
+    title: "TITLE SPONSORSHIP AGREEMENT",
+    sponseeBullets: `
+      <li contenteditable="true">Premium placement of Sponsor's logo on all major event promotional materials (posters, banners, main stage backdrop, digital invites, and social media).<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Exclusive naming rights or "Presented By" status in all event communications.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Dedicated prime promotional booth space (3x3m) at the venue for direct audience engagement.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Speaking opportunity (up to 5 minutes) for a Sponsor representative during the opening or closing ceremony.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Frequent verbal acknowledgments by the MC throughout the event.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Opportunity to distribute promotional samples, flyers, or merchandise directly to attendees.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `,
+    sponsorBullets: `
+      <li contenteditable="true">Sponsorship amount of <strong>NPR <span id="dc-amount" data-ph="[Amount]">[Insert Amount]</span></strong> to be paid in full prior to the event date.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Timely submission of high-resolution company logos, brand guidelines, and approved promotional materials.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Coordination with the student organizing team for booth setup and brand representation.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `
+  },
+  silverBronze: {
+    title: "CO-SPONSORSHIP AGREEMENT",
+    sponseeBullets: `
+      <li contenteditable="true">Inclusion of Sponsor's logo on secondary event promotional materials (standees, side banners, and digital posts).<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Verbal acknowledgment during the opening and closing remarks of the event.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Tagging and mentions on the event's official social media handles.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Opportunity to place standee banners in designated high-traffic areas at the venue.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `,
+    sponsorBullets: `
+      <li contenteditable="true">Sponsorship amount of <strong>NPR <span id="dc-amount" data-ph="[Amount]">[Insert Amount]</span></strong> to support the event.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Timely submission of company logos and physical standees/banners to the organizing committee.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `
+  },
+  inKindTech: {
+    title: "PARTNERSHIP AGREEMENT",
+    sponseeBullets: `
+      <li contenteditable="true">Recognition as the Official Partner (Gift/Tech/Merchandise) on event collateral and social media.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Verbal acknowledgment of the Sponsor's specific contribution during the event segments.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Permission to capture photos/videos of attendees interacting with the provided goods/services for Sponsor's own PR.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `,
+    sponsorBullets: `
+      <li contenteditable="true">Provision of agreed-upon in-kind support, technical equipment, gifts, or merchandise valued at <strong>NPR <span id="dc-amount" data-ph="[Amount]">[Insert Amount]</span></strong>.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Delivery of all physical items or completion of technical setup by <span id="dc-deadline" data-ph="[Deadline]">[Insert Deadline Date]</span>.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Ensuring all provided equipment or goods are in safe, working, and presentable condition.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+    `
+  },
   default: {
     title: "SPONSORSHIP AGREEMENT",
     sponseeBullets: `
-      <li contenteditable="true">Inclusion of Sponsor's logo and name in all major event promotional materials (posters, banners, backdrops, digital invites, and social media).<button class="li-del-btn" title="Delete this bullet">✕</button></li>
-      <li contenteditable="true">Stage and venue branding with Sponsor-provided materials (standees, flex boards, flags, etc.).<button class="li-del-btn" title="Delete this bullet">✕</button></li>
-      <li contenteditable="true">Customized promotional booth space at the venue for engagement.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
-      <li contenteditable="true">Opportunity to distribute samples or merchandise during the event.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
-      <li contenteditable="true">Feature in media coverages, including press releases and college digital platforms.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
-      <li contenteditable="true">Tagging and mentions on the event's official social media handles and campaign hashtags.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Inclusion of Sponsor's logo and name in major event promotional materials.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Special mention and verbal acknowledgment during the event.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Tagging and mentions on the event's official social media handles.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
     `,
     sponsorBullets: `
-      <li contenteditable="true">Sponsorship amount or in-kind support equivalent to the selected sponsorship tier.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
-      <li contenteditable="true">Timely submission of company logos, brand guidelines, and promotional materials for use.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
-      <li contenteditable="true">Coordination with the student organizing team regarding brand usage and representation.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Sponsorship support as agreed upon in the primary proposal.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
+      <li contenteditable="true">Timely submission of company logos and promotional materials.<button class="li-del-btn" title="Delete this bullet">✕</button></li>
     `
   }
 };
 
+function switchTemplate() {
+  const raw = document.getElementById("sb-tier").value;
+  if (!raw) return;
+  
+  const [tierName] = raw.split("|");
+  let tplKey = "default";
+
+  // Logic to map the dropdown selection to the correct template
+  if (tierName.includes("Stall")) {
+    tplKey = "stall";
+  } else if (tierName === "Platinum" || tierName === "Gold") {
+    tplKey = "platinumGold";
+  } else if (tierName === "Silver" || tierName === "Bronze") {
+    tplKey = "silverBronze";
+  } else if (tierName === "In-Kind" || tierName === "Gift" || tierName === "Technical" || tierName === "Merchandise") {
+    tplKey = "inKindTech";
+  }
+
+  const tpl = docTemplates[tplKey];
+
+  // Ask the user before replacing their text
+  if (confirm(`Load the standard template for the ${tierName} tier? This will replace your current bullet points.`)) {
+    document.getElementById("dc-doctitle").textContent = tpl.title;
+    document.getElementById("sec2-list").innerHTML = tpl.sponseeBullets;
+    document.getElementById("sec3-list").innerHTML = tpl.sponsorBullets;
+    
+    // Sync any newly inserted amount/deadline spans with the sidebar
+    sb2id('sb-amount','dc-amount');
+    syncDeadline();
+    
+    // Re-attach delete buttons
+    ensureLiDeleteButtons();
+    toast(`Loaded template for ${tierName} ✓`);
+  }
+}
 function switchTemplate() {
   const raw = document.getElementById("sb-tier").value;
   if (!raw) return;
