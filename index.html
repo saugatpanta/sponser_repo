@@ -3085,6 +3085,9 @@
         // Build sec3 bullets
         buildBullets("sec3-list", data.sec3bullets);
 
+        // Redistribute: move sections 3 & 4 to page 2 so page 1 doesn't overflow
+        redistributePages();
+
         // Sync amount & deadline into new bullets
         syncAmountInBullets();
         ensureLiDeleteButtons();
@@ -3093,17 +3096,35 @@
         toast(`Template loaded: ${key} ✓`);
       }
 
+      function redistributePages() {
+        const p1 = document.getElementById("p1-content");
+        const p2 = document.getElementById("p2-content");
+        if (!p1 || !p2) return;
+
+        // Move only section 4 (IP clause — last on page 1) to page 2 to prevent overflow
+        const info = getSectionNodes(4);
+        if (!info) return;
+        const { parent, nodes, si, ei } = info;
+        if (parent !== p1 && !p1.contains(info.sh)) return;
+        const fragment = document.createDocumentFragment();
+        for (let i = si; i < ei; i++) {
+          if (nodes[i] && nodes[i].parentNode) fragment.appendChild(nodes[i]);
+        }
+        fragment.querySelectorAll(".sec-head").forEach((sh) => (sh.dataset.page = "2"));
+        p2.insertBefore(fragment, p2.firstChild);
+      }
+
       function buildBullets(listId, bulletsArr) {
         const ul = document.getElementById(listId);
         if (!ul) return;
         ul.innerHTML = "";
+        const amtVal = document.getElementById("sb-amount").value || "[Insert Amount]";
         bulletsArr.forEach((txt) => {
           const li = document.createElement("li");
           li.setAttribute("contenteditable", "true");
-          // Replace placeholders with spans
           li.innerHTML = txt.replace(
             /__DC_AMOUNT__/g,
-            `<strong>NPR <span contenteditable="true" id="dc-amount" data-ph="[Amount]">${document.getElementById("sb-amount").value || "[Insert Amount]"}</span></strong>`,
+            `<strong>NPR <span contenteditable="true" class="dc-amount-sync" data-ph="[Amount]">${amtVal}</span></strong>`,
           );
           li.appendChild(makeLiDelBtn());
           ul.appendChild(li);
@@ -3113,6 +3134,9 @@
       function syncAmountInBullets() {
         const v = document.getElementById("sb-amount").value.trim();
         document.querySelectorAll("#dc-amount").forEach((el) => {
+          if (v) el.textContent = v;
+        });
+        document.querySelectorAll(".dc-amount-sync").forEach((el) => {
           if (v) el.textContent = v;
         });
       }
