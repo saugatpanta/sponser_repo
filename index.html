@@ -1555,6 +1555,7 @@
               <optgroup label="Partner Sponsors">
                 <option value="In-Kind">In-Kind — Rs. 10,000+</option>
                 <option value="Voucher">Voucher Sponsor</option>
+                <option value="Product">Product Sponsor</option>
                 <option value="Gift">Gift Sponsor</option>
                 <option value="Technical">Technical Sponsor</option>
                 <option value="Merchandise">Merchandise Sponsor</option>
@@ -2822,6 +2823,25 @@
             "The Sponsor shall honor all distributed vouchers in accordance with the stated terms and conditions.",
           ],
         },
+        Product: {
+          title: "PRODUCT SPONSORSHIP AGREEMENT",
+          amount: "—",
+          badge: "Product Sponsor",
+          sec2bullets: [
+            "Recognition of the Sponsor as the Official Product Partner across event social media platforms and relevant promotional materials.",
+            "Dedicated product display and sampling zone at the event venue for direct audience engagement.",
+            "Verbal acknowledgment during event segments where the Sponsor's products are distributed or featured.",
+            "Logo and brand name placement on event materials associated with product distribution areas.",
+            "Feature in post-event media coverage and social media recap posts highlighting the product partnership.",
+          ],
+          sec3bullets: [
+            "Provision of the agreed product units in sufficient quantity for distribution or display during APEX PITCH & POP 2026.",
+            "Delivery of all products to the organizing committee at least three (3) days prior to the event in proper, event-ready condition.",
+            "Ensuring all provided products are safe, unexpired, and compliant with applicable quality and safety standards.",
+            "Coordination with the organizing team on product quantities, distribution methods, and placement logistics.",
+            "The Sponsor shall bear all costs related to product supply, packaging, and transportation.",
+          ],
+        },
         Gift: {
           title: "GIFT SPONSORSHIP AGREEMENT",
           amount: "—",
@@ -3272,7 +3292,6 @@
         return {
           sidebar,
           editables,
-          logos: { L1: logos.L1, EV: logos.EV, L2: logos.L2 },
           watermark: wmSrc,
           accent: currentAccent,
           zoom: currentZoom,
@@ -3362,6 +3381,16 @@
           });
           renderLogos();
         }
+        // Also load logos from separate keys
+        ["L1", "EV", "L2"].forEach((key) => {
+          const src = localStorage.getItem("apex_logo_" + key);
+          if (src) {
+            logos[key] = src;
+            const p = document.getElementById("prev-" + key);
+            if (p) { p.src = src; p.style.display = "block"; }
+          }
+        });
+        renderLogos();
         if (data.watermark) {
           wmSrc = data.watermark;
           applyWM();
@@ -3404,6 +3433,9 @@
         if (!(await showConfirm("Clear all saved data and reset?"))) return;
         localStorage.removeItem(STORE_KEY);
         localStorage.removeItem(HIST_KEY);
+        localStorage.removeItem("apex_logo_L1");
+        localStorage.removeItem("apex_logo_EV");
+        localStorage.removeItem("apex_logo_L2");
         location.reload();
       }
       function exportJSON() {
@@ -3520,6 +3552,7 @@
             p.style.display = "block";
           }
           renderLogos();
+          try { localStorage.setItem("apex_logo_" + key, logos[key]); } catch(e) {}
           scheduleSave();
           toast("Logo uploaded ✓");
         };
@@ -3527,6 +3560,7 @@
       }
       function clearLogo(key) {
         logos[key] = null;
+        localStorage.removeItem("apex_logo_" + key);
         const p = document.getElementById("prev-" + key);
         if (p) {
           p.style.display = "none";
