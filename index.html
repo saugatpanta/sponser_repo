@@ -15,7 +15,4276 @@
         --m: #7b1c1c;
         --md: #5a1010;
         --mm: #8b2222;
+        --ml: rgba(123, 28, 28, 0.12<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Apex Pitch & Pop — Sponsorship Agreement Builder</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+      :root {
+        --m: #7b1c1c;
+        --md: #5a1010;
+        --mm: #8b2222;
         --ml: rgba(123, 28, 28, 0.12);
+        --g: #3a3a3a;
+        --gm: #5a5a5a;
+        --gl: #8a8a8a;
+        --border: #c8b8b8;
+        --bgw: #faf6f4;
+        --sb: #0f0606;
+        --sba: #8b2020;
+        --sbt: #f2e6e2;
+        --sbm: #a07070;
+        --sbf: #1a0a0a;
+        --sbb: #2e1212;
+        --sw: 360px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: "DM Sans", sans-serif;
+      }
+      body {
+        background: #080101;
+        overflow-x: hidden;
+      }
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #4a1a1a;
+        border-radius: 2px;
+      }
+      *:focus {
+        outline: none !important;
+      }
+
+      /* SIDEBAR */
+      #sb {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: var(--sw);
+        height: 100vh;
+        background: var(--sb);
+        border-right: 1px solid #2a1010;
+        z-index: 600;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 4px 0 40px rgba(0, 0, 0, 0.7);
+      }
+      #sb.hidden {
+        transform: translateX(calc(-1 * var(--sw)));
+      }
+      .sbh {
+        height: 54px;
+        background: var(--md);
+        display: flex;
+        align-items: center;
+        padding: 0 14px;
+        gap: 9px;
+        flex-shrink: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .sbh-icon {
+        font-size: 17px;
+      }
+      .sbh-title {
+        font-family: "Playfair Display", serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: #ffe8e0;
+        letter-spacing: 0.4px;
+        flex: 1;
+      }
+      .sb-body {
+        flex: 1;
+        overflow-y: auto;
+        padding-bottom: 28px;
+      }
+      .sb-tabs {
+        display: flex;
+        background: #0a0404;
+        border-bottom: 1px solid var(--sbb);
+        flex-shrink: 0;
+      }
+      .sb-tab {
+        flex: 1;
+        padding: 8px 2px;
+        background: none;
+        border: none;
+        color: var(--sbm);
+        font-size: 9.5px;
+        font-weight: 600;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-bottom: 2px solid transparent;
+        font-family: "DM Sans", sans-serif;
+      }
+      .sb-tab.active {
+        color: #ffd0d0;
+        border-bottom-color: var(--sba);
+        background: rgba(139, 32, 32, 0.09);
+      }
+      .sb-tab:hover:not(.active) {
+        color: #e0c0c0;
+      }
+      .tab-pane {
+        display: none;
+      }
+      .tab-pane.active {
+        display: block;
+      }
+      .sbs {
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--sba);
+        padding: 12px 14px 3px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        border-top: 1px solid var(--sbb);
+      }
+      .sbs:first-child {
+        border-top: none;
+      }
+      .sf {
+        padding: 3px 14px 4px;
+      }
+      .sf label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--sbm);
+        margin-bottom: 2px;
+      }
+      .sf input[type="text"],
+      .sf input[type="date"],
+      .sf select,
+      .sf textarea {
+        width: 100%;
+        background: var(--sbf);
+        border: 1px solid var(--sbb);
+        color: var(--sbt);
+        font-size: 12px;
+        font-family: "DM Sans", sans-serif;
+        padding: 6px 9px;
+        border-radius: 4px;
+        outline: none;
+        transition: border-color 0.18s;
+      }
+      .sf input:focus,
+      .sf select:focus,
+      .sf textarea:focus {
+        border-color: var(--sba);
+        background: #1e0c0c;
+      }
+      .sf select option {
+        background: #1a0808;
+        color: #f0e4e0;
+      }
+      .sf textarea {
+        resize: vertical;
+        min-height: 46px;
+        line-height: 1.4;
+      }
+      .sf .hint {
+        font-size: 9.5px;
+        color: #604040;
+        margin-top: 2px;
+        line-height: 1.4;
+      }
+      .range-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2px;
+      }
+      .range-val {
+        font-size: 10px;
+        font-weight: 700;
+        color: #ff9090;
+        background: rgba(139, 32, 32, 0.2);
+        padding: 1px 5px;
+        border-radius: 3px;
+      }
+      .sf input[type="range"] {
+        width: 100%;
+        accent-color: var(--m);
+        cursor: pointer;
+        height: 3px;
+        margin: 2px 0;
+      }
+      .check-row {
+        display: flex;
+        gap: 10px;
+        padding: 3px 14px;
+      }
+      .check-row label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: var(--sbm);
+        cursor: pointer;
+      }
+      .check-row input[type="checkbox"] {
+        accent-color: var(--m);
+        width: 12px;
+        height: 12px;
+      }
+      .logo-up {
+        position: relative;
+        width: 100%;
+        height: 46px;
+        border: 1.5px dashed #3e1818;
+        border-radius: 4px;
+        background: #130606;
+        overflow: hidden;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.2s;
+      }
+      .logo-up:hover {
+        border-color: var(--sba);
+      }
+      .logo-up input[type="file"] {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+      }
+      .logo-up .up-lbl {
+        font-size: 10px;
+        color: var(--sbm);
+        pointer-events: none;
+        text-align: center;
+      }
+      .logo-up img {
+        display: none;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        position: absolute;
+      }
+      .btn-row {
+        display: grid;
+        gap: 4px;
+        padding: 3px 14px;
+      }
+      .btn-row.col2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .btn-row.col1 {
+        grid-template-columns: 1fr;
+      }
+      .btn-row.col3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .sbtn {
+        padding: 7px 8px;
+        border: none;
+        border-radius: 4px;
+        font-size: 10.5px;
+        font-weight: 600;
+        font-family: "DM Sans", sans-serif;
+        cursor: pointer;
+        transition: all 0.18s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+      }
+      .sbtn-pdf {
+        background: var(--m);
+        color: #fff;
+      }
+      .sbtn-pdf:hover {
+        background: #9b2222;
+      }
+      .sbtn-pdf:disabled {
+        background: #4a1010;
+        color: #8a5050;
+        cursor: wait;
+      }
+      .sbtn-png {
+        background: #1e1010;
+        color: #ccc;
+        border: 1px solid #3a1a1a;
+      }
+      .sbtn-png:hover {
+        background: #2a1414;
+      }
+      .sbtn-all {
+        background: #0d1e0d;
+        color: #90ee90;
+        border: 1px solid #1e4a1e;
+      }
+      .sbtn-all:hover {
+        background: #122012;
+      }
+      .sbtn-edit {
+        background: #0d1e2a;
+        color: #90ccff;
+        border: 1px solid #1a3a5a;
+      }
+      .sbtn-edit.on {
+        background: #0d200d;
+        color: #90ee90;
+        border-color: #1e4a1e;
+      }
+      .sbtn-danger {
+        background: #200a0a;
+        color: #ff8080;
+        border: 1px solid #4a1a1a;
+        font-size: 10.5px;
+      }
+      .sbtn-danger:hover {
+        background: #2a0e0e;
+      }
+      .sbtn-add {
+        background: #1a1a0a;
+        color: #e0d080;
+        border: 1px solid #3a3a1a;
+        font-size: 10.5px;
+      }
+      .sbtn-add:hover {
+        background: #222210;
+      }
+      .sbtn-neutral {
+        background: #161616;
+        color: #aaa;
+        border: 1px solid #2a2a2a;
+        font-size: 10.5px;
+      }
+      .sbtn-neutral:hover {
+        background: #1e1e1e;
+      }
+      .sbtn-green {
+        background: #0d1a0d;
+        color: #90ee90;
+        border: 1px solid #1e4a1e;
+        font-size: 10.5px;
+      }
+      .sbtn-green:hover {
+        background: #122012;
+      }
+      .add-builder {
+        background: #140808;
+        border: 1px solid var(--sbb);
+        border-radius: 5px;
+        padding: 8px;
+        margin: 3px 14px 4px;
+      }
+      .add-builder label {
+        font-size: 10px;
+        color: var(--sbm);
+        display: block;
+        margin-bottom: 2px;
+      }
+      .add-builder select,
+      .add-builder input,
+      .add-builder textarea {
+        width: 100%;
+        background: #0a0404;
+        border: 1px solid #2e1212;
+        color: var(--sbt);
+        font-size: 10.5px;
+        font-family: "DM Sans", sans-serif;
+        padding: 5px 7px;
+        border-radius: 3px;
+        outline: none;
+        margin-bottom: 4px;
+      }
+      .add-builder select:focus,
+      .add-builder input:focus,
+      .add-builder textarea:focus {
+        border-color: var(--sba);
+      }
+      .add-builder textarea {
+        resize: vertical;
+        min-height: 40px;
+        line-height: 1.4;
+      }
+      .sec-list {
+        margin: 3px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        max-height: 220px;
+        overflow-y: auto;
+      }
+      .sec-item {
+        background: #130707;
+        border: 1px solid #2a1212;
+        border-radius: 3px;
+        padding: 4px 7px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10.5px;
+        color: #d0a0a0;
+      }
+      .sec-item .si-num {
+        color: var(--sba);
+        font-weight: 700;
+        font-size: 10px;
+        min-width: 14px;
+      }
+      .sec-item .si-name {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .sec-item .si-name:hover {
+        color: #ffd0d0;
+      }
+      .sec-item .si-btns {
+        display: flex;
+        gap: 2px;
+        flex-shrink: 0;
+      }
+      .sec-item .si-up,
+      .sec-item .si-dn {
+        color: #604040;
+        font-size: 11px;
+        cursor: pointer;
+        padding: 1px 3px;
+        background: none;
+        border: none;
+        font-family: "DM Sans", sans-serif;
+      }
+      .sec-item .si-up:hover,
+      .sec-item .si-dn:hover {
+        color: #ffd080;
+      }
+      .sec-item .si-del {
+        color: #6a2020;
+        font-size: 12px;
+        cursor: pointer;
+        padding: 0 2px;
+        background: none;
+        border: none;
+        font-family: "DM Sans", sans-serif;
+      }
+      .sec-item .si-del:hover {
+        color: #ff6060;
+      }
+      .sec-num-label {
+        font-size: 9.5px;
+        color: #604040;
+        padding: 2px 14px;
+        font-style: italic;
+      }
+      .progress-bar {
+        height: 3px;
+        background: linear-gradient(90deg, var(--sba), #ff6060);
+        border-radius: 2px;
+        transition: width 0.4s;
+        width: 0%;
+      }
+      .progress-wrap {
+        padding: 0 14px 5px;
+        display: none;
+      }
+      .progress-wrap.active {
+        display: block;
+      }
+      .autosave-row {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 14px;
+        font-size: 10px;
+        color: #80b080;
+        background: #0a1a0a;
+        border-radius: 3px;
+        margin: 4px 14px;
+      }
+      .save-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4caf50;
+        flex-shrink: 0;
+        transition: background 0.3s;
+      }
+      .save-dot.saving {
+        background: #ffa000;
+        box-shadow: 0 0 5px #ffa000;
+      }
+      .save-dot.error {
+        background: #f44336;
+      }
+      .hist-panel {
+        background: #0a0606;
+        border: 1px solid #2a1010;
+        border-radius: 3px;
+        margin: 3px 14px;
+        padding: 6px;
+        max-height: 110px;
+        overflow-y: auto;
+        font-size: 10px;
+        color: #886868;
+      }
+      .hist-item {
+        padding: 2px 0;
+        border-bottom: 1px solid #1a0808;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4px;
+      }
+      .hist-item:last-child {
+        border-bottom: none;
+      }
+      .hist-restore {
+        background: none;
+        border: none;
+        color: #aa6666;
+        cursor: pointer;
+        font-size: 9.5px;
+      }
+      .hist-restore:hover {
+        color: #ff9999;
+      }
+      .wc-bar {
+        background: #0a0606;
+        border: 1px solid #2a1010;
+        border-radius: 3px;
+        padding: 4px 8px;
+        font-size: 10px;
+        color: #887070;
+        display: flex;
+        justify-content: space-between;
+        margin: 2px 14px;
+      }
+      .wc-num {
+        color: #cc8888;
+        font-weight: 700;
+      }
+      .color-row {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        padding: 4px 14px;
+      }
+      .color-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition:
+          border-color 0.15s,
+          transform 0.15s;
+      }
+      .color-dot:hover,
+      .color-dot.active {
+        border-color: #fff;
+        transform: scale(1.15);
+      }
+      .zoom-row {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 14px;
+      }
+      .zoom-btn {
+        background: #200c0c;
+        border: 1px solid var(--sbb);
+        color: #ddd0c8;
+        padding: 4px 9px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .zoom-btn:hover {
+        background: #3a1010;
+      }
+      #zoom-val {
+        font-size: 11px;
+        color: #c0a0a0;
+        min-width: 36px;
+        text-align: center;
+      }
+      #sb-fab {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 700;
+        width: 40px;
+        height: 40px;
+        background: var(--md);
+        border: none;
+        color: #fff;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+        transition: background 0.2s;
+      }
+      #sb-fab:hover {
+        background: var(--sba);
+      }
+      /* Tier badge */
+      .tier-badge {
+        background: rgba(139, 32, 32, 0.15);
+        border: 1px solid rgba(139, 32, 32, 0.4);
+        border-radius: 4px;
+        padding: 5px 10px;
+        margin: 4px 14px;
+        font-size: 10px;
+        color: #ffb0b0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .tier-badge .tb-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--sba);
+        flex-shrink: 0;
+      }
+      .bullet-manager-info {
+        background: #120606;
+        border: 1px solid #2e1010;
+        border-radius: 4px;
+        padding: 7px 10px;
+        margin: 3px 14px 4px;
+        font-size: 10px;
+        color: #886060;
+        line-height: 1.5;
+      }
+      .bullet-manager-info strong {
+        color: #ffb0b0;
+      }
+
+      /* MAIN */
+      #main {
+        margin-left: var(--sw);
+        padding: 20px 20px 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(ellipse at 30% 20%, #1a0808, #060101);
+        transition: margin-left 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      #main.sb-hidden {
+        margin-left: 0;
+      }
+      .tip-bar {
+        max-width: 834px;
+        width: 100%;
+        margin-bottom: 9px;
+        background: rgba(123, 28, 28, 0.14);
+        border: 1px solid rgba(123, 28, 28, 0.3);
+        border-radius: 6px;
+        padding: 6px 14px;
+        font-size: 11px;
+        color: #c09090;
+        text-align: center;
+      }
+      .tip-bar strong {
+        color: #ffd8d8;
+      }
+      .pg-meta {
+        max-width: 834px;
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 10px;
+        color: #6a4040;
+        background: rgba(0, 0, 0, 0.25);
+        padding: 4px 12px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+      .pg-meta .dot {
+        width: 3px;
+        height: 3px;
+        background: #4a2020;
+        border-radius: 50%;
+      }
+      .page-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        transform-origin: top center;
+      }
+
+      /* A4 PAGE */
+      .a4 {
+        width: 794px !important;
+        min-width: 794px !important;
+        max-width: 794px !important;
+        height: 1123px !important;
+        min-height: 1123px !important;
+        max-height: 1123px !important;
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+        box-shadow:
+          0 8px 52px rgba(0, 0, 0, 0.6),
+          0 0 0 1px rgba(123, 28, 28, 0.12);
+        display: flex;
+        flex-direction: column;
+      }
+      .pg-top {
+        background: var(--m);
+        height: 6px;
+        flex-shrink: 0;
+      }
+      .wm-t,
+      .wm-i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-38deg);
+        pointer-events: none;
+        z-index: 0;
+        user-select: none;
+      }
+      .wm-t {
+        font-family: "EB Garamond", serif;
+        font-size: 72px;
+        font-weight: 700;
+        color: rgba(123, 28, 28, 0.055);
+        white-space: nowrap;
+        letter-spacing: 10px;
+      }
+      .wm-i {
+        width: 420px;
+        opacity: 0.07;
+        filter: grayscale(100%);
+        display: none;
+      }
+      .corner {
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        opacity: 0.22;
+      }
+      .c-tl {
+        top: 14px;
+        left: 14px;
+        border-top: 2px solid var(--m);
+        border-left: 2px solid var(--m);
+      }
+      .c-tr {
+        top: 14px;
+        right: 14px;
+        border-top: 2px solid var(--m);
+        border-right: 2px solid var(--m);
+      }
+      .c-bl {
+        bottom: 40px;
+        left: 14px;
+        border-bottom: 2px solid var(--m);
+        border-left: 2px solid var(--m);
+      }
+      .c-br {
+        bottom: 40px;
+        right: 14px;
+        border-bottom: 2px solid var(--m);
+        border-right: 2px solid var(--m);
+      }
+      .pg-foot {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 32px;
+        background: var(--m);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+      }
+      .pg-foot span {
+        color: #fff;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+      }
+      .pg-body {
+        padding: 10px 42px 38px;
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* LOGOS */
+      .logos-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 2.5px solid var(--m);
+        flex-shrink: 0;
+      }
+      .logo-slot {
+        width: 100px;
+        height: 58px;
+        border: 1.5px dashed #c0a8a8;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bgw);
+        overflow: hidden;
+      }
+      .logo-slot:last-child {
+        width: 140px;
+        height: 82px;
+        border-width: 2px;
+      }
+      .logo-slot img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      .logo-slot-ph {
+        font-size: 9px;
+        color: #b09090;
+        text-align: center;
+        padding: 2px;
+        line-height: 1.3;
+      }
+      .event-logo-slot {
+        width: 150px;
+        height: 72px;
+        border: 2px dashed #7b1c1c;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff6f0;
+        overflow: hidden;
+      }
+      .event-logo-slot img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      .event-logo-slot-ph {
+        font-size: 10px;
+        color: #9b5c5c;
+        text-align: center;
+        padding: 3px;
+        line-height: 1.4;
+        font-weight: 700;
+      }
+
+      /* DOCUMENT */
+      .doc-content {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .doc-title {
+        text-align: center;
+        margin-bottom: 10px;
+        flex-shrink: 0;
+      }
+      .doc-title-ed {
+        display: inline;
+        outline: none;
+        font-family: "EB Garamond", serif;
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--m);
+        letter-spacing: 3px;
+        border-bottom: 2px solid var(--m);
+        padding-bottom: 4px;
+        cursor: text;
+      }
+      .doc-text {
+        font-size: 13px;
+        line-height: 1.62;
+        color: var(--g);
+        flex: 1;
+      }
+      .doc-text p {
+        margin-bottom: 5px;
+        text-align: justify;
+      }
+      .doc-text strong {
+        color: #1c0a0a;
+      }
+      .sec-head {
+        font-family: "EB Garamond", serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--m);
+        margin: 9px 0 4px;
+        letter-spacing: 0.3px;
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+      }
+      .sec-head-num {
+        flex-shrink: 0;
+        color: var(--m);
+        opacity: 0.6;
+        font-size: 13px;
+      }
+      .sec-head-text {
+        outline: none;
+        min-width: 40px;
+        font-family: "EB Garamond", serif;
+        cursor: text;
+      }
+      .sec-head-text:focus {
+        background: rgba(123, 28, 28, 0.07);
+      }
+      .doc-text ul {
+        margin-left: 18px;
+        margin-bottom: 5px;
+        list-style-type: disc;
+      }
+      .doc-text ul li {
+        margin-bottom: 3px;
+        text-align: justify;
+        font-size: 12.5px;
+        line-height: 1.52;
+        position: relative;
+        padding-right: 26px;
+      }
+
+      /* DELETE BUTTON — FIXED: right-side placement, only in edit mode */
+      .li-del-btn {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 17px;
+        height: 17px;
+        background: #c0392b;
+        border: none;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+        z-index: 10;
+        font-family: "DM Sans", sans-serif;
+        line-height: 1;
+        transition:
+          background 0.15s,
+          transform 0.15s;
+      }
+      .li-del-btn:hover {
+        background: #e74c3c;
+        transform: translateY(-50%) scale(1.15);
+      }
+      body.edit-on .doc-text ul li:hover .li-del-btn {
+        display: flex;
+      }
+      body.edit-on .doc-text ul li:hover {
+        background: rgba(123, 28, 28, 0.04);
+        border-radius: 2px;
+      }
+      .exporting .li-del-btn {
+        display: none !important;
+      }
+      @keyframes li-fade-out {
+        from {
+          opacity: 1;
+          max-height: 60px;
+        }
+        to {
+          opacity: 0;
+          max-height: 0;
+          margin: 0;
+          padding: 0;
+        }
+      }
+      .li-deleting {
+        animation: li-fade-out 0.26s ease forwards;
+        pointer-events: none;
+      }
+
+      .note-italic {
+        font-style: italic;
+        color: var(--gl);
+        font-size: 12px;
+        margin-top: 3px;
+      }
+      .date-line {
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+
+      /* EDITABLES */
+      [contenteditable] {
+        outline: none !important;
+      }
+      body.edit-on [contenteditable="true"] {
+        background: rgba(123, 28, 28, 0.06) !important;
+        border-radius: 2px;
+        cursor: text;
+      }
+      body.edit-on [contenteditable="true"]:focus {
+        background: rgba(123, 28, 28, 0.12) !important;
+      }
+      [contenteditable][data-ph]:empty:before {
+        content: attr(data-ph);
+        color: #c0a0a0;
+        font-style: italic;
+      }
+      body.no-edit [contenteditable] {
+        background: transparent !important;
+        pointer-events: none;
+        cursor: default;
+      }
+      body.no-edit [contenteditable]:empty:before {
+        content: none;
+      }
+
+      /* SIGNATURES */
+      .sig-wrap {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 2px solid var(--m);
+        flex-shrink: 0;
+      }
+      .sig-intro {
+        font-size: 12px;
+        color: var(--gm);
+        margin-bottom: 12px;
+        font-style: italic;
+        text-align: center;
+        line-height: 1.5;
+      }
+      .sig-cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .sig-col {
+        display: flex;
+        flex-direction: column;
+      }
+      .col-hd {
+        font-family: "EB Garamond", serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        background: var(--m);
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        padding: 6px 12px;
+      }
+      .sig-row {
+        display: flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 0 10px;
+        background: #faf6f4;
+        border-bottom: 1px solid #e8dcdc;
+      }
+      .sig-row-tall {
+        min-height: 48px;
+        align-items: flex-start;
+        padding-top: 6px;
+      }
+      .sig-lbl {
+        font-size: 12px;
+        font-weight: 700;
+        color: #5a1010;
+        white-space: nowrap;
+        margin-right: 8px;
+        flex-shrink: 0;
+        min-width: 82px;
+      }
+      .sig-val {
+        flex: 1;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #1c0a0a;
+        outline: none;
+        background: transparent;
+        min-width: 0;
+        cursor: text;
+      }
+      .sig-val:empty:before {
+        content: attr(data-ph);
+        color: #c0a0a0;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 11.5px;
+      }
+      .footer-ed {
+        display: inline;
+        outline: none;
+        cursor: text;
+      }
+      .footer-ed:focus {
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 2px;
+      }
+      body.no-edit .footer-ed {
+        pointer-events: none;
+        cursor: default;
+      }
+
+      /* TOAST */
+      #toast {
+        position: fixed;
+        bottom: 22px;
+        right: 22px;
+        background: #1a0808;
+        border: 1px solid var(--sba);
+        color: #ffd0d0;
+        padding: 7px 14px;
+        border-radius: 7px;
+        font-size: 11px;
+        font-weight: 600;
+        z-index: 9999;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: all 0.3s;
+        pointer-events: none;
+        box-shadow: 0 4px 22px rgba(0, 0, 0, 0.5);
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* CONTEXT MENU */
+      #ctx-menu {
+        position: fixed;
+        background: #1a0808;
+        border: 1px solid #3a1a1a;
+        border-radius: 6px;
+        padding: 4px 0;
+        z-index: 800;
+        display: none;
+        min-width: 165px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
+      }
+      #ctx-menu.show {
+        display: block;
+      }
+      .ctx-item {
+        padding: 6px 12px;
+        font-size: 11px;
+        color: #d0a0a0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: background 0.15s;
+      }
+      .ctx-item:hover {
+        background: rgba(139, 32, 32, 0.2);
+        color: #ffd0d0;
+      }
+      .ctx-sep {
+        height: 1px;
+        background: #2a1212;
+        margin: 2px 0;
+      }
+
+      /* EXPORT */
+      body.exporting #sb,
+      body.exporting #sb-fab,
+      body.exporting #tip-bar,
+      body.exporting #ctx-menu,
+      body.exporting .pg-meta {
+        display: none !important;
+      }
+      body.exporting #main {
+        margin-left: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+      }
+      body.exporting .page-wrap {
+        transform: none !important;
+        gap: 0 !important;
+      }
+      body.exporting [contenteditable] {
+        background: transparent !important;
+        outline: none !important;
+      }
+      body.exporting [contenteditable]:empty:before {
+        content: none !important;
+      }
+
+      /* PRINT — Ctrl+P A4 layout */
+      @media print {
+        @page {
+          size: A4;
+          margin: 0;
+        }
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        body {
+          background: #fff !important;
+          overflow: visible !important;
+        }
+        #sb,
+        #sb-fab,
+        #tip-bar,
+        #ctx-menu,
+        #toast,
+        .pg-meta,
+        .tip-bar {
+          display: none !important;
+        }
+        #main {
+          margin-left: 0 !important;
+          padding: 0 !important;
+          background: #fff !important;
+          min-height: auto !important;
+        }
+        .page-wrap {
+          transform: none !important;
+          gap: 0 !important;
+        }
+        .a4 {
+          width: 210mm !important;
+          min-width: 210mm !important;
+          max-width: 210mm !important;
+          height: 297mm !important;
+          min-height: 297mm !important;
+          max-height: 297mm !important;
+          box-shadow: none !important;
+          page-break-after: always;
+          page-break-inside: avoid;
+          margin: 0 !important;
+        }
+        .a4:last-child {
+          page-break-after: auto;
+        }
+        [contenteditable] {
+          background: transparent !important;
+          outline: none !important;
+        }
+        [contenteditable]:empty:before {
+          content: none !important;
+        }
+        .li-del-btn {
+          display: none !important;
+        }
+      }
+
+      /* Tier info banner */
+      .tier-info-box {
+        background: #0d1a08;
+        border: 1px solid #2a4a1a;
+        border-radius: 4px;
+        padding: 7px 10px;
+        margin: 4px 14px;
+        font-size: 9.5px;
+        color: #90cc90;
+        line-height: 1.6;
+      }
+      .tier-info-box strong {
+        color: #b0ffb0;
+      }
+    </style>
+  </head>
+  <body class="edit-on">
+    <div id="toast"></div>
+    <div
+      id="confirm-modal"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.7);
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: #1a0808;
+          border: 1px solid #3a1a1a;
+          border-radius: 10px;
+          padding: 22px 28px;
+          max-width: 380px;
+          width: 90%;
+          box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+          text-align: center;
+        "
+      >
+        <p
+          id="confirm-msg"
+          style="
+            color: #ffd0d0;
+            font-size: 13px;
+            margin-bottom: 18px;
+            line-height: 1.6;
+          "
+        ></p>
+        <div style="display: flex; gap: 10px; justify-content: center">
+          <button
+            id="confirm-yes"
+            style="
+              padding: 8px 20px;
+              background: #7b1c1c;
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              font-size: 12px;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            Confirm
+          </button>
+          <button
+            id="confirm-no"
+            style="
+              padding: 8px 20px;
+              background: #2a1212;
+              color: #ccc;
+              border: 1px solid #3a1a1a;
+              border-radius: 5px;
+              font-size: 12px;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="ctx-menu"></div>
+    <button id="sb-fab" onclick="toggleSb()" title="Toggle Panel">☰</button>
+
+    <!-- SIDEBAR -->
+    <div id="sb">
+      <div class="sbh">
+        <span class="sbh-icon">⚜</span
+        ><span class="sbh-title">Apex Agreement Builder</span>
+      </div>
+      <div class="sb-tabs">
+        <button class="sb-tab active" onclick="showTab('t-info', this)">
+          Info
+        </button>
+        <button class="sb-tab" onclick="showTab('t-content', this)">
+          Content
+        </button>
+        <button class="sb-tab" onclick="showTab('t-design', this)">
+          Design
+        </button>
+        <button class="sb-tab" onclick="showTab('t-export', this)">
+          Export
+        </button>
+      </div>
+      <div class="sb-body">
+        <!-- INFO TAB -->
+        <div class="tab-pane active" id="t-info">
+          <div class="autosave-row">
+            <div class="save-dot" id="save-dot"></div>
+            <span id="save-status">Ready</span>
+          </div>
+          <div class="sbs">📋 Agreement Info</div>
+          <div class="sf">
+            <label>Agreement Date</label
+            ><input
+              type="date"
+              id="sb-date"
+              oninput="
+                syncDate();
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <label>Event Dates</label
+            ><input
+              type="text"
+              id="sb-evdate"
+              value="June 17–19, 2026"
+              oninput="
+                sb2id('sb-evdate', 'dc-evdate');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <label>Venue</label
+            ><input
+              type="text"
+              id="sb-venue"
+              value="Apex College"
+              oninput="
+                sb2id('sb-venue', 'dc-venue');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <label>Footer Text</label
+            ><input
+              type="text"
+              id="sb-footer"
+              value="Apex College, Mid Baneshwor | Apex Media and Marketing Club | Apex Pitch &amp; Pop 2026"
+              oninput="
+                syncFooter();
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sbs">🏢 Sponsor Details</div>
+          <div class="sf">
+            <label>Sponsor Company Name</label
+            ><input
+              type="text"
+              id="sb-spname"
+              placeholder="e.g. Bajaj Nepal Pvt. Ltd."
+              oninput="
+                sb2id('sb-spname', 'dc-spname');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <label>Sponsor Address</label
+            ><input
+              type="text"
+              id="sb-spaddr"
+              placeholder="e.g. Putalisadak, Kathmandu"
+              oninput="
+                sb2id('sb-spaddr', 'dc-spaddr');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sbs">💰 Sponsorship Tier</div>
+          <div class="sf">
+            <label>Select Tier</label>
+            <select id="sb-tier" onchange="onTierChange()">
+              <option value="">— Select Tier —</option>
+              <optgroup label="Major Sponsors">
+                <option value="Platinum">Platinum — Rs. 3,50,000</option>
+                <option value="Gold">Gold — Rs. 3,00,000</option>
+                <option value="Silver">Silver — Rs. 2,50,000</option>
+                <option value="Bronze">Bronze — Rs. 2,00,000</option>
+              </optgroup>
+              <optgroup label="Partner Sponsors">
+                <option value="In-Kind">In-Kind — Rs. 50,000+</option>
+                <option value="Gift">Gift Sponsor</option>
+                <option value="Technical">Technical Sponsor</option>
+                <option value="Merchandise">Merchandise Sponsor</option>
+              </optgroup>
+              <optgroup label="Stall Packages">
+                <option value="Stall-Day1">
+                  Stall — Day 1 Only (June 17) · Rs. 15,000
+                </option>
+                <option value="Stall-Day2">
+                  Stall — Day 2 Only (June 18) · Rs. 15,000
+                </option>
+                <option value="Stall-Day3">
+                  Stall — Day 3 Only (June 19) · Rs. 15,000
+                </option>
+                <option value="Stall-2Days">
+                  Stall — Any 2 Days · Rs. 30,000
+                </option>
+                <option value="Stall-Full">
+                  Stall — Full Event (All 3 Days) · Rs. 45,000
+                </option>
+              </optgroup>
+              <option value="Other">Other / Custom</option>
+            </select>
+          </div>
+          <div class="tier-badge" id="tier-badge" style="display: none">
+            <div class="tb-dot"></div>
+            <span id="tier-badge-text">—</span>
+          </div>
+          <div class="sf">
+            <label>Amount (NPR)</label
+            ><input
+              type="text"
+              id="sb-amount"
+              placeholder="e.g. 3,50,000"
+              oninput="
+                sb2id('sb-amount', 'dc-amount');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <label>Payment Method</label>
+            <select id="sb-payment" onchange="scheduleSave()">
+              <option value="">— Select —</option>
+              <option>Bank Transfer</option>
+              <option>Cash</option>
+              <option>Cheque</option>
+              <option>eSewa / Digital Wallet</option>
+              <option>In-Kind (Goods/Services)</option>
+            </select>
+          </div>
+          <div class="sbs">✍ Signatories</div>
+          <div
+            class="sf"
+            style="
+              font-size: 9.5px;
+              color: #664444;
+              padding: 2px 14px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            "
+          >
+            Apex / Sponsee
+          </div>
+          <div class="sf">
+            <label>Name</label
+            ><input
+              type="text"
+              id="sb-sname"
+              value="Swadhin Lingden"
+              oninput="
+                syncSig('sb-sname', 'dc-sname');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <label>Designation</label
+            ><input
+              type="text"
+              id="sb-sdesig"
+              value="President"
+              oninput="
+                syncSig('sb-sdesig', 'dc-sdesig');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <label>Organization</label
+            ><input
+              type="text"
+              id="sb-sorg"
+              value="Apex Media and Marketing Club"
+              oninput="
+                syncSig('sb-sorg', 'dc-sorg');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div
+            class="sf"
+            style="
+              font-size: 9.5px;
+              color: #664444;
+              padding: 5px 14px 2px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            "
+          >
+            Sponsor
+          </div>
+          <div class="sf">
+            <label>Name</label
+            ><input
+              type="text"
+              id="sb-sp2name"
+              placeholder="[Name]"
+              oninput="
+                syncSig('sb-sp2name', 'dc-sp2name');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <label>Designation</label
+            ><input
+              type="text"
+              id="sb-sp2desig"
+              placeholder="[Designation]"
+              oninput="
+                syncSig('sb-sp2desig', 'dc-sp2desig');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <label>Company</label
+            ><input
+              type="text"
+              id="sb-sp2co"
+              placeholder="[Company Name]"
+              oninput="
+                syncSig('sb-sp2co', 'dc-sp2co');
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sbs">💾 Data</div>
+          <div class="btn-row col2">
+            <button class="sbtn sbtn-green" onclick="doSave()">
+              💾 Save Now
+            </button>
+            <button class="sbtn sbtn-danger" onclick="clearData()">
+              🗑 Reset All
+            </button>
+          </div>
+          <div class="btn-row col2">
+            <button class="sbtn sbtn-neutral" onclick="exportJSON()">
+              ⬆ Export JSON
+            </button>
+            <button
+              class="sbtn sbtn-neutral"
+              onclick="document.getElementById('import-json').click()"
+            >
+              ⬇ Import JSON
+            </button>
+            <input
+              type="file"
+              id="import-json"
+              accept=".json"
+              style="display: none"
+              onchange="importJSON(event)"
+            />
+          </div>
+          <div class="sf">
+            <div class="hint">Auto-saves every keystroke.</div>
+          </div>
+        </div>
+
+        <!-- CONTENT TAB -->
+        <div class="tab-pane" id="t-content">
+          <div class="sbs">📋 Section Manager</div>
+          <p class="sec-num-label">
+            Click name → scroll · ↑↓ reorder · ✕ delete
+          </p>
+          <div class="sec-list" id="sec-list"></div>
+          <div class="sbs">🔴 Bullet Manager</div>
+          <div class="bullet-manager-info">
+            <strong>3 ways to delete bullets:</strong><br />
+            1. <strong>Hover</strong> bullet → click red
+            <span
+              style="
+                background: #c0392b;
+                color: #fff;
+                border-radius: 50%;
+                padding: 0 4px;
+                font-size: 9px;
+                font-weight: 700;
+              "
+              >✕</span
+            ><br />
+            2. <strong>Right-click</strong> bullet → "Delete this bullet"<br />
+            3. Select all text →
+            <kbd
+              style="
+                background: #2a1010;
+                color: #ffb0b0;
+                padding: 1px 4px;
+                border-radius: 2px;
+                font-size: 9px;
+              "
+              >Backspace</kbd
+            >
+          </div>
+          <div class="btn-row col1">
+            <button class="sbtn sbtn-neutral" onclick="highlightAllBullets()">
+              👁 Flash All Bullets
+            </button>
+          </div>
+          <div class="sbs">➕ Add to Document</div>
+          <div class="add-builder">
+            <label>Type</label>
+            <select id="add-type" onchange="toggleAddType()">
+              <option value="section">New Section (heading + paragraph)</option>
+              <option value="bullet">Bullet Point → existing section</option>
+              <option value="clause">Clause (heading only)</option>
+              <option value="note">Note / italic remark</option>
+              <option value="para">Plain paragraph</option>
+              <option value="sigrow">Signature table row</option>
+            </select>
+            <label>Target page</label>
+            <select id="add-page">
+              <option value="1">Page 1</option>
+              <option value="2">Page 2</option>
+            </select>
+            <div id="add-sec-wrap" style="display: none">
+              <label>Into section # (for bullets)</label>
+              <input type="text" id="add-sec-num" placeholder="e.g. 2" />
+            </div>
+            <label>Heading / label</label>
+            <input
+              type="text"
+              id="add-heading"
+              placeholder="e.g. Payment Terms"
+            />
+            <label>Body / content</label>
+            <textarea
+              id="add-content"
+              placeholder="Paragraph, bullet text, note…"
+            ></textarea>
+            <button
+              class="sbtn sbtn-add"
+              style="width: 100%"
+              onclick="addItem()"
+            >
+              + Add to Document
+            </button>
+          </div>
+          <div class="sbs">⚠ Danger Zone</div>
+          <div class="btn-row col1">
+            <button
+              class="sbtn sbtn-danger"
+              onclick="
+                showConfirm('Reset ALL content?').then((ok) => {
+                  if (ok) location.reload();
+                })
+              "
+            >
+              ⚠ Reset Entire Document
+            </button>
+          </div>
+        </div>
+
+        <!-- DESIGN TAB -->
+        <div class="tab-pane" id="t-design">
+          <div class="sbs">🖼 Logos</div>
+          <div class="sf">
+            <label>Left — Apex M&amp;M Club</label>
+            <div class="logo-up">
+              <input
+                type="file"
+                accept="image/*"
+                onchange="uploadLogo(event, 'L1')"
+              />
+              <div class="up-lbl">↑ Upload logo</div>
+              <img id="prev-L1" />
+            </div>
+            <button
+              class="sbtn sbtn-danger"
+              style="margin-top: 3px; padding: 3px 7px; font-size: 9.5px"
+              onclick="clearLogo('L1')"
+            >
+              ✕ Clear
+            </button>
+          </div>
+          <div class="sf">
+            <label>Center — Event / Pitch &amp; Pop Logo</label>
+            <div class="logo-up">
+              <input
+                type="file"
+                accept="image/*"
+                onchange="uploadLogo(event, 'EV')"
+              />
+              <div class="up-lbl">↑ Upload logo</div>
+              <img id="prev-EV" />
+            </div>
+            <button
+              class="sbtn sbtn-danger"
+              style="margin-top: 3px; padding: 3px 7px; font-size: 9.5px"
+              onclick="clearLogo('EV')"
+            >
+              ✕ Clear
+            </button>
+          </div>
+          <div class="sf">
+            <label>Right — Apex College</label>
+            <div class="logo-up">
+              <input
+                type="file"
+                accept="image/*"
+                onchange="uploadLogo(event, 'L2')"
+              />
+              <div class="up-lbl">↑ Upload logo</div>
+              <img id="prev-L2" />
+            </div>
+            <button
+              class="sbtn sbtn-danger"
+              style="margin-top: 3px; padding: 3px 7px; font-size: 9.5px"
+              onclick="clearLogo('L2')"
+            >
+              ✕ Clear
+            </button>
+          </div>
+          <div class="sbs">💧 Watermark</div>
+          <div class="sf">
+            <label>Watermark Image (optional)</label>
+            <div class="logo-up">
+              <input
+                type="file"
+                accept="image/*"
+                onchange="uploadWatermark(event)"
+              />
+              <div class="up-lbl" id="wm-up-lbl">↑ Upload image</div>
+              <img id="prev-WM" />
+            </div>
+            <button
+              class="sbtn sbtn-danger"
+              style="margin-top: 3px; padding: 3px 7px; font-size: 9.5px"
+              onclick="removeWM()"
+            >
+              ✕ Remove
+            </button>
+          </div>
+          <div class="sf">
+            <label>Watermark Text (fallback)</label
+            ><input
+              type="text"
+              id="sb-wmtext"
+              value="APEX PITCH &amp; POP"
+              oninput="
+                updateWMText();
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <div class="range-row">
+              <label style="margin: 0">Opacity</label
+              ><span class="range-val" id="wm-op-val">7%</span>
+            </div>
+            <input
+              type="range"
+              id="sb-wmop"
+              min="2"
+              max="30"
+              value="7"
+              oninput="
+                updateWMOp();
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <div class="range-row">
+              <label style="margin: 0">Rotation</label
+              ><span class="range-val" id="wm-rot-val">-38°</span>
+            </div>
+            <input
+              type="range"
+              id="sb-wmrot"
+              min="-90"
+              max="90"
+              value="-38"
+              oninput="
+                updateWMRot();
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="sf">
+            <div class="range-row">
+              <label style="margin: 0">Size</label
+              ><span class="range-val" id="wm-sz-val">420px</span>
+            </div>
+            <input
+              type="range"
+              id="sb-wmsz"
+              min="80"
+              max="700"
+              value="420"
+              oninput="
+                updateWMSz();
+                scheduleSave();
+              "
+            />
+          </div>
+          <div class="check-row">
+            <label
+              ><input
+                type="checkbox"
+                id="wm-pg1"
+                checked
+                onchange="
+                  updateWMVis();
+                  scheduleSave();
+                "
+              />
+              Page 1</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                id="wm-pg2"
+                checked
+                onchange="
+                  updateWMVis();
+                  scheduleSave();
+                "
+              />
+              Page 2</label
+            >
+          </div>
+          <div class="sbs">🎨 Accent Color</div>
+          <div class="color-row" id="color-chips">
+            <div
+              class="color-dot active"
+              style="background: #7b1c1c"
+              data-color="#7B1C1C"
+              onclick="applyAccent(this)"
+              title="Maroon"
+            ></div>
+            <div
+              class="color-dot"
+              style="background: #1a3a6a"
+              data-color="#1A3A6A"
+              onclick="applyAccent(this)"
+              title="Navy"
+            ></div>
+            <div
+              class="color-dot"
+              style="background: #1a5a3a"
+              data-color="#1A5A3A"
+              onclick="applyAccent(this)"
+              title="Forest"
+            ></div>
+            <div
+              class="color-dot"
+              style="background: #5a1a5a"
+              data-color="#5A1A5A"
+              onclick="applyAccent(this)"
+              title="Purple"
+            ></div>
+            <div
+              class="color-dot"
+              style="background: #7a5010"
+              data-color="#7A5010"
+              onclick="applyAccent(this)"
+              title="Gold"
+            ></div>
+            <div
+              class="color-dot"
+              style="background: #1a4a5a"
+              data-color="#1A4A5A"
+              onclick="applyAccent(this)"
+              title="Teal"
+            ></div>
+            <div
+              class="color-dot"
+              style="background: #3a3a3a"
+              data-color="#3A3A3A"
+              onclick="applyAccent(this)"
+              title="Charcoal"
+            ></div>
+          </div>
+          <div class="sbs">🔍 Zoom</div>
+          <div class="zoom-row">
+            <button class="zoom-btn" onclick="adjustZoom(-10)">−</button>
+            <div id="zoom-val">100%</div>
+            <button class="zoom-btn" onclick="adjustZoom(10)">+</button>
+            <button
+              class="zoom-btn"
+              onclick="adjustZoom(0)"
+              style="font-size: 10px; padding: 4px 7px"
+            >
+              ⌂
+            </button>
+          </div>
+          <div class="sbs">✏️ Edit Mode</div>
+          <div class="btn-row col1">
+            <button
+              class="sbtn sbtn-edit on"
+              id="edit-btn"
+              onclick="toggleEdit()"
+            >
+              ✏ Edit Mode: ON
+            </button>
+          </div>
+          <div class="sf">
+            <div class="hint">
+              Turn OFF before exporting for cleanest output.
+            </div>
+          </div>
+          <div class="sbs">📊 Document Stats</div>
+          <div class="wc-bar">
+            <span>Words</span><span class="wc-num" id="wc-words">—</span>
+          </div>
+          <div class="wc-bar" style="margin-top: 3px">
+            <span>Characters</span><span class="wc-num" id="wc-chars">—</span>
+          </div>
+          <div class="wc-bar" style="margin-top: 3px">
+            <span>Last saved</span><span class="wc-num" id="wc-time">—</span>
+          </div>
+          <div class="btn-row col1" style="margin-top: 3px">
+            <button class="sbtn sbtn-neutral" onclick="updateStats()">
+              ↻ Refresh Stats
+            </button>
+          </div>
+          <div class="sbs">⏱ Version History</div>
+          <div class="sf"><div class="hint">Last 5 auto-saves.</div></div>
+          <div class="hist-panel" id="hist-panel"></div>
+        </div>
+
+        <!-- EXPORT TAB -->
+        <div class="tab-pane" id="t-export">
+          <div class="sbs">⬇ Download — A4 @ 300 DPI</div>
+          <div class="sf">
+            <div class="hint">
+              ⚠ Turn Edit Mode OFF (Design tab) for cleanest output.
+            </div>
+          </div>
+          <div class="progress-wrap" id="progress-wrap">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+          <div class="btn-row col1">
+            <button class="sbtn sbtn-pdf" id="dl-pdf" onclick="downloadPDF()">
+              ⬇ Download PDF (Both Pages)
+            </button>
+          </div>
+          <div class="btn-row col2">
+            <button class="sbtn sbtn-png" onclick="downloadImg(1)">
+              ⬇ Page 1 PNG
+            </button>
+            <button class="sbtn sbtn-png" onclick="downloadImg(2)">
+              ⬇ Page 2 PNG
+            </button>
+          </div>
+          <div class="btn-row col1">
+            <button class="sbtn sbtn-all" onclick="downloadAllImg()">
+              ⬇ All Pages PNG
+            </button>
+          </div>
+          <div class="sf">
+            <div class="hint">Output: 2480×3508 px · A4 @ 300 DPI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div id="main">
+      <div class="tip-bar" id="tip-bar">
+        ✏️ <strong>Edit Mode ON</strong> — Click any text to edit inline. Hover
+        bullet →
+        <span
+          style="
+            background: #c0392b;
+            color: #fff;
+            border-radius: 50%;
+            padding: 0 3px;
+            font-size: 10px;
+            font-weight: 700;
+          "
+          >✕</span
+        >
+        to delete it.
+      </div>
+      <div class="pg-meta">
+        A4 · 794×1123 px screen · 2480×3508 px export @ 300 DPI<span
+          class="dot"
+        ></span
+        >2 pages
+      </div>
+      <div class="page-wrap" id="page-wrap">
+        <!-- PAGE 1 -->
+        <div class="a4" id="page1">
+          <div class="pg-top"></div>
+          <div class="wm-t" id="wm-t-1">APEX PITCH &amp; POP</div>
+          <img class="wm-i" id="wm-i-1" src="" alt="" />
+          <div class="corner c-tl"></div>
+          <div class="corner c-tr"></div>
+          <div class="corner c-bl"></div>
+          <div class="corner c-br"></div>
+          <div class="pg-body">
+            <div class="logos-row">
+              <div class="logo-slot" id="slot-L1-1">
+                <div class="logo-slot-ph">Apex M&amp;M<br />Club Logo</div>
+              </div>
+              <div class="event-logo-slot" id="slot-EV-1">
+                <div class="event-logo-slot-ph">
+                  PITCH &amp; POP<br />Event Logo
+                </div>
+              </div>
+              <div class="logo-slot" id="slot-L2-1">
+                <div class="logo-slot-ph">Apex College<br />Logo</div>
+              </div>
+            </div>
+            <div class="doc-content">
+              <div class="doc-title">
+                <span
+                  class="doc-title-ed"
+                  contenteditable="true"
+                  id="dc-doctitle"
+                  >SPONSORSHIP AGREEMENT</span
+                >
+              </div>
+              <div class="doc-text" id="p1-content">
+                <p class="date-line">
+                  Date:&nbsp;<span
+                    contenteditable="true"
+                    id="dc-date"
+                    data-ph="[Insert Date]"
+                  ></span>
+                </p>
+                <p>
+                  This Sponsorship Agreement ("<span
+                    contenteditable="true"
+                    data-ph="Agreement"
+                    >Agreement</span
+                  >") is entered into on
+                  <span
+                    contenteditable="true"
+                    id="dc-date2"
+                    data-ph="[Insert Date]"
+                  ></span
+                  >, by and between:
+                </p>
+                <p>
+                  <strong
+                    ><span
+                      contenteditable="true"
+                      data-ph="APEX MEDIA AND MARKETING CLUB"
+                      >APEX MEDIA AND MARKETING CLUB</span
+                    ></strong
+                  >, hereinafter referred to as the
+                  <strong>"Sponsee,"</strong> a student-led organizing body
+                  under
+                  <span contenteditable="true" data-ph="Apex College"
+                    >Apex College</span
+                  >, located in
+                  <span
+                    contenteditable="true"
+                    data-ph="Mid-Baneshwor, Kathmandu, Nepal"
+                    >Mid-Baneshwor, Kathmandu, Nepal</span
+                  >,
+                </p>
+                <p contenteditable="true"><strong>AND</strong></p>
+                <p>
+                  <strong
+                    ><span
+                      contenteditable="true"
+                      id="dc-spname"
+                      data-ph="[Sponsor Company Name]"
+                      >[Insert Sponsor Company Name]</span
+                    ></strong
+                  >, hereinafter referred to as the
+                  <strong>"Sponsor,"</strong> located at
+                  <span
+                    contenteditable="true"
+                    id="dc-spaddr"
+                    data-ph="[Sponsor's Address]"
+                    >[Insert Sponsor's Address]</span
+                  >.
+                </p>
+
+                <div class="sec-head" data-sec="1" data-page="1">
+                  <span class="sec-head-num">1.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Event Details</span
+                  >
+                </div>
+                <p>
+                  This Agreement pertains to the
+                  <strong
+                    ><span contenteditable="true" data-ph="Event Name"
+                      >APEX PITCH &amp; POP 2026</span
+                    ></strong
+                  >, a premier student-led inter-college festival celebrating
+                  creativity, innovation, media, entertainment, and
+                  entrepreneurship, organized by
+                  <span contenteditable="true" data-ph="Organizer"
+                    >Apex Media and Marketing Club</span
+                  >. The event is scheduled to be held at
+                  <span contenteditable="true" id="dc-venue" data-ph="Venue"
+                    >Apex College</span
+                  >
+                  from
+                  <span
+                    contenteditable="true"
+                    id="dc-evdate"
+                    data-ph="[Event Dates]"
+                    >June 17–19, 2026</span
+                  >.
+                </p>
+
+                <div class="sec-head" data-sec="2" data-page="1">
+                  <span class="sec-head-num">2.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Sponsee Obligations</span
+                  >
+                </div>
+                <p contenteditable="true">
+                  In consideration of the Sponsor's support, the Sponsee agrees
+                  to provide the following benefits and deliverables:
+                </p>
+                <ul id="sec2-list">
+                  <li contenteditable="true">
+                    Inclusion of the Sponsor's logo and brand name across all
+                    major event promotional materials, including posters,
+                    banners, backdrops, digital invitations, and official social
+                    media posts.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Stage and venue branding using Sponsor-provided materials
+                    such as standees, flex boards, and display flags, placed in
+                    high-visibility zones.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Special acknowledgment and verbal mention of the Sponsor
+                    during the event's opening ceremony, closing ceremony, and
+                    all major segments.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Feature in all official media coverage, including press
+                    releases and the college's digital platforms.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Tagging, mentions, and brand visibility on the event's
+                    official social media handles and campaign hashtags
+                    throughout the promotional period.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Any additional exclusive benefit as mutually agreed upon and
+                    documented in the sponsorship proposal.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                </ul>
+                <p class="note-italic">
+                  <span contenteditable="true"
+                    >Note: The specific scope of deliverables may be adjusted
+                    based on the agreed sponsorship category and final
+                    contribution amount.</span
+                  >
+                </p>
+
+                <div class="sec-head" data-sec="3" data-page="1">
+                  <span class="sec-head-num">3.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Sponsor Obligations</span
+                  >
+                </div>
+                <p contenteditable="true">
+                  The Sponsor agrees to fulfill the following obligations in
+                  support of APEX PITCH &amp; POP 2026:
+                </p>
+                <ul id="sec3-list">
+                  <li contenteditable="true">
+                    A sponsorship contribution of
+                    <strong
+                      >NPR
+                      <span
+                        contenteditable="true"
+                        id="dc-amount"
+                        data-ph="[Amount]"
+                        >[Insert Agreed Amount]</span
+                      ></strong
+                    >, as per the selected sponsorship tier, payable prior to
+                    the event date.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Timely submission of high-resolution company logos, brand
+                    guidelines, and all promotional materials required for event
+                    production.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Delivery of any gift items, promotional merchandise, or
+                    technical products as agreed.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Active coordination with the student organizing team with
+                    respect to brand usage, representation standards, and
+                    material deployment.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                </ul>
+
+                <div class="sec-head" data-sec="4" data-page="1">
+                  <span class="sec-head-num">4.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Intellectual Property &amp; Brand Usage</span
+                  >
+                </div>
+                <p contenteditable="true">
+                  Subject to the terms of this Agreement, the Sponsor hereby
+                  grants the Sponsee a limited, non-exclusive, non-transferable
+                  license to use the Sponsor's name, logos, trademarks, and
+                  slogans solely for promotional and marketing activities
+                  related to APEX PITCH &amp; POP 2026. The Sponsee shall
+                  strictly adhere to the Sponsor's brand guidelines and shall
+                  not alter, misuse, or misrepresent the Sponsor's brand
+                  identity in any manner.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="pg-foot">
+            <span class="footer-ed" contenteditable="true" id="footer1-text"
+              >Apex College, Mid Baneshwor | Apex Media and Marketing Club |
+              Apex Pitch &amp; Pop 2026</span
+            >
+          </div>
+        </div>
+
+        <!-- PAGE 2 -->
+        <div class="a4" id="page2">
+          <div class="pg-top"></div>
+          <div class="wm-t" id="wm-t-2">APEX PITCH &amp; POP</div>
+          <img class="wm-i" id="wm-i-2" src="" alt="" />
+          <div class="corner c-tl"></div>
+          <div class="corner c-tr"></div>
+          <div class="corner c-bl"></div>
+          <div class="corner c-br"></div>
+          <div class="pg-body">
+            <div class="logos-row">
+              <div class="logo-slot" id="slot-L1-2">
+                <div class="logo-slot-ph">Apex M&amp;M<br />Club Logo</div>
+              </div>
+              <div class="event-logo-slot" id="slot-EV-2">
+                <div class="event-logo-slot-ph">
+                  PITCH &amp; POP<br />Event Logo
+                </div>
+              </div>
+              <div class="logo-slot" id="slot-L2-2">
+                <div class="logo-slot-ph">Apex College<br />Logo</div>
+              </div>
+            </div>
+            <div class="doc-content">
+              <div class="doc-text" id="p2-content">
+                <div class="sec-head" data-sec="5" data-page="2">
+                  <span class="sec-head-num">5.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >Term and Validity</span
+                  >
+                </div>
+                <p contenteditable="true">
+                  This Agreement shall come into force upon the date of signing
+                  by both parties and shall remain valid until all obligations
+                  have been fully discharged and the APEX PITCH &amp; POP 2026
+                  event has concluded.
+                </p>
+
+                <div class="sec-head" data-sec="6" data-page="2">
+                  <span class="sec-head-num">6.</span
+                  ><span class="sec-head-text" contenteditable="true"
+                    >General Conditions</span
+                  >
+                </div>
+                <ul id="sec6-list">
+                  <li contenteditable="true">
+                    This Agreement does not create, imply, or constitute a
+                    partnership, joint venture, or employment relationship
+                    between the parties.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Any modification, amendment, or waiver of the terms herein
+                    must be made in writing and duly signed by authorized
+                    representatives of both parties.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    In the event of cancellation due to unforeseen or
+                    unavoidable circumstances, both parties shall convene in
+                    good faith to agree upon a fair and reasonable course of
+                    action or compensation.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    The Sponsee shall not be held liable for circumstances
+                    beyond its reasonable control, including but not limited to
+                    natural disasters, acts of government, or force majeure
+                    events that may affect event execution.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                  <li contenteditable="true">
+                    Both parties agree to maintain the confidentiality of any
+                    proprietary or sensitive information exchanged in connection
+                    with this Agreement.<button
+                      class="li-del-btn"
+                      title="Delete this bullet"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                </ul>
+
+                <div class="sig-wrap">
+                  <p class="sig-intro">
+                    <span contenteditable="true"
+                      >By signing below, both parties confirm that they have
+                      read, understood, and agree to the terms and conditions
+                      set forth in this Sponsorship Agreement, and that each
+                      signatory is duly authorized to execute the same.</span
+                    >
+                  </p>
+                  <div class="sig-cols">
+                    <div class="sig-col">
+                      <div class="col-hd">
+                        <span contenteditable="true">For the Sponsee</span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Name:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sname"
+                          data-ph="[Name]"
+                          >Swadhin Lingden</span
+                        >
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true"
+                            >Designation:</span
+                          ></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sdesig"
+                          data-ph="[Designation]"
+                          >President</span
+                        >
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true"
+                            >Organization:</span
+                          ></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sorg"
+                          data-ph="[Organization]"
+                          >Apex Media and Marketing Club</span
+                        >
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Date:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sigdate1"
+                          data-ph="[Date]"
+                        ></span>
+                      </div>
+                      <div class="sig-row sig-row-tall">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Signature:</span></span
+                        ><span class="sig-val" contenteditable="true"></span>
+                      </div>
+                    </div>
+                    <div class="sig-col">
+                      <div class="col-hd">
+                        <span contenteditable="true">For the Sponsor</span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Name:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sp2name"
+                          data-ph="[Name]"
+                        ></span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true"
+                            >Designation:</span
+                          ></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sp2desig"
+                          data-ph="[Designation]"
+                        ></span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Company:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sp2co"
+                          data-ph="[Company Name]"
+                        ></span>
+                      </div>
+                      <div class="sig-row">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Date:</span></span
+                        ><span
+                          class="sig-val"
+                          contenteditable="true"
+                          id="dc-sigdate2"
+                          data-ph="[Date]"
+                        ></span>
+                      </div>
+                      <div class="sig-row sig-row-tall">
+                        <span class="sig-lbl"
+                          ><span contenteditable="true">Signature:</span></span
+                        ><span class="sig-val" contenteditable="true"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pg-foot">
+            <span class="footer-ed" contenteditable="true" id="footer2-text"
+              >Apex College, Mid Baneshwor | Apex Media and Marketing Club |
+              Apex Pitch &amp; Pop 2026</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ═══════════════════════════════════════════
+      // CONSTANTS
+      // ═══════════════════════════════════════════
+      const PW = 794,
+        PH = 1123,
+        EW = 2480,
+        EH = 3508,
+        ESCALE = EW / PW;
+      const STORE_KEY = "apex_v9",
+        HIST_KEY = "apex_hist_v9",
+        MAX_HIST = 5;
+      let sbVisible = true,
+        editMode = true,
+        nextSecNum = 7,
+        currentAccent = "#7B1C1C",
+        currentZoom = 100,
+        saveTimer = null,
+        wmSrc = null;
+      const logos = { L1: null, EV: null, L2: null };
+
+      // ═══════════════════════════════════════════
+      // TIER TEMPLATES — Complete AI-written content
+      // ═══════════════════════════════════════════
+      const TIER_DATA = {
+        Platinum: {
+          title: "TITLE SPONSORSHIP AGREEMENT",
+          amount: "3,50,000",
+          badge: "Platinum Sponsor · Rs. 3,50,000",
+          p2Title: "Sponsee Obligations",
+          sec2bullets: [
+            "Prominent placement of the Sponsor's logo and brand identity at the top-tier position across all event promotional assets, including the main stage backdrop, entrance arches, large-format banners, digital invitations, and all official social media campaigns.",
+            "Exclusive 'Presented By' or 'Powered By' naming rights in all event announcements, press releases, and marketing communications for the duration of the event.",
+            "A dedicated prime promotional booth space (minimum 3×3 meters) positioned in the highest-footfall area of the venue, enabling direct brand-to-audience engagement.",
+            "A speaking opportunity of up to five (5) minutes for a Sponsor representative during the Opening Ceremony or a segment of their choosing.",
+            "Frequent and prominent verbal acknowledgments by the Master of Ceremonies (MC) throughout all key event segments and transitions.",
+            "Permission to distribute promotional samples, branded literature, product demos, or merchandise to event attendees at designated engagement zones.",
+            "Full feature in all official post-event media coverage, including press articles, highlight reels, and digital reports published on college platforms.",
+            "Any additional exclusive benefit as mutually agreed upon in the final sponsorship proposal letter.",
+          ],
+          sec3bullets: [
+            "Full payment of the agreed sponsorship amount of NPR __DC_AMOUNT__ prior to the commencement of the event, via the payment method specified herein.",
+            "Submission of high-resolution company logos, official brand guidelines, and all approved promotional collateral to the organizing committee.",
+            "Provision of physical branding materials such as standees, banners, flex boards, or displays, as may be required for venue decoration, delivered within the agreed timeline.",
+            "Active coordination with the student organizing committee regarding booth setup, material logistics, and any Sponsor-side personnel attending the event.",
+            "Compliance with Apex College's code of conduct, event guidelines, and all applicable regulations throughout the engagement period.",
+          ],
+        },
+        Gold: {
+          title: "CO-TITLE SPONSORSHIP AGREEMENT",
+          amount: "3,00,000",
+          badge: "Gold Sponsor · Rs. 3,00,000",
+          sec2bullets: [
+            "Prominent placement of the Sponsor's logo and brand identity in a secondary top-tier position across all major event promotional materials, including stage backdrops, banners, digital invitations, and social media posts.",
+            "Co-branding rights in event communications with the designation 'Associate Sponsor' or 'Co-Presenting Partner' as mutually agreed.",
+            "A dedicated promotional booth space at the venue, positioned in a high-traffic area, for direct audience engagement and brand activation.",
+            "Verbal acknowledgment by the MC during the opening and closing ceremonies, as well as during major competition segments.",
+            "Feature in official event media coverage, post-event press releases, and college digital platforms.",
+            "Tagging and brand mentions on the official event social media handles throughout the campaign and event week.",
+            "Permission to distribute promotional samples or branded merchandise to attendees at the stall or designated zones.",
+            "Any additional benefit as mutually specified in the sponsorship proposal.",
+          ],
+          sec3bullets: [
+            "Full payment of the agreed sponsorship contribution of NPR __DC_AMOUNT__ prior to the event date, by the payment method agreed upon.",
+            "Timely submission of high-resolution logos, brand guidelines, and promotional materials to the organizing committee.",
+            "Delivery of all physical branding materials, standees, and banners as required by the organizing team within the stipulated deadline.",
+            "Cooperative coordination with the organizing committee for booth setup, brand representation, and material management.",
+            "Adherence to Apex College's conduct guidelines and event policies throughout the sponsorship period.",
+          ],
+        },
+        Silver: {
+          title: "ASSOCIATE SPONSORSHIP AGREEMENT",
+          amount: "2,50,000",
+          badge: "Silver Sponsor · Rs. 2,50,000",
+          sec2bullets: [
+            "Inclusion of the Sponsor's logo and brand name on secondary promotional materials, including standees, side banners, and event-day brochures.",
+            "Verbal acknowledgment during the opening and closing ceremonies of the event.",
+            "Tagging and brand mention on the event's official social media platforms during the promotional campaign.",
+            "Permission to place branded standees or roll-up banners in designated areas across the venue.",
+            "Feature in post-event digital recap posts shared on official Apex Media and Marketing Club channels.",
+            "Any additional benefit as agreed and documented in the sponsorship proposal.",
+          ],
+          sec3bullets: [
+            "Payment of the agreed sponsorship amount of NPR __DC_AMOUNT__ prior to the event, by the agreed payment method.",
+            "Timely delivery of logo files and any physical branding materials to the organizing committee.",
+            "Compliance with all event guidelines, brand representation standards, and college policies.",
+          ],
+        },
+        Bronze: {
+          title: "SUPPORTING SPONSORSHIP AGREEMENT",
+          amount: "2,00,000",
+          badge: "Bronze Sponsor · Rs. 2,00,000",
+          sec2bullets: [
+            "Inclusion of the Sponsor's logo on select event promotional materials, including standees and at least one digital post.",
+            "Verbal mention during the opening ceremony of the event.",
+            "Tagging on a minimum of two official social media posts during the event week.",
+            "Placement of a Sponsor-provided standee banner in a designated area at the venue.",
+            "Any additional recognition as feasible and mutually agreed upon.",
+          ],
+          sec3bullets: [
+            "Payment of the agreed sponsorship amount of NPR __DC_AMOUNT__ prior to the event date.",
+            "Submission of logo files and any branding materials to the organizing team.",
+            "Adherence to Apex College event guidelines and code of conduct.",
+          ],
+        },
+        "In-Kind": {
+          title: "IN-KIND PARTNERSHIP AGREEMENT",
+          amount: "50,000+",
+          badge: "In-Kind Partner · Rs. 50,000+ (goods/services)",
+          sec2bullets: [
+            "Recognition of the Sponsor as the Official In-Kind Partner across event collateral and social media platforms.",
+            "Verbal acknowledgment of the Sponsor's specific contribution — goods or services — during relevant event segments.",
+            "Logo placement on event materials proportional to the estimated in-kind contribution value.",
+            "Permission for the Sponsor's representative to be present and capture content at the event for the Sponsor's own promotional purposes.",
+            "Feature in post-event coverage acknowledging the in-kind partnership.",
+          ],
+          sec3bullets: [
+            "Provision of the agreed in-kind goods, products, or services with an estimated market value of NPR __DC_AMOUNT__.",
+            "Delivery or completion of the in-kind contribution to allow adequate preparation time.",
+            "Ensuring all provided goods or services are of satisfactory quality, safe to use, and compliant with applicable standards.",
+            "Coordination with the organizing team regarding logistics, delivery, and deployment of in-kind resources.",
+          ],
+        },
+        Gift: {
+          title: "GIFT SPONSORSHIP AGREEMENT",
+          amount: "—",
+          badge: "Gift Sponsor",
+          sec2bullets: [
+            "Recognition of the Sponsor as the Official Gift Sponsor across relevant event promotional materials.",
+            "Verbal acknowledgment during award presentations, competition segments, or prize-giving ceremonies where the Sponsor's gifts are distributed.",
+            "Logo or brand name displayed at the gift distribution zone and prize table areas.",
+            "Tagging and mention on social media posts related to prizes and gift giveaways.",
+            "Feature in event documentation and post-event recap content.",
+          ],
+          sec3bullets: [
+            "Provision of agreed gift items, hampers, vouchers, or prize packages for distribution during APEX PITCH & POP 2026.",
+            "Delivery of all gift items to the organizing committee in event-ready, presentable packaging.",
+            "Coordination with the organizing team on gift quantities, categories, and distribution protocols.",
+            "Ensuring all items are safe, appropriate for the audience, and compliant with Apex College's event policies.",
+          ],
+        },
+        Technical: {
+          title: "TECHNICAL SPONSORSHIP AGREEMENT",
+          amount: "—",
+          badge: "Technical Sponsor",
+          sec2bullets: [
+            "Recognition of the Sponsor as the Official Technical Sponsor with prominent display of the brand name and logo on all relevant event materials and technical setups.",
+            "Verbal and on-screen acknowledgment during event segments that directly feature or rely on the Sponsor's technical equipment or services.",
+            "Logo placement on technical equipment, screens, or installations that are visible to the audience.",
+            "Feature in event media coverage and post-event reports highlighting the technical partnership.",
+            "Social media recognition and tagging acknowledging the Sponsor's technical contribution.",
+          ],
+          sec3bullets: [
+            "Provision of the agreed technical equipment, software, platforms, or technical services required for APEX PITCH & POP 2026.",
+            "Full setup, configuration, and operational support for all provided technical resources on event days.",
+            "Delivery and installation of equipment, ensuring all systems are tested and event-ready.",
+            "Assignment of a qualified technical representative to be available on-site during event days for support and troubleshooting.",
+            "Retrieval and removal of all provided equipment and materials within twenty-four (24) hours after the conclusion of the event.",
+          ],
+        },
+        Merchandise: {
+          title: "MERCHANDISE PARTNERSHIP AGREEMENT",
+          amount: "—",
+          badge: "Merchandise Sponsor",
+          sec2bullets: [
+            "Recognition of the Sponsor as the Official Merchandise Partner across all relevant event collateral, including event kits, programs, and social media.",
+            "Exclusive or co-exclusive rights to supply and brand official event merchandise items as mutually agreed.",
+            "Logo and brand name featured prominently on official event merchandise distributed to participants and attendees.",
+            "Verbal acknowledgment during relevant event segments and distribution points.",
+            "Feature in post-event content, including highlight reels and recap posts across official platforms.",
+          ],
+          sec3bullets: [
+            "Design, production, and supply of the agreed merchandise items — including but not limited to T-shirts, caps, tote bags, or branded stationery — for distribution at the event.",
+            "Delivery of all merchandise in the agreed quantities, sizes, and specifications.",
+            "Ensuring all merchandise items are of acceptable quality, appropriately branded, and suitable for the event audience.",
+            "Coordination with the organizing team on merchandise design approvals, quantities, and distribution logistics.",
+          ],
+        },
+        "Stall-Day1": {
+          title: "STALL AGREEMENT — DAY 1",
+          amount: "15,000",
+          badge: "Stall — Day 1 (June 17) · Rs. 15,000",
+          stallDays: "Day 1 of the event (June 17, 2026)",
+          sec2bullets: [
+            "Provide on-ground volunteer support from the organizing committee to assist the Sponsor with stall operations.",
+            "Verbal acknowledgment of the Sponsor's stall during the Day 1 opening announcements.",
+            "Tagging and mention on at least one official social media post during the Day 1 activities.",
+            "Coordination by the organizing team to direct attendees toward the Sponsor's stall during peak footfall periods.",
+          ],
+          sec3bullets: [
+            "Payment of the agreed stall fee of NPR __DC_AMOUNT__ in full prior to June 17, 2026, via the agreed payment method.",
+            "Timely arrival at the venue and setup of the stall within the designated time window specified by the organizing committee, before the Day 1 commencement.",
+            "Responsible operation and staffing of the stall throughout Day 1, ensuring all activities and promotional content align with Apex College's event policies and code of conduct.",
+            "All stall materials, equipment, displays, and merchandise must be removed from the venue by the Sponsor within two (2) hours of Day 1's official close.",
+            "Submission of the company logo and any required branding materials to the organizing committee.",
+          ],
+        },
+        "Stall-Day2": {
+          title: "STALL AGREEMENT — DAY 2",
+          amount: "15,000",
+          badge: "Stall — Day 2 (June 18) · Rs. 15,000",
+          stallDays: "Day 2 of the event (June 18, 2026)",
+          sec2bullets: [
+            "Provision of a designated promotional stall space of approximately 2×2 meters at an agreed location within the event venue for Day 2 of the event — June 18, 2026.",
+            "Verbal acknowledgment of the Sponsor's stall presence during the Day 2 opening announcements.",
+            "Inclusion of the Sponsor's brand name in the official event stall map or directory distributed to attendees.",
+            "Social media recognition with tagging on at least one official post covering Day 2 activities.",
+            "Support from the organizing team in directing attendee traffic toward the Sponsor's stall zone.",
+          ],
+          sec3bullets: [
+            "Payment of the agreed stall fee of NPR __DC_AMOUNT__ in full prior to June 18, 2026.",
+            "Setup of the stall within the designated time window before Day 2 commences, as specified by the organizing committee.",
+            "Responsible operation, staffing, and conduct of all stall activities throughout Day 2, in compliance with event policies.",
+            "Complete removal of all stall materials, displays, and equipment within two (2) hours of the official close of Day 2.",
+            "Submission of branding materials and logo files to the organizing committee.",
+          ],
+        },
+        "Stall-Day3": {
+          title: "STALL AGREEMENT — DAY 3",
+          amount: "15,000",
+          badge: "Stall — Day 3 (June 19) · Rs. 15,000",
+          stallDays: "Day 3 of the event (June 19, 2026)",
+          sec2bullets: [
+            "Provision of a designated promotional stall space of approximately 2×2 meters at an agreed location within the event venue for Day 3 of the event — June 19, 2026.",
+            "Verbal acknowledgment of the Sponsor's stall presence during Day 3 announcements.",
+            "Inclusion of the Sponsor's brand name in the official event directory or stall map distributed to attendees.",
+            "Social media recognition on at least one official post covering Day 3 activities.",
+            "Coordinated effort by the organizing team to direct attendee footfall toward the Sponsor's stall during peak event hours.",
+          ],
+          sec3bullets: [
+            "Payment of the agreed stall fee of NPR __DC_AMOUNT__ in full prior to June 19, 2026.",
+            "Setup of the stall within the designated window before Day 3 commences as per the organizing committee's schedule.",
+            "Proper operation, staffing, and professional conduct throughout Day 3, in line with Apex College event policies.",
+            "Full removal of all stall equipment, materials, and displays within two (2) hours of the official conclusion of the event.",
+            "Submission of branding materials and logo files to the organizing committee.",
+          ],
+        },
+        "Stall-2Days": {
+          title: "STALL AGREEMENT — 2-DAY PACKAGE",
+          amount: "30,000",
+          badge: "Stall — Any 2 Days · Rs. 30,000",
+          stallDays:
+            "any two (2) consecutive or non-consecutive days of the event (June 17–19, 2026)",
+          sec2bullets: [
+            "Provision of a designated promotional stall space of approximately 2×2 meters at an agreed location within the event venue for any two (2) days of the Sponsor's choosing during APEX PITCH & POP 2026 (June 17–19, 2026).",
+            "Verbal acknowledgment of the Sponsor's stall during the opening announcements on each of the two selected days.",
+            "Inclusion of the Sponsor's brand name in the official event stall directory for the selected days.",
+            "Social media recognition with tagging on at least two official posts corresponding to the Sponsor's active days.",
+            "Organized attendee footfall engagement by the event team toward the Sponsor's stall during active days.",
+          ],
+          sec3bullets: [
+            "Payment of the agreed stall fee of NPR __DC_AMOUNT__ in full prior to the first selected stall day.",
+            "Advance confirmation of the two preferred stall days to the organizing committee at least five (5) days before the event.",
+            "Timely setup of the stall on each selected day within the designated time window as specified by the organizing committee.",
+            "Professional operation and staffing of the stall on both active days, in compliance with all event guidelines and conduct policies.",
+            "Complete removal of all stall equipment and materials within two (2) hours of closing on each active day.",
+            "Submission of branding materials and logos to the organizing committee.",
+          ],
+        },
+        "Stall-Full": {
+          title: "STALL AGREEMENT — FULL EVENT PACKAGE",
+          amount: "45,000",
+          badge: "Stall — Full Event (All 3 Days) · Rs. 45,000",
+          stallDays:
+            "all three (3) days of the event (June 17, 18, and 19, 2026)",
+          sec2bullets: [
+            "Provision of a dedicated promotional stall space of approximately 2×2 meters at a premium agreed location within the event venue for the full duration of APEX PITCH & POP 2026 — June 17, 18, and 19, 2026.",
+            "Verbal acknowledgment of the Sponsor's stall presence during the opening announcements of all three event days.",
+            "Inclusion of the Sponsor's brand name in the official event stall directory and all printed or distributed maps for the entire event.",
+            "Social media recognition with tagging on at least three official posts — one per event day — across the duration of the event.",
+            "Priority stall placement in a high-traffic area of the venue, subject to venue layout and final confirmation by the organizing team.",
+            "Active support from the event team in directing attendee footfall toward the Sponsor's stall throughout the three-day period.",
+          ],
+          sec3bullets: [
+            "Payment of the full event stall fee of NPR __DC_AMOUNT__ prior to the commencement of the event on June 17, 2026.",
+            "Setup of the stall on or before the designated setup window on June 17, 2026, as communicated by the organizing committee.",
+            "Continuous and professional operation of the stall across all three event days, with appropriate staffing and brand representation at all times.",
+            "Compliance with Apex College's event regulations, venue rules, and code of conduct throughout the three-day engagement.",
+            "Provision of all display equipment, materials, and promotional content in a clean, safe, and audience-appropriate condition.",
+            "Complete dismantling and removal of the stall, all equipment, and promotional materials within two (2) hours of the official conclusion of Day 3 (June 19, 2026).",
+            "Submission of high-resolution company logos and all required branding assets to the organizing committee.",
+          ],
+        },
+        Other: {
+          title: "SPONSORSHIP AGREEMENT",
+          amount: "",
+          badge: "Custom Sponsorship",
+          sec2bullets: [
+            "Promotional visibility of the Sponsor's brand across event materials as mutually agreed.",
+            "Acknowledgment and recognition during the event in a manner proportional to the contribution.",
+            "Social media mention and tagging on official event platforms.",
+            "Any additional deliverable as specified in the written sponsorship proposal.",
+          ],
+          sec3bullets: [
+            "Fulfillment of the agreed sponsorship contribution — financial or in-kind — prior to the event date.",
+            "Timely submission of all branding assets, logos, and promotional materials.",
+            "Compliance with Apex College's event guidelines and the terms of this Agreement.",
+          ],
+        },
+      };
+
+      // ═══════════════════════════════════════════
+      // TOAST
+      // ═══════════════════════════════════════════
+      function toast(msg, dur = 2200) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), dur);
+      }
+
+      function showConfirm(msg) {
+        return new Promise((resolve) => {
+          const modal = document.getElementById("confirm-modal");
+          document.getElementById("confirm-msg").textContent = msg;
+          modal.style.display = "flex";
+          const yes = document.getElementById("confirm-yes");
+          const no = document.getElementById("confirm-no");
+          function cleanup(result) {
+            modal.style.display = "none";
+            yes.removeEventListener("click", onYes);
+            no.removeEventListener("click", onNo);
+            resolve(result);
+          }
+          function onYes() {
+            cleanup(true);
+          }
+          function onNo() {
+            cleanup(false);
+          }
+          yes.addEventListener("click", onYes);
+          no.addEventListener("click", onNo);
+        });
+      }
+
+      // ═══════════════════════════════════════════
+      // SIDEBAR
+      // ═══════════════════════════════════════════
+      function toggleSb() {
+        sbVisible = !sbVisible;
+        document.getElementById("sb").classList.toggle("hidden", !sbVisible);
+        document
+          .getElementById("main")
+          .classList.toggle("sb-hidden", !sbVisible);
+        document.getElementById("sb-fab").textContent = sbVisible ? "✕" : "☰";
+      }
+      function showTab(id, btn) {
+        document
+          .querySelectorAll(".tab-pane")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".sb-tab")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        btn.classList.add("active");
+      }
+
+      // ═══════════════════════════════════════════
+      // BULLET DELETE — FIXED event delegation
+      // ═══════════════════════════════════════════
+      function deleteBullet(li) {
+        if (!li || li.tagName !== "LI") return;
+        li.classList.add("li-deleting");
+        li.addEventListener(
+          "animationend",
+          () => {
+            li.remove();
+            scheduleSave();
+            toast("Bullet deleted ✓");
+          },
+          { once: true },
+        );
+      }
+
+      // Single delegated listener on document — fires for ALL current and future bullets
+      document.addEventListener(
+        "click",
+        function (e) {
+          const btn = e.target.closest(".li-del-btn");
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          const li = btn.closest("li");
+          if (li) deleteBullet(li);
+        },
+        true,
+      ); // capture phase ensures it fires even inside contenteditable
+
+      function ensureLiDeleteButtons() {
+        document.querySelectorAll(".doc-text ul li").forEach((li) => {
+          if (!li.querySelector(".li-del-btn")) {
+            const btn = document.createElement("button");
+            btn.className = "li-del-btn";
+            btn.title = "Delete this bullet";
+            btn.textContent = "✕";
+            li.appendChild(btn);
+          }
+        });
+      }
+      function makeLiDelBtn() {
+        const btn = document.createElement("button");
+        btn.className = "li-del-btn";
+        btn.title = "Delete this bullet";
+        btn.textContent = "✕";
+        return btn;
+      }
+
+      function highlightAllBullets() {
+        const lis = document.querySelectorAll(".doc-text ul li");
+        lis.forEach((li, i) => {
+          setTimeout(() => {
+            li.style.transition = "background .2s";
+            li.style.background = "rgba(192,57,43,.18)";
+            setTimeout(() => {
+              li.style.background = "";
+            }, 400);
+          }, i * 60);
+        });
+        toast(`${lis.length} bullet${lis.length !== 1 ? "s" : ""} highlighted`);
+      }
+
+      // ═══════════════════════════════════════════
+      // TIER CHANGE — Auto-switch template
+      // ═══════════════════════════════════════════
+      async function onTierChange() {
+        const key = document.getElementById("sb-tier").value;
+        if (!key) return;
+        const data = TIER_DATA[key];
+        if (!data) return;
+
+        // Show badge
+        const badge = document.getElementById("tier-badge");
+        badge.style.display = "flex";
+        document.getElementById("tier-badge-text").textContent = data.badge;
+
+        // Auto-fill amount if defined
+        if (data.amount && data.amount !== "—" && data.amount !== "") {
+          document.getElementById("sb-amount").value = data.amount;
+          const amEl = document.getElementById("dc-amount");
+          if (amEl) amEl.textContent = data.amount;
+        }
+
+        const ok = await showConfirm(
+          `Load the "${data.title}" template for the "${key}" tier? This will replace the current bullet points and document title.`,
+        );
+        if (!ok) return;
+
+        // Update document title
+        const titleEl = document.getElementById("dc-doctitle");
+        if (titleEl) titleEl.textContent = data.title;
+
+        // Build sec2 bullets
+        buildBullets("sec2-list", data.sec2bullets);
+        // Build sec3 bullets
+        buildBullets("sec3-list", data.sec3bullets);
+
+        // Sync amount & deadline into new bullets
+        syncAmountInBullets();
+        ensureLiDeleteButtons();
+        refreshSecList();
+        scheduleSave();
+        toast(`Template loaded: ${key} ✓`);
+      }
+
+      function buildBullets(listId, bulletsArr) {
+        const ul = document.getElementById(listId);
+        if (!ul) return;
+        ul.innerHTML = "";
+        bulletsArr.forEach((txt) => {
+          const li = document.createElement("li");
+          li.setAttribute("contenteditable", "true");
+          // Replace placeholders with spans
+          li.innerHTML = txt.replace(
+            /__DC_AMOUNT__/g,
+            `<strong>NPR <span contenteditable="true" id="dc-amount" data-ph="[Amount]">${document.getElementById("sb-amount").value || "[Insert Amount]"}</span></strong>`,
+          );
+          li.appendChild(makeLiDelBtn());
+          ul.appendChild(li);
+        });
+      }
+
+      function syncAmountInBullets() {
+        const v = document.getElementById("sb-amount").value.trim();
+        document.querySelectorAll("#dc-amount").forEach((el) => {
+          if (v) el.textContent = v;
+        });
+      }
+
+      // ═══════════════════════════════════════════
+      // SAVE / RESTORE
+      // ═══════════════════════════════════════════
+      function scheduleSave() {
+        const dot = document.getElementById("save-dot");
+        dot.classList.add("saving");
+        dot.classList.remove("error");
+        document.getElementById("save-status").textContent = "Saving…";
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(doSave, 800);
+      }
+      function doSave() {
+        try {
+          const data = collectData();
+          localStorage.setItem(STORE_KEY, JSON.stringify(data));
+          pushHistory(data);
+          document
+            .getElementById("save-dot")
+            .classList.remove("saving", "error");
+          document.getElementById("save-status").textContent = "Saved ✓";
+          document.getElementById("wc-time").textContent =
+            new Date().toLocaleTimeString();
+        } catch (e) {
+          document.getElementById("save-dot").classList.remove("saving");
+          document.getElementById("save-dot").classList.add("error");
+          document.getElementById("save-status").textContent = "Save failed";
+        }
+      }
+      function getCleanHTML(el) {
+        const clone = el.cloneNode(true);
+        clone.querySelectorAll(".li-del-btn").forEach((b) => b.remove());
+        return clone.innerHTML;
+      }
+      function collectData() {
+        const fields = [
+          "sb-date",
+          "sb-evdate",
+          "sb-venue",
+          "sb-footer",
+          "sb-spname",
+          "sb-spaddr",
+          "sb-tier",
+          "sb-amount",
+          "sb-payment",
+          "sb-sname",
+          "sb-sdesig",
+          "sb-sorg",
+          "sb-sp2name",
+          "sb-sp2desig",
+          "sb-sp2co",
+          "sb-wmtext",
+          "sb-wmop",
+          "sb-wmrot",
+          "sb-wmsz",
+        ];
+        const sidebar = {};
+        fields.forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) sidebar[id] = el.value;
+        });
+        sidebar["wm-pg1"] = document.getElementById("wm-pg1").checked;
+        sidebar["wm-pg2"] = document.getElementById("wm-pg2").checked;
+        const editables = {};
+        document.querySelectorAll("[contenteditable][id]").forEach((el) => {
+          editables[el.id] = getCleanHTML(el);
+        });
+        return {
+          sidebar,
+          editables,
+          logos: { L1: logos.L1, EV: logos.EV, L2: logos.L2 },
+          watermark: wmSrc,
+          accent: currentAccent,
+          zoom: currentZoom,
+          editMode,
+          timestamp: Date.now(),
+        };
+      }
+      function pushHistory(data) {
+        try {
+          let h = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+          h.unshift({ ts: data.timestamp, snap: data });
+          h = h.slice(0, MAX_HIST);
+          localStorage.setItem(HIST_KEY, JSON.stringify(h));
+          renderHist(h);
+        } catch (e) {}
+      }
+      function renderHist(h) {
+        const p = document.getElementById("hist-panel");
+        if (!h || !h.length) {
+          p.innerHTML =
+            '<div style="color:#554040;font-size:10px;">No versions yet.</div>';
+          return;
+        }
+        p.innerHTML = h
+          .map(
+            (item, i) =>
+              `<div class="hist-item"><span>${i === 0 ? "Current" : "v" + (h.length - i)} — ${new Date(item.ts).toLocaleTimeString()}</span>${i > 0 ? `<button class="hist-restore" onclick="restoreVer(${i})">↩</button>` : ""}</div>`,
+          )
+          .join("");
+      }
+      async function restoreVer(idx) {
+        if (!(await showConfirm("Restore this version?"))) return;
+        try {
+          const h = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+          if (h[idx]) applyData(h[idx].snap);
+          toast("Version restored ✓");
+        } catch (e) {
+          toast("Could not restore.", 3000);
+        }
+      }
+      function restoreData() {
+        const raw = localStorage.getItem(STORE_KEY);
+        if (!raw) {
+          autoFillToday();
+          document.getElementById("save-status").textContent = "New document";
+          return;
+        }
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch (e) {
+          autoFillToday();
+          return;
+        }
+        applyData(data);
+        try {
+          const h = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+          renderHist(h);
+        } catch (e) {}
+      }
+      function applyData(data) {
+        if (!data) return;
+        if (data.sidebar)
+          Object.entries(data.sidebar).forEach(([id, val]) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (el.type === "checkbox") el.checked = val;
+            else el.value = val;
+          });
+        if (data.editables)
+          Object.entries(data.editables).forEach(([id, html]) => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = html;
+          });
+        ensureLiDeleteButtons();
+        if (data.logos) {
+          Object.entries(data.logos).forEach(([key, src]) => {
+            if (src) {
+              logos[key] = src;
+              const p = document.getElementById("prev-" + key);
+              if (p) {
+                p.src = src;
+                p.style.display = "block";
+              }
+            }
+          });
+          renderLogos();
+        }
+        if (data.watermark) {
+          wmSrc = data.watermark;
+          applyWM();
+          const p = document.getElementById("prev-WM");
+          if (p) {
+            p.src = wmSrc;
+            p.style.display = "block";
+          }
+        }
+        if (data.accent) {
+          currentAccent = data.accent;
+          applyAccentDirect(data.accent);
+          document
+            .querySelectorAll(".color-dot")
+            .forEach((d) =>
+              d.classList.toggle("active", d.dataset.color === data.accent),
+            );
+        }
+        if (data.zoom) {
+          currentZoom = data.zoom;
+          applyZoom();
+        }
+        updateWMText();
+        updateWMOp();
+        updateWMRot();
+        updateWMSz();
+        updateWMVis();
+        // Show tier badge if set
+        const tier = document.getElementById("sb-tier").value;
+        if (tier) {
+          const td = TIER_DATA[tier];
+          if (td) {
+            document.getElementById("tier-badge").style.display = "flex";
+            document.getElementById("tier-badge-text").textContent = td.badge;
+          }
+        }
+        document.getElementById("save-status").textContent = "Restored ✓";
+      }
+      async function clearData() {
+        if (!(await showConfirm("Clear all saved data and reset?"))) return;
+        localStorage.removeItem(STORE_KEY);
+        localStorage.removeItem(HIST_KEY);
+        location.reload();
+      }
+      function exportJSON() {
+        const blob = new Blob([JSON.stringify(collectData(), null, 2)], {
+          type: "application/json",
+        });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "apex_agreement_backup.json";
+        a.click();
+      }
+      function importJSON(evt) {
+        const file = evt.target.files[0];
+        if (!file) return;
+        const r = new FileReader();
+        r.onload = (e) => {
+          try {
+            applyData(JSON.parse(e.target.result));
+            doSave();
+            toast("Imported ✓");
+          } catch (err) {
+            toast("Invalid JSON file.", 3000);
+          }
+        };
+        r.readAsText(file);
+      }
+      function updateStats() {
+        const text = document.getElementById("page-wrap").innerText || "";
+        const words = text
+          .trim()
+          .split(/\s+/)
+          .filter((w) => w.length > 0).length;
+        document.getElementById("wc-words").textContent =
+          words.toLocaleString();
+        document.getElementById("wc-chars").textContent =
+          text.length.toLocaleString();
+      }
+
+      // ═══════════════════════════════════════════
+      // AUTO-FILL TODAY'S DATE
+      // ═══════════════════════════════════════════
+      function autoFillToday() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const dd = String(today.getDate()).padStart(2, "0");
+        const isoDate = `${yyyy}-${mm}-${dd}`;
+        document.getElementById("sb-date").value = isoDate;
+        syncDate();
+        // Also fill signature dates
+        const fmt = today.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+        ["dc-sigdate1", "dc-sigdate2"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el && !el.textContent.trim()) el.textContent = fmt;
+        });
+      }
+
+      // ═══════════════════════════════════════════
+      // FIELD SYNC
+      // ═══════════════════════════════════════════
+      function sb2id(sbId, docId) {
+        const v = document.getElementById(sbId)?.value.trim() || "";
+        document.querySelectorAll("#" + docId).forEach((el) => {
+          if (el) el.textContent = v || el.dataset.ph || "";
+        });
+      }
+      function syncDate() {
+        const raw = document.getElementById("sb-date").value;
+        if (!raw) return;
+        const d = new Date(raw + "T00:00:00");
+        const fmt = d.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+        ["dc-date", "dc-date2"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = fmt;
+        });
+      }
+
+      function syncSig(sbId, docId) {
+        const v = document.getElementById(sbId)?.value.trim() || "";
+        document.querySelectorAll("#" + docId).forEach((el) => {
+          if (el) el.textContent = v;
+        });
+      }
+      function syncFooter() {
+        const v = document.getElementById("sb-footer").value.trim();
+        ["footer1-text", "footer2-text"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.innerHTML = v;
+        });
+      }
+
+      // ═══════════════════════════════════════════
+      // LOGOS
+      // ═══════════════════════════════════════════
+      function uploadLogo(evt, key) {
+        const file = evt.target.files[0];
+        if (!file) return;
+        const r = new FileReader();
+        r.onload = (e) => {
+          logos[key] = e.target.result;
+          const p = document.getElementById("prev-" + key);
+          if (p) {
+            p.src = logos[key];
+            p.style.display = "block";
+          }
+          renderLogos();
+          scheduleSave();
+          toast("Logo uploaded ✓");
+        };
+        r.readAsDataURL(file);
+      }
+      function clearLogo(key) {
+        logos[key] = null;
+        const p = document.getElementById("prev-" + key);
+        if (p) {
+          p.style.display = "none";
+          p.src = "";
+        }
+        ["1", "2"].forEach((pg) => {
+          const slot = document.getElementById("slot-" + key + "-" + pg);
+          if (!slot) return;
+          if (key === "EV") {
+            slot.innerHTML =
+              '<div class="event-logo-slot-ph">PITCH &amp; POP<br>Event Logo</div>';
+            slot.style.border = "2px dashed #7B1C1C";
+            slot.style.background = "#FFF6F0";
+          } else {
+            const ph =
+              key === "L1"
+                ? "Apex M&amp;M<br>Club Logo"
+                : "Apex College<br>Logo";
+            slot.innerHTML = `<div class="logo-slot-ph">${ph}</div>`;
+            slot.style.border = "1.5px dashed #C0A8A8";
+            slot.style.background = "var(--bgw)";
+          }
+        });
+        scheduleSave();
+      }
+      function renderLogos() {
+        ["1", "2"].forEach((pg) => {
+          Object.entries(logos).forEach(([key, src]) => {
+            const slot = document.getElementById("slot-" + key + "-" + pg);
+            if (!slot || !src) return;
+            slot.innerHTML = `<img src="${src}" style="max-width:100%;max-height:100%;object-fit:contain;">`;
+            slot.style.border = "none";
+            slot.style.background = "transparent";
+          });
+        });
+      }
+
+      // ═══════════════════════════════════════════
+      // WATERMARK
+      // ═══════════════════════════════════════════
+      function uploadWatermark(evt) {
+        const file = evt.target.files[0];
+        if (!file) return;
+        const r = new FileReader();
+        r.onload = (e) => {
+          wmSrc = e.target.result;
+          const p = document.getElementById("prev-WM");
+          p.src = wmSrc;
+          p.style.display = "block";
+          document.getElementById("wm-up-lbl").textContent = file.name;
+          applyWM();
+          scheduleSave();
+          toast("Watermark uploaded ✓");
+        };
+        r.readAsDataURL(file);
+      }
+      function applyWM() {
+        const rot = document.getElementById("sb-wmrot").value,
+          op = document.getElementById("sb-wmop").value / 100,
+          sz = document.getElementById("sb-wmsz").value;
+        [1, 2].forEach((pg) => {
+          const t = document.getElementById("wm-t-" + pg),
+            i = document.getElementById("wm-i-" + pg);
+          if (wmSrc) {
+            if (t) t.style.display = "none";
+            i.src = wmSrc;
+            i.style.display = "block";
+            i.style.opacity = op;
+            i.style.width = sz + "px";
+            i.style.height = "auto";
+            i.style.transform = `translate(-50%,-50%) rotate(${rot}deg)`;
+          } else {
+            if (t) {
+              t.style.display = "block";
+              t.style.opacity = op * 10;
+              t.style.transform = `translate(-50%,-50%) rotate(${rot}deg)`;
+              t.style.fontSize = `${sz * 0.21}px`;
+            }
+            i.style.display = "none";
+          }
+        });
+        updateWMVis();
+      }
+      function updateWMText() {
+        if (wmSrc) return;
+        const v =
+          document.getElementById("sb-wmtext").value || "APEX PITCH & POP";
+        const sz = document.getElementById("sb-wmsz").value;
+        [1, 2].forEach((pg) => {
+          const el = document.getElementById("wm-t-" + pg);
+          if (el) {
+            el.textContent = v;
+            el.style.fontSize = `${sz * 0.21}px`;
+          }
+        });
+      }
+      function updateWMOp() {
+        const v = document.getElementById("sb-wmop").value;
+        document.getElementById("wm-op-val").textContent = v + "%";
+        const op = v / 100;
+        [1, 2].forEach((pg) => {
+          const t = document.getElementById("wm-t-" + pg),
+            i = document.getElementById("wm-i-" + pg);
+          if (wmSrc && i) i.style.opacity = op;
+          else if (t) t.style.opacity = op * 10;
+        });
+      }
+      function updateWMRot() {
+        const v = document.getElementById("sb-wmrot").value;
+        document.getElementById("wm-rot-val").textContent = v + "°";
+        const tr = `translate(-50%,-50%) rotate(${v}deg)`;
+        [1, 2].forEach((pg) => {
+          const t = document.getElementById("wm-t-" + pg),
+            i = document.getElementById("wm-i-" + pg);
+          if (wmSrc && i) i.style.transform = tr;
+          else if (t) t.style.transform = tr;
+        });
+      }
+      function updateWMSz() {
+        const v = document.getElementById("sb-wmsz").value;
+        document.getElementById("wm-sz-val").textContent = v + "px";
+        [1, 2].forEach((pg) => {
+          const t = document.getElementById("wm-t-" + pg),
+            i = document.getElementById("wm-i-" + pg);
+          if (wmSrc && i) {
+            i.style.width = v + "px";
+            i.style.height = "auto";
+          } else if (t && !wmSrc) t.style.fontSize = `${v * 0.21}px`;
+        });
+      }
+      function updateWMVis() {
+        const p1 = document.getElementById("wm-pg1").checked,
+          p2 = document.getElementById("wm-pg2").checked;
+        [
+          { pg: 1, show: p1 },
+          { pg: 2, show: p2 },
+        ].forEach(({ pg, show }) => {
+          const t = document.getElementById("wm-t-" + pg),
+            i = document.getElementById("wm-i-" + pg);
+          if (!show) {
+            if (t) t.style.display = "none";
+            if (i) i.style.display = "none";
+          } else {
+            if (wmSrc) {
+              if (t) t.style.display = "none";
+              if (i) i.style.display = "block";
+            } else {
+              if (t) t.style.display = "block";
+              if (i) i.style.display = "none";
+            }
+          }
+        });
+      }
+      function removeWM() {
+        wmSrc = null;
+        [1, 2].forEach((pg) => {
+          const t = document.getElementById("wm-t-" + pg),
+            i = document.getElementById("wm-i-" + pg);
+          if (i) {
+            i.style.display = "none";
+            i.src = "";
+          }
+          if (t) t.style.display = "block";
+        });
+        const p = document.getElementById("prev-WM");
+        p.style.display = "none";
+        p.src = "";
+        document.getElementById("wm-up-lbl").textContent = "↑ Upload image";
+        updateWMText();
+        updateWMOp();
+        updateWMRot();
+        updateWMSz();
+        scheduleSave();
+      }
+
+      // ═══════════════════════════════════════════
+      // ACCENT / ZOOM
+      // ═══════════════════════════════════════════
+      function applyAccent(dotEl) {
+        const color = dotEl.dataset.color;
+        document
+          .querySelectorAll(".color-dot")
+          .forEach((d) => d.classList.toggle("active", d === dotEl));
+        applyAccentDirect(color);
+        scheduleSave();
+      }
+      function applyAccentDirect(color) {
+        currentAccent = color;
+        document.documentElement.style.setProperty("--m", color);
+        document.documentElement.style.setProperty(
+          "--md",
+          shadeColor(color, -22),
+        );
+        document.documentElement.style.setProperty(
+          "--mm",
+          shadeColor(color, 12),
+        );
+        document
+          .querySelectorAll(".pg-top,.pg-foot")
+          .forEach((el) => (el.style.background = color));
+        document.querySelectorAll(".doc-title-ed").forEach((el) => {
+          el.style.color = color;
+          el.style.borderBottomColor = color;
+        });
+        document
+          .querySelectorAll(".sec-head-num,.sec-head")
+          .forEach((el) => (el.style.color = color));
+        document
+          .querySelectorAll(".col-hd")
+          .forEach((el) => (el.style.background = color));
+        document
+          .querySelectorAll(".sig-lbl")
+          .forEach((el) => (el.style.color = shadeColor(color, -10)));
+        document
+          .querySelectorAll(".logos-row")
+          .forEach((el) => (el.style.borderBottomColor = color));
+        document
+          .querySelectorAll(".sig-wrap")
+          .forEach((el) => (el.style.borderTopColor = color));
+        document
+          .querySelectorAll(".corner")
+          .forEach((el) => (el.style.borderColor = color));
+      }
+      function shadeColor(color, pct) {
+        const num = parseInt(color.replace("#", ""), 16);
+        const r = Math.max(0, Math.min(255, (num >> 16) + pct * 2));
+        const g = Math.max(0, Math.min(255, ((num >> 8) & 0xff) + pct));
+        const b = Math.max(0, Math.min(255, (num & 0xff) + pct));
+        return (
+          "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+        );
+      }
+      function adjustZoom(delta) {
+        if (delta === 0) currentZoom = 100;
+        else currentZoom = Math.max(40, Math.min(160, currentZoom + delta));
+        applyZoom();
+        scheduleSave();
+      }
+      function applyZoom() {
+        document.getElementById("page-wrap").style.transform =
+          `scale(${currentZoom / 100})`;
+        document.getElementById("zoom-val").textContent = currentZoom + "%";
+      }
+
+      // ═══════════════════════════════════════════
+      // EDIT MODE
+      // ═══════════════════════════════════════════
+      function toggleEdit() {
+        editMode = !editMode;
+        document.body.classList.toggle("no-edit", !editMode);
+        document.body.classList.toggle("edit-on", editMode);
+        const btn = document.getElementById("edit-btn");
+        btn.textContent = editMode ? "✏ Edit Mode: ON" : "🔒 Edit Mode: OFF";
+        btn.classList.toggle("on", editMode);
+        document.getElementById("tip-bar").innerHTML = editMode
+          ? "✏️ <strong>Edit Mode ON</strong> — Click any text to edit. Hover bullet → <span style='background:#c0392b;color:#fff;border-radius:50%;padding:0 3px;font-size:10px;font-weight:700;'>✕</span> to delete."
+          : "🔒 <strong>Edit Mode OFF</strong> — Document locked. Ready for export.";
+        document
+          .querySelectorAll("[contenteditable]")
+          .forEach((el) =>
+            el.setAttribute("contenteditable", editMode ? "true" : "false"),
+          );
+        scheduleSave();
+      }
+
+      // ═══════════════════════════════════════════
+      // SECTION MANAGER
+      // ═══════════════════════════════════════════
+      function refreshSecList() {
+        const list = document.getElementById("sec-list");
+        list.innerHTML = "";
+        document.querySelectorAll(".sec-head").forEach((sh) => {
+          const num = sh.dataset.sec,
+            pg = sh.dataset.page,
+            title =
+              sh.querySelector(".sec-head-text")?.textContent.trim() || "";
+          const item = document.createElement("div");
+          item.className = "sec-item";
+          item.innerHTML = `<span class="si-num">${num}.</span><span class="si-name">${title} <span style="color:#604040;font-size:9px;">(p${pg})</span></span><div class="si-btns"><button class="si-up">↑</button><button class="si-dn">↓</button><button class="si-del">✕</button></div>`;
+          item.querySelector(".si-name").onclick = () =>
+            sh.scrollIntoView({ behavior: "smooth", block: "center" });
+          item.querySelector(".si-up").onclick = (e) => {
+            e.stopPropagation();
+            moveSec(num, "up");
+          };
+          item.querySelector(".si-dn").onclick = (e) => {
+            e.stopPropagation();
+            moveSec(num, "dn");
+          };
+          item.querySelector(".si-del").onclick = (e) => {
+            e.stopPropagation();
+            deleteSection(num);
+          };
+          list.appendChild(item);
+        });
+      }
+      function getSectionNodes(secNum) {
+        const sh = document.querySelector(`.sec-head[data-sec="${secNum}"]`);
+        if (!sh) return null;
+        const parent = sh.parentElement,
+          nodes = Array.from(parent.childNodes),
+          si = nodes.indexOf(sh);
+        let ei = si + 1;
+        while (ei < nodes.length) {
+          const n = nodes[ei];
+          if (
+            n.nodeType === 1 &&
+            n.classList &&
+            (n.classList.contains("sec-head") ||
+              n.classList.contains("sig-wrap"))
+          )
+            break;
+          ei++;
+        }
+        return { sh, parent, nodes, si, ei };
+      }
+      async function deleteSection(secNum) {
+        if (!(await showConfirm("Delete section " + secNum + "?"))) return;
+        const info = getSectionNodes(secNum);
+        if (!info) return;
+        const { parent, nodes, si, ei } = info;
+        for (let i = ei - 1; i >= si; i--)
+          if (nodes[i].parentNode) nodes[i].parentNode.removeChild(nodes[i]);
+        refreshSecList();
+        toast("Section deleted");
+        scheduleSave();
+      }
+      function moveSec(secNum, dir) {
+        const info = getSectionNodes(secNum);
+        if (!info) return;
+        const { sh, parent, nodes, si, ei } = info;
+        const secNodes = nodes.slice(si, ei);
+        if (dir === "up") {
+          let prev = -1;
+          for (let i = si - 1; i >= 0; i--)
+            if (
+              nodes[i].nodeType === 1 &&
+              nodes[i].classList &&
+              nodes[i].classList.contains("sec-head")
+            ) {
+              prev = i;
+              break;
+            }
+          if (prev < 0) {
+            toast("Already at top");
+            return;
+          }
+          secNodes.forEach((n) => parent.insertBefore(n, nodes[prev]));
+        } else {
+          const after = nodes[ei];
+          if (
+            !after ||
+            !after.classList ||
+            !after.classList.contains("sec-head")
+          ) {
+            toast("Already at bottom");
+            return;
+          }
+          const ai = getSectionNodes(after.dataset.sec);
+          if (!ai) return;
+          const afterAfter = nodes[ai.ei];
+          if (afterAfter)
+            secNodes.forEach((n) => parent.insertBefore(n, afterAfter));
+          else secNodes.forEach((n) => parent.appendChild(n));
+        }
+        refreshSecList();
+        toast("Moved ✓");
+      }
+
+      // ═══════════════════════════════════════════
+      // ADD ITEM — FIXED bullet insertion
+      // ═══════════════════════════════════════════
+      function toggleAddType() {
+        document.getElementById("add-sec-wrap").style.display =
+          document.getElementById("add-type").value === "bullet"
+            ? "block"
+            : "none";
+      }
+
+      function addItem() {
+        const type = document.getElementById("add-type").value,
+          pg = document.getElementById("add-page").value,
+          heading = document.getElementById("add-heading").value.trim(),
+          content = document.getElementById("add-content").value.trim(),
+          secNum = document.getElementById("add-sec-num").value.trim();
+
+        if (!heading && !content) {
+          toast("Please enter heading or content");
+          return;
+        }
+
+        const targetContent = document.getElementById(
+          pg === "1" ? "p1-content" : "p2-content",
+        );
+        const sigWrap =
+          pg === "2" ? targetContent.querySelector(".sig-wrap") : null;
+        const ce = editMode ? "true" : "false";
+
+        if (type === "section") {
+          const sn = nextSecNum++;
+          const secDiv = document.createElement("div");
+          secDiv.className = "sec-head";
+          secDiv.dataset.sec = sn;
+          secDiv.dataset.page = pg;
+          secDiv.innerHTML = `<span class="sec-head-num">${sn}.</span><span class="sec-head-text" contenteditable="${ce}">${heading || "New Section"}</span>`;
+          const para = document.createElement("p");
+          para.setAttribute("contenteditable", ce);
+          para.textContent = content || "Section content goes here.";
+          if (sigWrap) {
+            targetContent.insertBefore(secDiv, sigWrap);
+            targetContent.insertBefore(para, sigWrap);
+          } else {
+            targetContent.appendChild(secDiv);
+            targetContent.appendChild(para);
+          }
+        } else if (type === "clause") {
+          const sn = nextSecNum++;
+          const secDiv = document.createElement("div");
+          secDiv.className = "sec-head";
+          secDiv.dataset.sec = sn;
+          secDiv.dataset.page = pg;
+          secDiv.innerHTML = `<span class="sec-head-num">${sn}.</span><span class="sec-head-text" contenteditable="${ce}">${heading || "New Clause"}</span>`;
+          if (sigWrap) targetContent.insertBefore(secDiv, sigWrap);
+          else targetContent.appendChild(secDiv);
+        } else if (type === "note") {
+          const note = document.createElement("p");
+          note.className = "note-italic";
+          note.setAttribute("contenteditable", ce);
+          note.textContent = content || heading || "Note.";
+          if (sigWrap) targetContent.insertBefore(note, sigWrap);
+          else targetContent.appendChild(note);
+        } else if (type === "para") {
+          const para = document.createElement("p");
+          para.setAttribute("contenteditable", ce);
+          para.textContent = content || heading || "Paragraph text.";
+          if (sigWrap) targetContent.insertBefore(para, sigWrap);
+          else targetContent.appendChild(para);
+        } else if (type === "bullet") {
+          // FIXED: find the correct list
+          let tList = null;
+
+          // 1. Try by ID (sec2-list, sec3-list etc.)
+          if (secNum) {
+            tList = document.getElementById("sec" + secNum + "-list");
+          }
+
+          // 2. Try finding a UL near the matching section heading
+          if (!tList && secNum) {
+            const sh = document.querySelector(
+              `.sec-head[data-sec="${secNum}"]`,
+            );
+            if (sh) {
+              let node = sh.nextElementSibling;
+              while (node) {
+                if (node.tagName === "UL") {
+                  tList = node;
+                  break;
+                }
+                if (node.classList && node.classList.contains("sec-head"))
+                  break;
+                node = node.nextElementSibling;
+              }
+            }
+          }
+
+          // 3. Last resort: last UL on the target page
+          if (!tList) {
+            const uls = targetContent.querySelectorAll("ul");
+            if (uls.length > 0) tList = uls[uls.length - 1];
+          }
+
+          // 4. Create a new UL if still nothing found
+          if (!tList) {
+            tList = document.createElement("ul");
+            tList.id = "sec-extra-list-" + nextSecNum;
+            if (sigWrap) targetContent.insertBefore(tList, sigWrap);
+            else targetContent.appendChild(tList);
+          }
+
+          const li = document.createElement("li");
+          li.setAttribute("contenteditable", ce);
+          li.textContent = content || heading || "New bullet point.";
+          li.appendChild(makeLiDelBtn());
+          tList.appendChild(li);
+        } else if (type === "sigrow") {
+          const sig = targetContent.querySelector(".sig-wrap");
+          if (!sig) {
+            toast("No signature section on this page.", 3000);
+            return;
+          }
+          sig.querySelectorAll(".sig-col").forEach((col) => {
+            const row = document.createElement("div");
+            row.className = "sig-row";
+            row.innerHTML = `<span class="sig-lbl"><span contenteditable="${ce}">${heading || "New Field:"}</span></span><span class="sig-val" contenteditable="${ce}" data-ph="[${(heading || "").replace(":", "").trim()}]">${content || ""}</span>`;
+            const tall = col.querySelector(".sig-row-tall");
+            if (tall) col.insertBefore(row, tall);
+            else col.appendChild(row);
+          });
+        }
+
+        document.getElementById("add-heading").value = "";
+        document.getElementById("add-content").value = "";
+        document.getElementById("add-sec-num").value = "";
+        refreshSecList();
+        toast("Added to Page " + pg + " ✓");
+        scheduleSave();
+      }
+
+      // ═══════════════════════════════════════════
+      // CONTEXT MENU
+      // ═══════════════════════════════════════════
+      const ctxMenu = document.getElementById("ctx-menu");
+      document.addEventListener("contextmenu", (e) => {
+        if (!editMode) return;
+        const target = e.target.closest('[contenteditable="true"]');
+        if (!target || target.closest("#sb")) return;
+        e.preventDefault();
+        showCtx(e.clientX, e.clientY, target);
+      });
+      document.addEventListener("click", () => hideCtx());
+      document.addEventListener("keydown", (ev) => {
+        if (ev.key === "Escape") hideCtx();
+      });
+
+      function showCtx(x, y, target) {
+        ctxMenu.innerHTML = "";
+        const items = [
+          { icon: "✂", label: "Cut", fn: () => document.execCommand("cut") },
+          { icon: "📋", label: "Copy", fn: () => document.execCommand("copy") },
+          { sep: true },
+          {
+            icon: "B",
+            label: "Bold",
+            fn: () => {
+              target.focus();
+              document.execCommand("bold");
+            },
+          },
+          {
+            icon: "I",
+            label: "Italic",
+            fn: () => {
+              target.focus();
+              document.execCommand("italic");
+            },
+          },
+          {
+            icon: "U",
+            label: "Underline",
+            fn: () => {
+              target.focus();
+              document.execCommand("underline");
+            },
+          },
+          { sep: true },
+          {
+            icon: "🗑",
+            label: "Clear content",
+            fn: () => {
+              target.textContent = "";
+            },
+          },
+          {
+            icon: "↺",
+            label: "Restore placeholder",
+            fn: () => {
+              if (target.dataset.ph) target.textContent = target.dataset.ph;
+            },
+          },
+        ];
+        const li = target.tagName === "LI" ? target : target.closest("li");
+        if (li) {
+          items.push(
+            { sep: true },
+            {
+              icon: "🔴",
+              label: "Delete this bullet",
+              fn: () => deleteBullet(li),
+            },
+            {
+              icon: "⬆",
+              label: "Add bullet above",
+              fn: () => {
+                const nl = document.createElement("li");
+                nl.setAttribute("contenteditable", "true");
+                nl.textContent = "New bullet point.";
+                nl.appendChild(makeLiDelBtn());
+                li.parentNode.insertBefore(nl, li);
+                nl.focus();
+                scheduleSave();
+                toast("Bullet added ✓");
+              },
+            },
+            {
+              icon: "⬇",
+              label: "Add bullet below",
+              fn: () => {
+                const nl = document.createElement("li");
+                nl.setAttribute("contenteditable", "true");
+                nl.textContent = "New bullet point.";
+                nl.appendChild(makeLiDelBtn());
+                li.parentNode.insertBefore(nl, li.nextSibling);
+                nl.focus();
+                scheduleSave();
+                toast("Bullet added ✓");
+              },
+            },
+          );
+        }
+        if (target.classList.contains("sec-head-text")) {
+          const sh = target.closest(".sec-head");
+          if (sh)
+            items.push(
+              { sep: true },
+              {
+                icon: "✕",
+                label: "Delete this section",
+                fn: () => deleteSection(sh.dataset.sec),
+              },
+            );
+        }
+        items.forEach((it) => {
+          if (it.sep) {
+            const s = document.createElement("div");
+            s.className = "ctx-sep";
+            ctxMenu.appendChild(s);
+          } else {
+            const d = document.createElement("div");
+            d.className = "ctx-item";
+            d.innerHTML = `<span style="font-size:11px;min-width:13px">${it.icon}</span>${it.label}`;
+            d.onclick = () => {
+              it.fn();
+              hideCtx();
+              scheduleSave();
+            };
+            ctxMenu.appendChild(d);
+          }
+        });
+        ctxMenu.classList.add("show");
+        ctxMenu.style.left = Math.min(x, window.innerWidth - 175) + "px";
+        ctxMenu.style.top = Math.min(y, window.innerHeight - 260) + "px";
+      }
+      function hideCtx() {
+        ctxMenu.classList.remove("show");
+      }
+
+      // ═══════════════════════════════════════════
+      // EXPORT
+      // ═══════════════════════════════════════════
+      async function renderPage(pageId) {
+        const el = document.getElementById(pageId);
+        document.body.classList.add("exporting");
+        const ces = el.querySelectorAll("[contenteditable]");
+        const ceStates = [];
+        ces.forEach((ce) => {
+          ceStates.push(ce.getAttribute("contenteditable"));
+          ce.setAttribute("contenteditable", "false");
+        });
+        const delBtns = el.querySelectorAll(".li-del-btn");
+        delBtns.forEach((b) => {
+          b._pd = b.style.display;
+          b.style.display = "none";
+        });
+        await new Promise((r) => setTimeout(r, 80));
+        const canvas = await html2canvas(el, {
+          scale: ESCALE,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: "#ffffff",
+          logging: false,
+          width: PW,
+          height: PH,
+          windowWidth: PW,
+          windowHeight: PH,
+          scrollX: 0,
+          scrollY: 0,
+          imageTimeout: 15000,
+          onclone: (doc) => {
+            ["sb", "sb-fab", "tip-bar", "ctx-menu", "pg-meta"].forEach((id) => {
+              const e2 = doc.getElementById(id);
+              if (e2) e2.style.display = "none";
+            });
+            const pg = doc.getElementById(pageId);
+            if (pg)
+              pg.style.cssText = `width:${PW}px!important;min-width:${PW}px!important;max-width:${PW}px!important;height:${PH}px!important;min-height:${PH}px!important;max-height:${PH}px!important;overflow:hidden!important;position:relative!important;transform:none!important;box-shadow:none!important;margin:0!important;`;
+            const main = doc.getElementById("main");
+            if (main) {
+              main.style.marginLeft = "0";
+              main.style.padding = "0";
+            }
+            const pw = doc.getElementById("page-wrap");
+            if (pw) pw.style.transform = "none";
+            doc.querySelectorAll("[contenteditable]").forEach((e) => {
+              e.style.background = "transparent";
+              e.style.outline = "none";
+            });
+            doc.querySelectorAll(".li-del-btn").forEach((b) => {
+              b.style.display = "none";
+              b.style.visibility = "hidden";
+            });
+            const style = doc.createElement("style");
+            style.textContent = `[contenteditable]:empty:before{content:none!important}*{outline:none!important}.li-del-btn{display:none!important;visibility:hidden!important}`;
+            doc.head.appendChild(style);
+          },
+        });
+        ces.forEach((ce, i) => ce.setAttribute("contenteditable", ceStates[i]));
+        delBtns.forEach((b) => {
+          b.style.display = b._pd || "";
+        });
+        document.body.classList.remove("exporting");
+        if (canvas.width === EW && canvas.height === EH) return canvas;
+        const out = document.createElement("canvas");
+        out.width = EW;
+        out.height = EH;
+        const ctx = out.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, EW, EH);
+        ctx.drawImage(canvas, 0, 0, EW, EH);
+        return out;
+      }
+      function setProgress(pct) {
+        const wrap = document.getElementById("progress-wrap"),
+          bar = document.getElementById("progress-bar");
+        if (pct === 0) {
+          wrap.classList.remove("active");
+          bar.style.width = "0%";
+          return;
+        }
+        wrap.classList.add("active");
+        bar.style.width = pct + "%";
+      }
+      async function downloadPDF() {
+        const btn = document.getElementById("dl-pdf");
+        btn.textContent = "⏳ Rendering…";
+        btn.disabled = true;
+        setProgress(10);
+        try {
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: [210, 297],
+            compress: true,
+            precision: 16,
+          });
+          setProgress(20);
+          const c1 = await renderPage("page1");
+          setProgress(52);
+          pdf.addImage(
+            c1.toDataURL("image/jpeg", 0.95),
+            "JPEG",
+            0,
+            0,
+            210,
+            297,
+            "p1",
+            "FAST",
+          );
+          const c2 = await renderPage("page2");
+          setProgress(86);
+          pdf.addPage([210, 297], "portrait");
+          pdf.addImage(
+            c2.toDataURL("image/jpeg", 0.95),
+            "JPEG",
+            0,
+            0,
+            210,
+            297,
+            "p2",
+            "FAST",
+          );
+          setProgress(97);
+          pdf.save("Apex_Sponsorship_Agreement.pdf");
+          setProgress(100);
+          setTimeout(() => setProgress(0), 900);
+          toast("PDF saved ✓");
+        } catch (e) {
+          setProgress(0);
+          toast("Export failed");
+          console.error(e);
+        } finally {
+          btn.textContent = "⬇ Download PDF (Both Pages)";
+          btn.disabled = false;
+        }
+      }
+      async function downloadImg(n) {
+        toast("Rendering Page " + n + "…", 3000);
+        try {
+          const c = await renderPage("page" + n);
+          const a = document.createElement("a");
+          a.download = `Apex_Agreement_Page${n}_300dpi.png`;
+          a.href = c.toDataURL("image/png");
+          a.click();
+          toast("Page " + n + " PNG saved ✓");
+        } catch (e) {
+          toast("Export failed");
+          console.error(e);
+        }
+      }
+      async function downloadAllImg() {
+        await downloadImg(1);
+        await new Promise((r) => setTimeout(r, 900));
+        await downloadImg(2);
+      }
+
+      // ═══════════════════════════════════════════
+      // INIT
+      // ═══════════════════════════════════════════
+      document.addEventListener("DOMContentLoaded", () => {
+        restoreData();
+        refreshSecList();
+        document.getElementById("add-sec-wrap").style.display = "none";
+        document.querySelectorAll("[contenteditable]").forEach((el) => {
+          el.addEventListener("input", scheduleSave);
+        });
+        setInterval(updateStats, 6000);
+        updateStats();
+        document.getElementById("save-status").textContent = "Ready";
+        let maxSec = 6;
+        document.querySelectorAll(".sec-head[data-sec]").forEach((sh) => {
+          const n = parseInt(sh.dataset.sec, 10);
+          if (n > maxSec) maxSec = n;
+        });
+        nextSecNum = maxSec + 1;
+        document.body.classList.add("edit-on");
+        ensureLiDeleteButtons();
+      });
+    </script>
+  </body>
+</html>
         --g: #3a3a3a;
         --gm: #5a5a5a;
         --gl: #8a8a8a;
