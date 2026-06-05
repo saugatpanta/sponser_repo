@@ -3372,6 +3372,7 @@
         const raw = localStorage.getItem(STORE_KEY);
         if (!raw) {
           autoFillToday();
+          loadLogosFromStorage();
           document.getElementById("save-status").textContent = "New document";
           return;
         }
@@ -3380,6 +3381,7 @@
           data = JSON.parse(raw);
         } catch (e) {
           autoFillToday();
+          loadLogosFromStorage();
           return;
         }
         applyData(data);
@@ -3388,6 +3390,17 @@
           const h = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
           renderHist(h);
         } catch (e) {}
+      }
+      function loadLogosFromStorage() {
+        ["L1", "EV", "L2"].forEach((key) => {
+          const src = localStorage.getItem("apex_logo_" + key);
+          if (src) {
+            logos[key] = src;
+            const p = document.getElementById("prev-" + key);
+            if (p) { p.src = src; p.style.display = "block"; }
+          }
+        });
+        renderLogos();
       }
       function applyData(data) {
         if (!data) return;
@@ -3404,29 +3417,8 @@
             if (el) el.innerHTML = html;
           });
         ensureLiDeleteButtons();
-        if (data.logos) {
-          Object.entries(data.logos).forEach(([key, src]) => {
-            if (src) {
-              logos[key] = src;
-              const p = document.getElementById("prev-" + key);
-              if (p) {
-                p.src = src;
-                p.style.display = "block";
-              }
-            }
-          });
-          renderLogos();
-        }
         // Also load logos from separate keys
-        ["L1", "EV", "L2"].forEach((key) => {
-          const src = localStorage.getItem("apex_logo_" + key);
-          if (src) {
-            logos[key] = src;
-            const p = document.getElementById("prev-" + key);
-            if (p) { p.src = src; p.style.display = "block"; }
-          }
-        });
-        renderLogos();
+        loadLogosFromStorage();
         if (data.watermark) {
           wmSrc = data.watermark;
           applyWM();
@@ -4427,6 +4419,9 @@
         // Fill sponsor name
         document.getElementById("sb-spname").value = sp.name;
         sb2id("sb-spname", "dc-spname");
+        // Fill signature company name
+        document.getElementById("sb-sp2co").value = sp.name;
+        syncSig("sb-sp2co", "dc-sp2co");
         // Fill tier
         const tierEl = document.getElementById("sb-tier");
         tierEl.value = sp.tier;
