@@ -1320,6 +1320,73 @@
   </head>
   <body class="edit-on">
     <div id="toast"></div>
+    <div
+      id="confirm-modal"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.7);
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: #1a0808;
+          border: 1px solid #3a1a1a;
+          border-radius: 10px;
+          padding: 22px 28px;
+          max-width: 380px;
+          width: 90%;
+          box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+          text-align: center;
+        "
+      >
+        <p
+          id="confirm-msg"
+          style="
+            color: #ffd0d0;
+            font-size: 13px;
+            margin-bottom: 18px;
+            line-height: 1.6;
+          "
+        ></p>
+        <div style="display: flex; gap: 10px; justify-content: center">
+          <button
+            id="confirm-yes"
+            style="
+              padding: 8px 20px;
+              background: #7b1c1c;
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              font-size: 12px;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            Confirm
+          </button>
+          <button
+            id="confirm-no"
+            style="
+              padding: 8px 20px;
+              background: #2a1212;
+              color: #ccc;
+              border: 1px solid #3a1a1a;
+              border-radius: 5px;
+              font-size: 12px;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
     <div id="ctx-menu"></div>
     <button id="sb-fab" onclick="toggleSb()" title="Toggle Panel">☰</button>
 
@@ -1701,7 +1768,11 @@
           <div class="btn-row col1">
             <button
               class="sbtn sbtn-danger"
-              onclick="if (confirm('Reset ALL content?')) location.reload();"
+              onclick="
+                showConfirm('Reset ALL content?').then((ok) => {
+                  if (ok) location.reload();
+                })
+              "
             >
               ⚠ Reset Entire Document
             </button>
@@ -2869,6 +2940,30 @@
         setTimeout(() => t.classList.remove("show"), dur);
       }
 
+      function showConfirm(msg) {
+        return new Promise((resolve) => {
+          const modal = document.getElementById("confirm-modal");
+          document.getElementById("confirm-msg").textContent = msg;
+          modal.style.display = "flex";
+          const yes = document.getElementById("confirm-yes");
+          const no = document.getElementById("confirm-no");
+          function cleanup(result) {
+            modal.style.display = "none";
+            yes.removeEventListener("click", onYes);
+            no.removeEventListener("click", onNo);
+            resolve(result);
+          }
+          function onYes() {
+            cleanup(true);
+          }
+          function onNo() {
+            cleanup(false);
+          }
+          yes.addEventListener("click", onYes);
+          no.addEventListener("click", onNo);
+        });
+      }
+
       // ═══════════════════════════════════════════
       // SIDEBAR
       // ═══════════════════════════════════════════
@@ -2958,7 +3053,7 @@
       // ═══════════════════════════════════════════
       // TIER CHANGE — Auto-switch template
       // ═══════════════════════════════════════════
-      function onTierChange() {
+      async function onTierChange() {
         const key = document.getElementById("sb-tier").value;
         if (!key) return;
         const data = TIER_DATA[key];
@@ -2976,13 +3071,10 @@
           if (amEl) amEl.textContent = data.amount;
         }
 
-        if (
-          !confirm(
-            `Load the "${data.title}" template for the "${key}" tier?\n\nThis will replace the current bullet points and document title.`,
-          )
-        ) {
-          return;
-        }
+        const ok = await showConfirm(
+          `Load the "${data.title}" template for the "${key}" tier? This will replace the current bullet points and document title.`,
+        );
+        if (!ok) return;
 
         // Update document title
         const titleEl = document.getElementById("dc-doctitle");
@@ -3125,14 +3217,14 @@
           )
           .join("");
       }
-      function restoreVer(idx) {
-        if (!confirm("Restore this version?")) return;
+      async function restoreVer(idx) {
+        if (!(await showConfirm("Restore this version?"))) return;
         try {
           const h = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
           if (h[idx]) applyData(h[idx].snap);
           toast("Version restored ✓");
         } catch (e) {
-          alert("Could not restore.");
+          toast("Could not restore.", 3000);
         }
       }
       function restoreData() {
@@ -3221,8 +3313,8 @@
         }
         document.getElementById("save-status").textContent = "Restored ✓";
       }
-      function clearData() {
-        if (!confirm("Clear all saved data and reset?")) return;
+      async function clearData() {
+        if (!(await showConfirm("Clear all saved data and reset?"))) return;
         localStorage.removeItem(STORE_KEY);
         localStorage.removeItem(HIST_KEY);
         location.reload();
@@ -3246,7 +3338,7 @@
             doSave();
             toast("Imported ✓");
           } catch (err) {
-            alert("Invalid JSON.");
+            toast("Invalid JSON file.", 3000);
           }
         };
         r.readAsText(file);
@@ -3662,8 +3754,8 @@
         }
         return { sh, parent, nodes, si, ei };
       }
-      function deleteSection(secNum) {
-        if (!confirm("Delete section " + secNum + "?")) return;
+      async function deleteSection(secNum) {
+        if (!(await showConfirm("Delete section " + secNum + "?"))) return;
         const info = getSectionNodes(secNum);
         if (!info) return;
         const { parent, nodes, si, ei } = info;
@@ -3833,7 +3925,7 @@
         } else if (type === "sigrow") {
           const sig = targetContent.querySelector(".sig-wrap");
           if (!sig) {
-            alert("No signature section on this page.");
+            toast("No signature section on this page.", 3000);
             return;
           }
           sig.querySelectorAll(".sig-col").forEach((col) => {
